@@ -1,0 +1,87 @@
+.job-seeker-detail {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .job-seeker-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .image-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+  
+  .image-section::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+  
+  .image-section img {
+   object-fit: contain;
+  }
+  
+  .details-section {
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .details-section h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .details-section p {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #666;
+  }
+  
+  .details-section strong {
+    color: #333;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .update-button,
+  .change-password-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 45%;
+  }
+  
+  .update-button:hover,
+  .change-password-button:hover {
+    background-color: #218838;
+  }
+  
+  .update-button {
+    margin-right: 10px;
+  }
+  

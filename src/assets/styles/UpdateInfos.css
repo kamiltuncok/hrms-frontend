@@ -1,0 +1,99 @@
+/* Sayfanın dış kısmına border ve uyumlu arka plan rengi */
+.update-container {
+  padding: 20px;
+  border: 0.5px solid black; /* Border rengi */
+  border-radius: 8px; /* Yuvarlatılmış köşeler */
+  background-color: #f9f9f9; /* Arka plan rengi */
+  max-width: 800px;
+  margin: 30px auto; /* Sayfanın ortalanması */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+}
+
+/* Bölüm başlıkları ve içerikleri */
+.section {
+  margin-bottom: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px 0; /* Başlık altındaki mesafe */
+}
+
+.expand-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px; /* Butonun yuvarlatılmış köşeleri */
+  transition: background-color 0.3s; /* Buton hover efektini eklemek için */
+}
+
+.expand-button:hover {
+  background-color: #0056b3; /* Hover rengi */
+}
+
+.section-content {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+/* Form elemanlarının düzeni */
+.input-group {
+  margin-bottom: 15px; /* Inputlar arasındaki mesafe */
+}
+
+.input-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px; /* Input kutularının yuvarlatılmış köşeleri */
+  font-size: 16px;
+  margin-bottom: 10px; /* Input ve buton arasındaki mesafe */
+  box-sizing: border-box; /* Padding'in kutu boyutunu etkilememesi için */
+}
+
+/* Buton stilleri */
+button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px; /* Butonlar arasında mesafe */
+  cursor: pointer;
+  border-radius: 4px; /* Butonun yuvarlatılmış köşeleri */
+  transition: background-color 0.3s ease; /* Buton hover efekti */
+}
+
+button:hover {
+  background-color: #218838; /* Buton hover rengi */
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Başarı mesajları için stiller */
+.success-message {
+  color: #28a745;
+  font-size: 16px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Toast Container */
+.Toastify__toast-container {
+  font-family: 'Arial', sans-serif;
+}

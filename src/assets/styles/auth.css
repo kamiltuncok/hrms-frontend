@@ -1,0 +1,94 @@
+/* LoginPage için özel stil */
+.login-page .login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.login-page .container-login {
+  width: 80%;  /* Yatayda daraltma: Yüzdeyle oranlı genişlik */
+  max-width: 600px;  /* Maksimum genişlik ayarlandı */
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  min-height: 400px;  /* Dikeyde genişletme: Minimum yükseklik */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-page .wrap-login {
+  width: 100%;
+}
+
+.login-page .login100-form-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.login-page .ui.form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.login-page button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  background-color: #28a745;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-page button:hover {
+  background-color: #218838;
+}
+
+.login-page .login-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-page .login-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-page .login-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Checkbox hizalama */
+.login-page .form-check {
+  display: flex;
+  justify-content: flex-start; /* Checkbox ile yazıyı yan yana hizalar */
+  align-items: center; /* Dikey hizalamayı sağlar */
+}
+
+.login-page .form-check input {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.login-page .form-check label {
+  font-size: 14px;
+  white-space: nowrap;
+  margin-right: 410px;
+}
+
+
+

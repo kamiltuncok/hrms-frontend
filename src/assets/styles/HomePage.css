@@ -1,0 +1,88 @@
+.homepage {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .homepage-header {
+    background-color: #1f8ef1;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .logo {
+    max-width: 200px;
+  }
+  
+  .search-section {
+    text-align: center;
+    padding-top: 50px;
+  }
+  
+  .search-input {
+    width: 60%;
+    margin-right: 10px;
+  }
+  
+  .featured-jobs {
+    padding: 40px 0;
+    background-color: #f4f4f4;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .homepage-footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .homepage-footer p {
+    margin: 0;
+  }
+  
+  .homepage-footer .ui.button {
+    color: white;
+    background-color: #1f8ef1;
+    margin-left: 10px;
+  }
+
+  .job-image-container {
+  height: 150px;
+  overflow: hidden;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white; /* kutu arka planı */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  color: black; /* yazı rengi */
+  font-size: 16px;
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  color: black; /* yazı rengi normal */
+}
+
+.suggestion-item:hover {
+  background-color: #1f8ef1; /* hover efekti */
+  color: white; /* hover yazı rengi */
+}
+
+
+
+
+  

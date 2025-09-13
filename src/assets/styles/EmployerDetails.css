@@ -1,0 +1,94 @@
+.employer-detail {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.employer-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-section {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px; /* Genişlik sabitleniyor */
+  height: 200px; /* Yükseklik sabitleniyor */
+  position: relative;
+}
+
+.image-section::before {
+  content: "";
+  display: block;
+  padding-top: 100%; /* En-boy oranını belirliyoruz */
+}
+
+.image-section img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Resmin alana düzgün şekilde yerleşmesini sağlıyoruz */
+  border-radius: 8px;
+}
+
+
+
+.details-section {
+  flex: 2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-section h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.details-section p {
+  font-size: 16px;
+  margin: 8px 0;
+  color: #666;
+}
+
+.details-section strong {
+  color: #333;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Butonları arasına mesafe koyarak yerleştirir */
+  margin-top: 20px;
+}
+
+.update-button,
+.change-password-button {
+  background-color: #28a745; /* Yeşil buton rengi */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 45%; /* Butonları eşit genişlikte yapar */
+}
+
+.update-button:hover,
+.change-password-button:hover {
+  background-color: #218838; /* Hover rengi */
+}
+
+.update-button {
+  margin-right: 10px; /* İlk butona sağdan mesafe ekler */
+}
