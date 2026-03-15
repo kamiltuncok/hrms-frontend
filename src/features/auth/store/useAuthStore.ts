@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { User, AuthResponse } from '../types'
+import { User } from '../types'
 
 import { STORAGE_KEYS } from '@/shared/constants/storage';
 
@@ -8,7 +8,7 @@ interface AuthState {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  login: (response: AuthResponse) => void;
+  login: (data: { token: string; user: User }) => void;
   logout: () => void;
   isAdmin: () => boolean;
   isEmployer: () => boolean;
@@ -21,9 +21,9 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isAuthenticated: false,
-      login: (response) => set({ 
-        user: response.user, 
-        token: response.token, 
+      login: (data) => set({ 
+        user: data.user, 
+        token: data.token, 
         isAuthenticated: true 
       }),
       logout: () => set({ 

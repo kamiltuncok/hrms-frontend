@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/apiClient';
 import { ApiResponse } from '@/types/api';
-import { ResumeResponse } from '../types';
+import { ResumeResponse, EmployerProfileResponse } from '../types';
 
 export const resumeService = {
   /**
@@ -8,6 +8,14 @@ export const resumeService = {
    */
   getByJobSeekerId: async (id: number): Promise<ResumeResponse> => {
     const response = await apiClient.get<ApiResponse<ResumeResponse>>(`/api/resumes/getbyjobseekerid?jobSeekerId=${id}`);
+    return response.data.data;
+  },
+
+  /**
+   * Fetches employer profile by ID.
+   */
+  getEmployerById: async (id: number): Promise<EmployerProfileResponse> => {
+    const response = await apiClient.get<ApiResponse<EmployerProfileResponse>>(`/api/employers/getbyid?id=${id}`);
     return response.data.data;
   },
 

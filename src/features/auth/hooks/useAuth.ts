@@ -9,10 +9,23 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: authService.login,
-    onSuccess: (data) => {
-      // Decode JWT fields into generic user struct and save to localStorage via Zustand
-      login({ email: data.email, role: data.role }, data.token);
-      navigate('/'); // Redirect to homepage on successful auth
+    onSuccess: (data: any) => {
+      // Backend returns flattened AuthResponse: { token, id, email, role }
+      const authData = data;
+      // Normalize role name (ensure it starts with ROLE_)
+      const roleName = authData.role.startsWith('ROLE_') ? authData.role : `ROLE_${authData.role.toUpperCase()}`;
+      
+      const user = {
+        id: authData.id,
+        email: authData.email,
+        role: {
+          id: roleName === 'ROLE_EMPLOYER' ? 2 : (roleName === 'ROLE_JOBSEEKER' ? 3 : 1),
+          name: roleName
+        }
+      };
+
+      login({ token: authData.token, user });
+      navigate('/'); 
     },
   });
 }

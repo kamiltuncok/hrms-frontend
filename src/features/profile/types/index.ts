@@ -45,3 +45,11 @@ export interface ProfileResponse extends ResumeResponse {
   email: string;
   birthYear: number;
 }
+
+export interface EmployerProfileResponse {
+  id: number;
+  companyName: string;
+  webAddress: string;
+  phoneNumber: string;
+  email: string;
+}

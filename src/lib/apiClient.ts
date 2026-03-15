@@ -41,9 +41,15 @@ apiClient.interceptors.response.use(
     // Handle standard HTTP error codes
     const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
     
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      // Automatically log the user out
+    if (error.response?.status === 401) {
+      // Unauthorized: invalid or expired token -> Log out
       useAuthStore.getState().logout();
+    }
+    
+    // For 403, we don't necessarily want to logout unless we want to force re-auth
+    // but the original code did both. Let's make it clearer.
+    if (error.response?.status === 403) {
+      console.error('Forbidden access attempt - Check authorities mapping');
     }
     
     return Promise.reject(new Error(message));

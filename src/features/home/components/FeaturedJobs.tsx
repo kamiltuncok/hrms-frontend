@@ -63,14 +63,14 @@ export function FeaturedJobs() {
                 </div>
                 
                 <h3 className="font-semibold text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">
-                  {job.jobTitle.title}
+                  {job.jobTitle?.title}
                 </h3>
-                <p className="text-sm font-medium text-muted-foreground mb-4">{job.employer.companyName}</p>
+                <p className="text-sm font-medium text-muted-foreground mb-4">{job.employer?.companyName}</p>
                 
                 <div className="flex flex-col gap-2 mt-auto mb-6">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <MapPin className="h-4 w-4 mr-2 opacity-70" />
-                    {job.city.name}
+                    {job.city?.name}
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Briefcase className="h-4 w-4 mr-2 opacity-70" />

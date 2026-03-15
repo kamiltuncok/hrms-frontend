@@ -8,13 +8,23 @@ export const authService = {
     return response.data.data;
   },
 
-  registerJobSeeker: async (jobSeeker: any): Promise<ApiResponse<any>> => {
-    const response = await apiClient.post<ApiResponse<any>>('/api/auth/registerforjobseeker', jobSeeker);
+  registerJobSeeker: async (values: any): Promise<ApiResponse<any>> => {
+    // Transform birthYear to birthDate for backend compatibility
+    const jobSeekerData = {
+      ...values,
+      birthDate: `${values.birthYear}-01-01`
+    };
+    delete (jobSeekerData as any).birthYear;
+    delete (jobSeekerData as any).confirmPassword;
+
+    const response = await apiClient.post<ApiResponse<any>>('/api/auth/registerforjobseeker', jobSeekerData);
     return response.data;
   },
 
-  registerEmployer: async (employer: any): Promise<ApiResponse<any>> => {
-    const response = await apiClient.post<ApiResponse<any>>('/api/auth/registerforemployer', employer);
+  registerEmployer: async (values: any): Promise<ApiResponse<any>> => {
+    const employerData = { ...values };
+    delete (employerData as any).confirmPassword;
+    const response = await apiClient.post<ApiResponse<any>>('/api/auth/registerforemployer', employerData);
     return response.data;
   }
 };
