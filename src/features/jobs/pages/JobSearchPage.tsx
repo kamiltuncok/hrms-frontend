@@ -58,8 +58,8 @@ export function JobSearchPage() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">Find Your Next Career</h1>
-          <p className="text-muted-foreground">Explore thousands of job opportunities across Turkey.</p>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">Sıradaki Kariyerinize Adım Atın</h1>
+          <p className="text-muted-foreground">Türkiye çapında binlerce iş fırsatını keşfedin.</p>
         </div>
 
         {/* Search Bar */}
@@ -69,7 +69,7 @@ export function JobSearchPage() {
               <div className="relative flex-1 group">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 <Input 
-                  placeholder="Job title, keywords, or company..." 
+                  placeholder="İş unvanı, anahtar kelime veya şirket..." 
                   className="pl-10 h-12 bg-background/50 border-border/50 focus-visible:ring-primary/30"
                   value={filters.searchQuery || ''}
                   onChange={handleSearchChange}
@@ -83,7 +83,7 @@ export function JobSearchPage() {
                 />
               </div>
               <Button className="h-12 px-8 font-bold shadow-lg shadow-primary/20">
-                Search Jobs
+                İş Ara
               </Button>
             </div>
           </CardContent>
@@ -95,7 +95,7 @@ export function JobSearchPage() {
             <div className="flex items-center justify-between">
               <h2 className="font-bold flex items-center">
                 <Filter className="h-4 w-4 mr-2" />
-                Filters
+                Filtreler
               </h2>
               {activeFiltersCount > 0 && (
                 <Button 
@@ -105,7 +105,7 @@ export function JobSearchPage() {
                   onClick={clearFilters}
                 >
                   <X className="h-3 w-3 mr-1" />
-                  Clear all
+                  Temizle
                 </Button>
               )}
             </div>
@@ -113,7 +113,7 @@ export function JobSearchPage() {
             <div className="space-y-6">
               {/* Work Models */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Work Model</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Çalışma Şekli</h3>
                 <div className="space-y-2">
                   {workModels.map((model) => (
                     <label key={model.id} className="flex items-center group cursor-pointer">
@@ -143,7 +143,7 @@ export function JobSearchPage() {
 
               {/* Cities */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Top Cities</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Popüler Şehirler</h3>
                 <div className="space-y-2">
                   {cities.slice(0, 10).map((city) => (
                     <label key={city.id} className="flex items-center group cursor-pointer">
@@ -177,14 +177,14 @@ export function JobSearchPage() {
           <main className="lg:col-span-3 space-y-6">
             <div className="flex items-center justify-between mb-2">
               <p className="text-sm text-muted-foreground font-medium">
-                Showing <span className="text-foreground">{jobs.length}</span> active opportunities
+                <span className="text-foreground">{jobs.length}</span> aktif ilan gösteriliyor
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Sort by:</span>
+                <span className="text-sm text-muted-foreground">Sırala:</span>
                 <select className="bg-transparent text-sm font-semibold focus:outline-none cursor-pointer">
-                  <option>Latest</option>
-                  <option>Oldest</option>
-                  <option>Positions</option>
+                  <option>En Yeni</option>
+                  <option>En Eski</option>
+                  <option>Pozisyonlar</option>
                 </select>
               </div>
             </div>
@@ -205,9 +205,9 @@ export function JobSearchPage() {
                   <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                     <Search className="h-10 w-10 text-muted-foreground/50" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">No matching jobs found</h3>
-                  <p className="text-muted-foreground mb-6">Try adjusting your search or filters to find more opportunities.</p>
-                  <Button variant="outline" onClick={clearFilters}>Reset all filters</Button>
+                  <h3 className="text-xl font-bold mb-2">Eşleşen ilan bulunamadı</h3>
+                  <p className="text-muted-foreground mb-6">Daha fazla fırsat bulmak için arama terimlerini veya filtreleri değiştirmeyi deneyin.</p>
+                  <Button variant="outline" onClick={clearFilters}>Tüm filtreleri sıfırla</Button>
                 </motion.div>
               ) : (
                 <div className="grid grid-cols-1 gap-4">
@@ -237,7 +237,7 @@ export function JobSearchPage() {
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                              <h3 className="text-xl font-bold group-hover:text-primary transition-colors">{job.jobTitle.title}</h3>
                              <Badge variant="outline" className="w-fit text-xs font-bold bg-muted/40">
-                               {job.typeOfWork?.name || 'Full Time'}
+                               {job.typeOfWork?.name || 'Tam Zamanlı'}
                              </Badge>
                           </div>
                          
@@ -250,14 +250,14 @@ export function JobSearchPage() {
                             </div>
                             <div className="flex items-center">
                               <Briefcase className="h-4 w-4 mr-1.5 text-primary opacity-60" />
-                              {job.workModel?.name || 'On Site'}
+                              {job.workModel?.name || 'Ofisten'}
                             </div>
                             <div className="flex items-center">
                               <Clock className="h-4 w-4 mr-1.5 text-primary opacity-60" />
-                              {job.applicationDeadline ? `Until ${new Date(job.applicationDeadline).toLocaleDateString()}` : 'No Deadline'}
+                              {job.applicationDeadline ? `Son Başvuru: ${new Date(job.applicationDeadline).toLocaleDateString()}` : 'Belirtilmedi'}
                             </div>
                             <div className="flex items-center ml-auto hidden md:flex text-primary font-bold group-hover:translate-x-1 transition-transform">
-                              Apply Now
+                              Hemen Başvur
                               <ChevronRight className="h-4 w-4 ml-1" />
                             </div>
                           </div>

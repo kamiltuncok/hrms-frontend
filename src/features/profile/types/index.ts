@@ -3,7 +3,8 @@ export interface ResumeResponse {
   jobSeekerId: number;
   githubAccount?: string;
   linkedinAccount?: string;
-  description?: string;
+  summary?: string;
+  phoneNumber?: string;
   photoUrl?: string;
   cvUrl?: string;
   schools: School[];
@@ -16,8 +17,9 @@ export interface School {
   id: number;
   schoolName: string;
   departmentName: string;
+  educationDegree: string;
   startDate: string;
-  graduationDate?: string;
+  graduateDate?: string;
 }
 
 export interface Language {
@@ -33,8 +35,7 @@ export interface Skill {
 
 export interface JobExperience {
   id: number;
-  workplaceName: string;
-  positionName: string;
+  companyName: string;
   startDate: string;
   leaveDate?: string;
 }
@@ -43,7 +44,16 @@ export interface ProfileResponse extends ResumeResponse {
   firstName: string;
   lastName: string;
   email: string;
-  birthYear: number;
+  birthDate: string;
+}
+
+export interface JobSeekerResponse {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthDate: string;
+  phoneNumber?: string;
 }
 
 export interface EmployerProfileResponse {

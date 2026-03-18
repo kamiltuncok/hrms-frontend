@@ -59,7 +59,7 @@ export function JobDetailPage() {
             className="group font-semibold text-muted-foreground hover:text-foreground pl-0"
           >
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Jobs
+            İlanlara Dön
           </Button>
         </motion.div>
 
@@ -83,10 +83,10 @@ export function JobDetailPage() {
                     <div className="flex-1 space-y-2">
                        <div className="flex flex-wrap items-center gap-2">
                          <Badge variant="secondary" className="bg-primary/10 text-primary font-bold hover:bg-primary/20 transition-colors">
-                           {job.typeOfWork?.name || 'Full Time'}
+                           {job.typeOfWork?.name || 'Tam Zamanlı'}
                          </Badge>
                          <Badge variant="outline" className="font-semibold">
-                           {job.workModel?.name || 'On-site'}
+                           {job.workModel?.name || 'Ofisten'}
                          </Badge>
                        </div>
                        <h1 className="text-3xl font-black tracking-tight">{job.jobTitle.title}</h1>
@@ -101,7 +101,7 @@ export function JobDetailPage() {
                          </div>
                          <div className="flex items-center">
                            <Calendar className="h-4 w-4 mr-2" />
-                           Posted {format(new Date(job.createdDate), 'MMM d, yyyy')}
+                           Yayınlanma: {format(new Date(job.createdDate), 'MMM d, yyyy')}
                          </div>
                        </div>
                     </div>
@@ -110,7 +110,7 @@ export function JobDetailPage() {
                 <CardContent className="pt-6 border-t font-medium leading-relaxed text-foreground/80">
                   <h3 className="text-xl font-bold text-foreground mb-4 flex items-center">
                     <CheckCircle2 className="h-5 w-5 mr-3 text-primary" />
-                    Job Description
+                    İş Tanımı
                   </h3>
                   <div className="whitespace-pre-line text-lg">
                     {job.description}
@@ -129,8 +129,8 @@ export function JobDetailPage() {
              >
                 <Card className="border-none shadow-xl ring-1 ring-border/50 bg-primary text-primary-foreground overflow-hidden">
                   <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-black">Ready to apply?</CardTitle>
-                    <p className="text-primary-foreground/80 text-sm">Submit your resume directly to the employer.</p>
+                    <CardTitle className="text-xl font-black">Başvurmaya hazır mısınız?</CardTitle>
+                    <p className="text-primary-foreground/80 text-sm">Özgeçmişinizi doğrudan işverene iletin.</p>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <Button 
@@ -138,17 +138,17 @@ export function JobDetailPage() {
                       onClick={handleApply}
                       disabled={isApplying || (isAuthenticated && !isJobSeeker)}
                     >
-                      {isApplying ? 'Submitting...' : 'Apply Now'}
+                      {isApplying ? 'Gönderiliyor...' : 'Hemen Başvur'}
                     </Button>
                     {!isAuthenticated && (
                       <p className="text-xs text-center text-primary-foreground/60 italic font-medium">
-                        You'll be asked to sign in first.
+                        Önce giriş yapmanız istenecek.
                       </p>
                     )}
                     {isAuthenticated && !isJobSeeker && (
                       <div className="flex items-start gap-2 p-3 bg-white/10 rounded-xl text-xs font-semibold">
                          <Info className="h-4 w-4 shrink-0" />
-                         Applications are only open for Job Seekers.
+                         Başvurular yalnızca İş Arayanlar içindir.
                       </div>
                     )}
                   </CardContent>
@@ -164,23 +164,23 @@ export function JobDetailPage() {
                   <CardHeader>
                     <CardTitle className="text-lg font-black flex items-center">
                       <Clock className="h-5 w-5 mr-3 text-primary" />
-                      Important Details
+                      Önemli Detaylar
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-5">
                     <div className="flex items-center justify-between text-sm py-2 border-b">
-                      <span className="text-muted-foreground font-semibold">Open Positions</span>
-                      <span className="font-black text-foreground">{job.openPositions} seats</span>
+                      <span className="text-muted-foreground font-semibold">Açık Pozisyon</span>
+                      <span className="font-black text-foreground">{job.openPositions} kişi</span>
                     </div>
                     <div className="flex items-center justify-between text-sm py-2 border-b">
-                      <span className="text-muted-foreground font-semibold">Deadline</span>
+                      <span className="text-muted-foreground font-semibold">Son Başvuru</span>
                       <span className="font-black text-foreground">
-                        {job.applicationDeadline ? format(new Date(job.applicationDeadline), 'MMM d, yyyy') : 'No deadline'}
+                        {job.applicationDeadline ? format(new Date(job.applicationDeadline), 'MMM d, yyyy') : 'Belirtilmedi'}
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-sm py-2">
-                       <span className="text-muted-foreground font-semibold">Industry</span>
-                       <span className="font-black text-foreground">Tech & Software</span>
+                       <span className="text-muted-foreground font-semibold">Sektör</span>
+                       <span className="font-black text-foreground">Teknoloji & Yazılım</span>
                     </div>
                     
                     <div className="flex gap-3 pt-4">

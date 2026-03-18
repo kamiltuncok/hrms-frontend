@@ -48,26 +48,72 @@ export const resumeService = {
   },
 
   /**
-   * Updates social accounts and description.
+   * Adds or updates a resume.
    */
-  updateResume: async (resumeData: Partial<ResumeResponse>): Promise<ApiResponse<any>> => {
-    const response = await apiClient.post<ApiResponse<any>>('/api/resumes/add', resumeData);
+  saveResume: async (resumeData: any): Promise<ApiResponse<any>> => {
+    const backendData = {
+      id: resumeData.resumeId || null,
+      summary: resumeData.description || resumeData.summary || "",
+      githubUrl: resumeData.githubAccount || resumeData.githubUrl || "",
+      linkedinUrl: resumeData.linkedinAccount || resumeData.linkedinUrl || "",
+      phone: resumeData.phone || "",
+      address: resumeData.address || "",
+      birthDate: (resumeData.birthDate === "" || !resumeData.birthDate) ? null : resumeData.birthDate,
+      portfolioUrl: resumeData.portfolioUrl || "",
+      jobSeekerId: resumeData.jobSeekerId || resumeData.userId || null
+    };
+
+    const endpoint = backendData.id ? '/api/resumes/update' : '/api/resumes/add';
+    const response = await apiClient.post<ApiResponse<any>>(endpoint, backendData);
     return response.data;
   },
 
   // Granular Experience Methods
-  addExperience: async (data: any) => apiClient.post('/api/jobexperiences/add', data),
+  addExperience: async (data: any) => {
+    const payload = { 
+      companyName: data.workplaceName,
+      startDate: data.startDate,
+      endDate: data.leaveDate || null,
+      jobTitleId: data.jobTitleId || null,
+      positionName: data.positionName,
+      resumeId: data.resumeId
+    };
+    return apiClient.post('/api/jobexperiences/add', payload);
+  },
   deleteExperience: async (id: number) => apiClient.post(`/api/jobexperiences/delete?id=${id}`),
 
   // Granular Education Methods  
-  addEducation: async (data: any) => apiClient.post('/api/educationalbackgrounds/add', data),
-  deleteEducation: async (id: number) => apiClient.post(`/api/educationalbackgrounds/delete?id=${id}`),
+  addEducation: async (data: any) => {
+    const payload = { 
+      schoolName: data.schoolName,
+      departmentName: data.departmentName,
+      educationDegree: data.educationDegree,
+      startDate: data.startDate,
+      graduateDate: data.graduateDate || null,
+      resume: { id: data.resumeId } 
+    };
+    return apiClient.post('/api/schools/add', payload);
+  },
+  deleteEducation: async (id: number) => apiClient.post(`/api/schools/delete?id=${id}`),
 
   // Granular Skill Methods
-  addSkill: async (data: any) => apiClient.post('/api/skills/add', data),
+  addSkill: async (data: any) => {
+    const payload = { 
+      skillName: data.skillName, 
+      resume: { id: data.resumeId } 
+    };
+    return apiClient.post('/api/skills/add', payload);
+  },
   deleteSkill: async (id: number) => apiClient.post(`/api/skills/delete?id=${id}`),
 
   // Granular Language Methods
-  addLanguage: async (data: any) => apiClient.post('/api/languages/add', data),
+  addLanguage: async (data: any) => {
+    const payload = { 
+      languageName: data.languageName,
+      level: data.level,
+      resume: { id: data.resumeId } 
+    };
+    return apiClient.post('/api/languages/add', payload);
+  },
   deleteLanguage: async (id: number) => apiClient.post(`/api/languages/delete?id=${id}`)
 };

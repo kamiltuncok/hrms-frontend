@@ -71,7 +71,7 @@ export function JobPostPage() {
   });
 
   const onSubmit: SubmitHandler<JobPostValues> = async (values) => {
-    if (!user || user.role.name !== 'Employer') {
+    if (!user || user.role.name !== 'ROLE_EMPLOYER') {
       toast.error('Only employers can post jobs');
       return;
     }

@@ -4,23 +4,23 @@ import { UserPlus, Search, FileSignature, CheckCircle } from 'lucide-react';
 const steps = [
   {
     icon: UserPlus,
-    title: 'Create Account',
-    description: 'Sign up as a job seeker or employer in minutes.',
+    title: 'Hesap Oluştur',
+    description: 'İş arayan veya işveren olarak dakikalar içinde kayıt olun.',
   },
   {
     icon: Search,
-    title: 'Search Jobs',
-    description: 'Find roles that match your skills securely.',
+    title: 'İş Ara',
+    description: 'Yeteneklerinize uygun pozisyonları güvenle bulun.',
   },
   {
     icon: FileSignature,
-    title: 'Apply Easily',
-    description: 'Submit your resume and track application statuses.',
+    title: 'Kolayca Başvur',
+    description: 'Özgeçmişinizi gönderin ve başvurularınızı takip edin.',
   },
   {
     icon: CheckCircle,
-    title: 'Get Hired',
-    description: 'Connect with HR teams and land the position.',
+    title: 'İşe Gir',
+    description: 'İK ekipleriyle bağlantı kurun ve pozisyonu kapın.',
   },
 ];
 
@@ -28,9 +28,9 @@ export function HowItWorksSection() {
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4 max-w-7xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight mb-2">How It Works</h2>
+        <h2 className="text-3xl font-bold tracking-tight mb-2">Nasıl Çalışır?</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto mb-16">
-          Whether you are hunting for talent or for jobs, navigating the platform is simple.
+          İster yetenek avında olun ister iş arayışında, platformumuzu kullanmak çok kolay.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

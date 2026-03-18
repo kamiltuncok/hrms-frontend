@@ -34,7 +34,7 @@ export const jobApplicationService = {
    * Fetches applications for a specific job seeker.
    */
   getApplicationsBySeekerId: async (seekerId: number): Promise<JobApplicationResponse[]> => {
-    const response = await apiClient.get<ApiResponse<JobApplicationResponse[]>>(`/api/jobapplications/getbyseekerid?id=${seekerId}`);
+    const response = await apiClient.get<ApiResponse<JobApplicationResponse[]>>(`/api/jobapplications/getbyjobseekerid?jobSeekerId=${seekerId}`);
     return response.data.data;
   }
 };

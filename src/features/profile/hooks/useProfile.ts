@@ -1,7 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../../auth/store/useAuthStore';
 import { resumeService } from '../services/resumeService';
-import { ResumeResponse, EmployerProfileResponse } from '../types';
+import { jobSeekerService } from '../services/jobSeekerService';
+import { employerService } from '../../employers/services/employerService';
+import { ResumeResponse } from '../types';
 
 export function useProfile(profileId?: number) {
   const queryClient = useQueryClient();
@@ -12,9 +14,24 @@ export function useProfile(profileId?: number) {
 
   const profileQuery = useQuery<any>({
     queryKey: ['profile', profileId, isEmployer],
-    queryFn: () => isEmployer 
-      ? resumeService.getEmployerById(profileId!)
-      : resumeService.getByJobSeekerId(profileId!),
+    queryFn: async () => {
+      if (isEmployer) {
+        return resumeService.getEmployerById(profileId!);
+      } else {
+        const [resume, jobSeeker] = await Promise.all([
+          resumeService.getByJobSeekerId(profileId!),
+          jobSeekerService.getJobSeekerById(profileId!)
+        ]);
+        // JobSeeker has the master ID (profileId). Resume has its own resume_id.
+        return { 
+          ...resume, 
+          ...jobSeeker, 
+          jobSeekerId: jobSeeker.id, // Explicitly keep jobSeekerId
+          resumeId: resume?.id,       // Explicitly keep resumeId
+          id: jobSeeker.id            // Always use jobSeeker ID for tokens/updates
+        };
+      }
+    },
     enabled: !!profileId,
   });
 
@@ -33,14 +50,28 @@ export function useProfile(profileId?: number) {
   });
 
   const updateResumeMutation = useMutation({
-    mutationFn: (data: Partial<ResumeResponse>) => resumeService.updateResume({ ...data, jobSeekerId: profileId }),
+    mutationFn: (data: Partial<ResumeResponse>) => resumeService.saveResume({ ...data, jobSeekerId: profileId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profile', profileId] });
+    },
+  });
+
+  const updateJobSeekerMutation = useMutation({
+    mutationFn: (data: any) => jobSeekerService.updateJobSeeker(profileId!, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['profile', profileId] });
+    },
+  });
+
+  const updateEmployerMutation = useMutation({
+    mutationFn: (data: any) => employerService.updateEmployer(profileId!, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['profile', profileId] });
     },
   });
 
   const addExperienceMutation = useMutation({
-    mutationFn: (data: any) => resumeService.addExperience({ ...data, jobSeekerId: profileId }),
+    mutationFn: (data: any) => resumeService.addExperience({ ...data, resumeId: profileQuery.data?.resumeId }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['profile', profileId] }),
   });
 
@@ -50,7 +81,7 @@ export function useProfile(profileId?: number) {
   });
 
   const addEducationMutation = useMutation({
-    mutationFn: (data: any) => resumeService.addEducation({ ...data, jobSeekerId: profileId }),
+    mutationFn: (data: any) => resumeService.addEducation({ ...data, resumeId: profileQuery.data?.resumeId }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['profile', profileId] }),
   });
 
@@ -60,7 +91,7 @@ export function useProfile(profileId?: number) {
   });
 
   const addSkillMutation = useMutation({
-    mutationFn: (data: any) => resumeService.addSkill({ ...data, jobSeekerId: profileId }),
+    mutationFn: (data: any) => resumeService.addSkill({ ...data, resumeId: profileQuery.data?.resumeId }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['profile', profileId] }),
   });
 
@@ -70,7 +101,7 @@ export function useProfile(profileId?: number) {
   });
 
   const addLanguageMutation = useMutation({
-    mutationFn: (data: any) => resumeService.addLanguage({ ...data, jobSeekerId: profileId }),
+    mutationFn: (data: any) => resumeService.addLanguage({ ...data, resumeId: profileQuery.data?.resumeId }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['profile', profileId] }),
   });
 
@@ -94,5 +125,7 @@ export function useProfile(profileId?: number) {
     deleteSkill: deleteSkillMutation,
     addLanguage: addLanguageMutation,
     deleteLanguage: deleteLanguageMutation,
+    updateJobSeeker: updateJobSeekerMutation,
+    updateEmployer: updateEmployerMutation,
   };
 }

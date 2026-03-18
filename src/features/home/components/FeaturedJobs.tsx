@@ -13,7 +13,7 @@ export function FeaturedJobs() {
   if (isError) {
     return (
       <section className="py-16 container mx-auto px-4 max-w-7xl">
-        <ErrorState message="Could not load latest jobs." onRetry={refetch} />
+        <ErrorState message="Son ilanlar yüklenemedi." onRetry={refetch} />
       </section>
     );
   }
@@ -26,11 +26,11 @@ export function FeaturedJobs() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">Featured Jobs</h2>
-            <p className="text-muted-foreground">Discover the latest opportunities added to our platform.</p>
+            <h2 className="text-3xl font-bold tracking-tight">Öne Çıkan İlanlar</h2>
+            <p className="text-muted-foreground">Platformumuza eklenen son fırsatları keşfedin.</p>
           </div>
           <Button variant="outline" className="mt-6 md:mt-0 hidden sm:flex">
-            View All Jobs
+            Tüm İlanları Gör
           </Button>
         </div>
 
@@ -41,7 +41,7 @@ export function FeaturedJobs() {
             ))}
           </div>
         ) : featured.length === 0 ? (
-          <EmptyState title="No active jobs" description="Check back later for new opportunities!" />
+          <EmptyState title="Aktif ilan bulunamadı" description="Yeni fırsatlar için daha sonra tekrar kontrol edin!" />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featured.map((job, index) => (
@@ -58,7 +58,7 @@ export function FeaturedJobs() {
                     <Building2 className="h-6 w-6" />
                   </div>
                   <Badge variant="secondary" className="bg-secondary/50">
-                    {job.openPositions} Position{job.openPositions > 1 ? 's' : ''}
+                    {job.openPositions} Pozisyon
                   </Badge>
                 </div>
                 
@@ -74,16 +74,16 @@ export function FeaturedJobs() {
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Briefcase className="h-4 w-4 mr-2 opacity-70" />
-                    {job.typeOfWork?.name || 'N/A'}
+                    {job.typeOfWork?.name || 'Belirtilmedi'}
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Clock className="h-4 w-4 mr-2 opacity-70" />
-                    Deadline: {job.applicationDeadline ? new Date(job.applicationDeadline).toLocaleDateString() : 'N/A'}
+                    Son Başvuru: {job.applicationDeadline ? new Date(job.applicationDeadline).toLocaleDateString() : 'Belirtilmedi'}
                   </div>
                 </div>
 
                 <Button className="w-full mt-auto" variant="outline">
-                  View Details
+                  Detayları Gör
                 </Button>
               </motion.div>
             ))}
@@ -92,7 +92,7 @@ export function FeaturedJobs() {
         
         <div className="mt-10 flex justify-center sm:hidden">
            <Button variant="outline" className="w-full">
-            View All Jobs
+            Tüm İlanları Gör
           </Button>
         </div>
       </div>

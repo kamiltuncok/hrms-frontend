@@ -12,13 +12,18 @@ export const employerService = {
   },
 
   /**
-   * Fetches a single employer detail.
+   * Fetches a single employer by ID.
    */
+  getEmployerById: async (id: number): Promise<EmployerResponse> => {
+    const response = await apiClient.get<ApiResponse<EmployerResponse>>(`/api/employers/getbyid?id=${id}`);
+    return response.data.data;
+  },
+
   /**
    * Updates employer profile information.
    */
-  updateEmployer: async (data: Partial<EmployerResponse>): Promise<ApiResponse<any>> => {
-    const response = await apiClient.post<ApiResponse<any>>('/api/employers/update', data);
+  updateEmployer: async (id: number, data: Partial<EmployerResponse>): Promise<ApiResponse<any>> => {
+    const response = await apiClient.put<ApiResponse<any>>(`/api/employers/update?id=${id}`, data);
     return response.data;
   }
 };

@@ -12,7 +12,7 @@ export function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
+  if (requiredRole && user?.role?.name !== `ROLE_${requiredRole.toUpperCase()}`) {
     return <Navigate to="/" replace />; // Disallow invalid roles 
   }
 

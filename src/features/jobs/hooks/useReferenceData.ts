@@ -48,7 +48,7 @@ export const useWorkModels = () => {
   return useQuery({
     queryKey: ['workModels'],
     queryFn: async () => {
-      const response = await apiClient.get<ApiResponse<WorkModel[]>>('/api/workmodels/getall');
+      const response = await apiClient.get<ApiResponse<WorkModel[]>>('/api/typeofwork/getall');
       return response.data.data;
     },
     staleTime: Infinity,

@@ -26,9 +26,9 @@ export function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
       <Card className="w-full max-w-md shadow-lg border-2 border-primary/10">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Login</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Giriş Yap</CardTitle>
           <CardDescription className="text-muted-foreground/80">
-            Welcome back! Access your HRMS account.
+            Tekrar hoş geldiniz! HRMS hesabınıza erişin.
           </CardDescription>
         </CardHeader>
         <Form {...form}>
@@ -36,7 +36,7 @@ export function LoginPage() {
             <CardContent className="space-y-4 pt-4">
               {isError && (
                 <div className="p-3 text-sm font-medium text-destructive bg-destructive/10 border border-destructive/20 rounded-md animate-in fade-in zoom-in duration-300">
-                  {error?.message || 'Authentication failed. Please check your credentials.'}
+                  {error?.message || 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.'}
                 </div>
               )}
               
@@ -45,10 +45,10 @@ export function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">Email</FormLabel>
+                    <FormLabel className="font-semibold">E-posta</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="m@example.com"
+                        placeholder="ornek@email.com"
                         type="email"
                         autoComplete="email"
                         className="bg-background/50 focus-visible:ring-primary/50"
@@ -65,7 +65,7 @@ export function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">Password</FormLabel>
+                    <FormLabel className="font-semibold">Şifre</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -81,7 +81,7 @@ export function LoginPage() {
             </CardContent>
             <CardFooter className="pb-8">
               <Button type="submit" className="w-full text-lg h-12 font-bold shadow-md hover:shadow-xl transition-all" disabled={isPending}>
-                {isPending ? 'Logging in...' : 'Sign In'}
+                {isPending ? 'Giriş yapılıyor...' : 'Giriş Yap'}
               </Button>
             </CardFooter>
           </form>

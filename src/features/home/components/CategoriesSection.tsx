@@ -12,7 +12,7 @@ export function CategoriesSection() {
   if (isError) {
     return (
       <section className="py-16 container mx-auto px-4 max-w-7xl">
-        <ErrorState message="Could not load categories." onRetry={refetch} />
+        <ErrorState message="Kategoriler yüklenemedi." onRetry={refetch} />
       </section>
     );
   }
@@ -24,8 +24,8 @@ export function CategoriesSection() {
     <section className="py-20 bg-muted/20">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12 space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">Browse by Category</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">Explore jobs across popular tech and business domains.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Kategorilere Göre İncele</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">Popüler teknoloji ve iş alanlarındaki fırsatları keşfedin.</p>
         </div>
 
         {isLoading ? (
@@ -52,7 +52,7 @@ export function CategoriesSection() {
                   </div>
                   <div className="space-y-1 overflow-hidden">
                     <h3 className="font-semibold text-sm truncate group-hover:text-primary transition-colors">{cat.title}</h3>
-                    <p className="text-xs text-muted-foreground">200+ Jobs</p>
+                    <p className="text-xs text-muted-foreground">İlanlar</p>
                   </div>
                 </motion.div>
               );

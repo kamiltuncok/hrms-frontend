@@ -47,11 +47,11 @@ export function RegisterPage() {
   const onJobSeekerSubmit = (values: RegisterJobSeekerValues) => {
     registerJobSeeker.mutate(values, {
       onSuccess: () => {
-        toast.success('Registration successful! Please login.');
+        toast.success('Kayıt başarılı! Lütfen giriş yapın.');
         navigate('/login');
       },
       onError: (error: any) => {
-        toast.error(error?.message || 'Registration failed');
+        toast.error(error?.message || 'Kayıt başarısız');
       }
     });
   };
@@ -59,11 +59,11 @@ export function RegisterPage() {
   const onEmployerSubmit = (values: RegisterEmployerValues) => {
     registerEmployer.mutate(values, {
       onSuccess: () => {
-        toast.success('Registration successful! Please login.');
+        toast.success('Kayıt başarılı! Lütfen giriş yapın.');
         navigate('/login');
       },
       onError: (error: any) => {
-        toast.error(error?.message || 'Registration failed');
+        toast.error(error?.message || 'Kayıt başarısız');
       }
     });
   };
@@ -72,19 +72,19 @@ export function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4 py-12">
       <Card className="w-full max-w-2xl shadow-xl border-2 border-primary/10">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Create an Account</CardTitle>
+          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Hesap Oluştur</CardTitle>
           <CardDescription className="text-muted-foreground/80 text-lg">
-            Join the modern HRMS platform today.
+            Modern İK platformuna bugün katılın.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="jobseeker" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
               <TabsTrigger value="jobseeker" className="text-base font-semibold py-3 transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                Job Seeker
+                İş Arayan
               </TabsTrigger>
               <TabsTrigger value="employer" className="text-base font-semibold py-3 transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-                Employer
+                İşveren
               </TabsTrigger>
             </TabsList>
 
@@ -97,9 +97,9 @@ export function RegisterPage() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">First Name</FormLabel>
+                          <FormLabel className="font-semibold">Ad</FormLabel>
                           <FormControl>
-                            <Input placeholder="John" {...field} className="bg-background/50" />
+                            <Input placeholder="Ahmet" {...field} className="bg-background/50" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -110,9 +110,9 @@ export function RegisterPage() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Last Name</FormLabel>
+                          <FormLabel className="font-semibold">Soyad</FormLabel>
                           <FormControl>
-                            <Input placeholder="Doe" {...field} className="bg-background/50" />
+                            <Input placeholder="Yılmaz" {...field} className="bg-background/50" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -125,9 +125,9 @@ export function RegisterPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-semibold">Email Address</FormLabel>
+                        <FormLabel className="font-semibold">E-posta Adresi</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="john.doe@example.com" {...field} className="bg-background/50" />
+                          <Input type="email" placeholder="ornek@email.com" {...field} className="bg-background/50" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -140,9 +140,9 @@ export function RegisterPage() {
                       name="identityNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Identity Number (TCKN)</FormLabel>
+                          <FormLabel className="font-semibold">T.C. Kimlik Numarası</FormLabel>
                           <FormControl>
-                            <Input placeholder="11 digits" maxLength={11} {...field} className="bg-background/50" />
+                            <Input placeholder="11 haneli TCKN" maxLength={11} {...field} className="bg-background/50" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -153,7 +153,7 @@ export function RegisterPage() {
                       name="birthYear"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Birth Year</FormLabel>
+                          <FormLabel className="font-semibold">Doğum Yılı</FormLabel>
                           <FormControl>
                             <Input 
                               type="number" 
@@ -174,7 +174,7 @@ export function RegisterPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Password</FormLabel>
+                          <FormLabel className="font-semibold">Şifre</FormLabel>
                           <FormControl>
                             <Input type="password" placeholder="••••••••" {...field} className="bg-background/50" />
                           </FormControl>
@@ -187,7 +187,7 @@ export function RegisterPage() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Confirm Password</FormLabel>
+                          <FormLabel className="font-semibold">Şifre Tekrar</FormLabel>
                           <FormControl>
                             <Input type="password" placeholder="••••••••" {...field} className="bg-background/50" />
                           </FormControl>
@@ -198,7 +198,7 @@ export function RegisterPage() {
                   </div>
 
                   <Button type="submit" className="w-full text-lg h-12 font-bold transition-all shadow-md hover:shadow-xl" disabled={registerJobSeeker.isPending}>
-                    {registerJobSeeker.isPending ? 'Processing...' : 'Register as Job Seeker'}
+                    {registerJobSeeker.isPending ? 'İşleniyor...' : 'İş Arayan Olarak Kayıt Ol'}
                   </Button>
                 </form>
               </Form>
@@ -212,9 +212,9 @@ export function RegisterPage() {
                     name="companyName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-semibold">Company Name</FormLabel>
+                        <FormLabel className="font-semibold">Şirket Adı</FormLabel>
                         <FormControl>
-                          <Input placeholder="Acme Corp" {...field} className="bg-background/50" />
+                          <Input placeholder="Şirket A.Ş." {...field} className="bg-background/50" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -227,7 +227,7 @@ export function RegisterPage() {
                       name="webAddress"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Web Address</FormLabel>
+                          <FormLabel className="font-semibold">Web Sitesi</FormLabel>
                           <FormControl>
                             <Input placeholder="https://www.acme.com" {...field} className="bg-background/50" />
                           </FormControl>
@@ -240,7 +240,7 @@ export function RegisterPage() {
                       name="phoneNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Phone Number</FormLabel>
+                          <FormLabel className="font-semibold">Telefon Numarası</FormLabel>
                           <FormControl>
                             <Input placeholder="05XX XXX XX XX" {...field} className="bg-background/50" />
                           </FormControl>
@@ -255,9 +255,9 @@ export function RegisterPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-semibold">Business Email</FormLabel>
+                        <FormLabel className="font-semibold">Kurumsal E-posta</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="hr@acme.com" {...field} className="bg-background/50" />
+                          <Input type="email" placeholder="ik@sirket.com" {...field} className="bg-background/50" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -270,7 +270,7 @@ export function RegisterPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Password</FormLabel>
+                          <FormLabel className="font-semibold">Şifre</FormLabel>
                           <FormControl>
                             <Input type="password" placeholder="••••••••" {...field} className="bg-background/50" />
                           </FormControl>
@@ -283,7 +283,7 @@ export function RegisterPage() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-semibold">Confirm Password</FormLabel>
+                          <FormLabel className="font-semibold">Şifre Tekrar</FormLabel>
                           <FormControl>
                             <Input type="password" placeholder="••••••••" {...field} className="bg-background/50" />
                           </FormControl>
@@ -294,7 +294,7 @@ export function RegisterPage() {
                   </div>
 
                   <Button type="submit" className="w-full text-lg h-12 font-bold transition-all shadow-md hover:shadow-xl" variant="secondary" disabled={registerEmployer.isPending}>
-                    {registerEmployer.isPending ? 'Processing...' : 'Register as Employer'}
+                    {registerEmployer.isPending ? 'İşleniyor...' : 'İşveren Olarak Kayıt Ol'}
                   </Button>
                 </form>
               </Form>
@@ -303,9 +303,9 @@ export function RegisterPage() {
         </CardContent>
         <CardFooter className="flex justify-center border-t py-6 bg-muted/20">
           <p className="text-sm text-muted-foreground">
-            Already have an account?{' '}
+            Zaten bir hesabınız var mı?{' '}
             <Button variant="link" className="p-0 h-auto font-bold text-primary" onClick={() => navigate('/login')}>
-              Sign In
+              Giriş Yap
             </Button>
           </p>
         </CardFooter>

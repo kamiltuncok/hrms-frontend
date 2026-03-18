@@ -18,20 +18,20 @@ export function CallToActionSection() {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
-            Ready to Accelerate Your Career?
+            Kariyerinize Hız Kazandırmaya Hazır Mısınız?
           </h2>
           <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
-            Join thousands of professionals finding new opportunities and employers securing top talent every single day.
+            Her gün yeni fırsatlar bulan binlerce profesyonele ve en iyi yetenekleri arayan işverenlere katılın.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/register" className="w-full sm:w-auto">
               <Button size="lg" variant="secondary" className="w-full sm:w-auto h-14 px-8 text-lg font-semibold bg-white text-primary hover:bg-white/90">
-                Create an Account
+                Hesap Oluştur
               </Button>
             </Link>
             <Link to="/login" className="w-full sm:w-auto">
               <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 text-lg font-semibold bg-transparent border-white text-white hover:bg-white/10 hover:text-white">
-                Post a Job <ArrowRight className="ml-2 h-5 w-5" />
+                İlan Ver <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </div>

@@ -33,10 +33,10 @@ export function HeroSection() {
         >
           <div className="space-y-4">
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground">
-              Find Your Dream Job Today
+              Hayalinizdeki İşi Bugün Bulun
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Connect with top employers and discover opportunities that match your skills.
+              En iyi işverenlerle bağlantı kurun ve yeteneklerinize uygun fırsatları keşfedin.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export function HeroSection() {
           >
             <div className="flex-1 p-2 border-b md:border-b-0 md:border-r border-border">
               <SearchInput 
-                placeholder="Job title, keyword, or company"
+                placeholder="İş unvanı, anahtar kelime veya şirket"
                 onChange={setKeyword}
                 className="w-full border-0 focus-visible:ring-0 shadow-none bg-transparent"
               />
@@ -61,7 +61,7 @@ export function HeroSection() {
                  onChange={(e) => setSelectedCity(e.target.value)}
                  disabled={isLoadingCities}
                >
-                 <option value="">All Locations</option>
+                 <option value="">Tüm Konumlar</option>
                  {cities.map(city => (
                    <option key={city.id} value={city.name}>{city.name}</option>
                  ))}
@@ -69,7 +69,7 @@ export function HeroSection() {
             </div>
             <div className="p-2 w-full md:w-auto">
               <Button onClick={handleSearch} className="w-full h-full min-h-[40px] px-8 rounded-lg">
-                Search
+                Ara
               </Button>
             </div>
           </motion.div>
@@ -80,7 +80,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="pt-6"
           >
-            <p className="text-sm font-medium text-muted-foreground mb-4">Popular Searches:</p>
+            <p className="text-sm font-medium text-muted-foreground mb-4">Popüler Aramalar:</p>
             <div className="flex flex-wrap justify-center gap-2">
               {['Frontend Developer', 'Data Scientist', 'Product Manager'].map((tag) => (
                  <span key={tag} className="px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-xs font-semibold cursor-pointer hover:bg-secondary/80 transition-colors">

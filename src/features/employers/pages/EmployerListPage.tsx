@@ -36,8 +36,8 @@ export function EmployerListPage() {
     return (
       <div className="min-h-screen flex items-center justify-center pt-24">
         <div className="text-center space-y-4">
-          <p className="text-destructive font-medium text-lg">Failed to load partners.</p>
-          <Button onClick={() => window.location.reload()}>Try Again</Button>
+          <p className="text-destructive font-medium text-lg">Şirketler yüklenemedi.</p>
+          <Button onClick={() => window.location.reload()}>Tekrar Dene</Button>
         </div>
       </div>
     );
@@ -49,13 +49,13 @@ export function EmployerListPage() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight">Employer Partners</h1>
-            <p className="text-muted-foreground text-lg">Meet the top companies hiring on our platform.</p>
+            <h1 className="text-4xl font-bold tracking-tight">Şirketler</h1>
+            <p className="text-muted-foreground text-lg">Platformumuzda alım yapan en iyi şirketlerle tanışın.</p>
           </div>
           <div className="relative w-full md:w-80 group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
             <Input 
-              placeholder="Filter companies..." 
+              placeholder="Şirketleri filtrele..." 
               className="pl-10 h-11 bg-card/80 backdrop-blur-sm border-border/50 focus-visible:ring-primary/30 shadow-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -92,8 +92,8 @@ export function EmployerListPage() {
             <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
               <Building2 className="h-10 w-10 text-muted-foreground/50" />
             </div>
-            <h3 className="text-2xl font-bold mb-2">No companies found</h3>
-            <p className="text-muted-foreground">Try a different search term or check back later.</p>
+            <h3 className="text-2xl font-bold mb-2">Şirket bulunamadı</h3>
+            <p className="text-muted-foreground">Farklı bir arama terimi deneyin veya daha sonra tekrar kontrol edin.</p>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -127,7 +127,7 @@ export function EmployerListPage() {
                           {employer.companyName}
                         </h3>
                         <Badge variant="secondary" className="mt-1 font-medium bg-secondary/40 text-secondary-foreground/80">
-                          Partner Employer
+                          Partner Şirket
                         </Badge>
                       </div>
                     </div>
@@ -150,7 +150,7 @@ export function EmployerListPage() {
                     </div>
 
                     <Button variant="outline" className="w-full mt-auto font-bold group/btn">
-                      View Profile
+                      Profili Gör
                       <ChevronRight className="h-4 w-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
                   </CardContent>

@@ -10,7 +10,7 @@ export function TopCompaniesSection() {
   if (isError) {
     return (
       <section className="py-16 container mx-auto px-4 max-w-7xl">
-        <ErrorState message="Could not load top companies." onRetry={refetch} />
+        <ErrorState message="En iyi şirketler yüklenemedi." onRetry={refetch} />
       </section>
     );
   }
@@ -22,8 +22,8 @@ export function TopCompaniesSection() {
     <section className="py-20 bg-background border-y border-border">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="text-center mb-12 space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">Top Employers</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">Join the teams building the future.</p>
+          <h2 className="text-3xl font-bold tracking-tight">Öne Çıkan Şirketler</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">Geleceği inşa eden ekiplere katılın.</p>
         </div>
 
         {isLoading ? (

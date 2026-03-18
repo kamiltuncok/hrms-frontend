@@ -27,8 +27,8 @@ export function AppLayout() {
   const location = useLocation();
 
   const navLinks = [
-    { name: 'Find Jobs', href: '/jobs', icon: Search },
-    { name: 'Companies', href: '/employers', icon: Users },
+    { name: 'İş İlanları', href: '/jobs', icon: Search },
+    { name: 'Şirketler', href: '/employers', icon: Users },
   ];
 
   return (
@@ -91,7 +91,7 @@ export function AppLayout() {
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-bold leading-none">{user?.email}</p>
                         <p className="text-xs leading-none text-muted-foreground mt-1">
-                          Role: {user?.role?.name || 'Guest'}
+                          Rol: {user?.role?.name || 'Misafir'}
                         </p>
                       </div>
                     </DropdownMenuLabel>
@@ -99,13 +99,13 @@ export function AppLayout() {
                     <DropdownMenuItem asChild className="cursor-pointer py-2 px-4 focus:bg-primary/5 focus:text-primary">
                       <Link to="/profile" className="flex items-center w-full">
                         <UserIcon className="mr-3 h-4 w-4" />
-                        <span>My Profile</span>
+                        <span>Profilim</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild className="cursor-pointer py-2 px-4 focus:bg-primary/5 focus:text-primary">
                       <Link to="/dashboard" className="flex items-center w-full">
                         <LayoutDashboard className="mr-3 h-4 w-4" />
-                        <span>Dashboard</span>
+                        <span>Panel</span>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
@@ -114,24 +114,24 @@ export function AppLayout() {
                       onClick={() => logout()}
                     >
                       <LogOut className="mr-3 h-4 w-4" />
-                      <span>Log out</span>
+                      <span>Çıkış Yap</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
                 
                 <Button className="hidden sm:flex rounded-full font-bold shadow-lg shadow-primary/20">
                    <PlusCircle className="h-4 w-4 mr-2" />
-                   Post View
+                   İlan Ver
                 </Button>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
                 <Link to="/login" className="hidden sm:block">
-                  <Button variant="ghost" className="font-bold">Sign In</Button>
+                  <Button variant="ghost" className="font-bold">Giriş Yap</Button>
                 </Link>
                 <Link to="/register">
                   <Button className="rounded-full shadow-lg shadow-primary/20 px-6 font-bold">
-                    Start Hiring
+                    Kayıt Ol
                   </Button>
                 </Link>
               </div>
@@ -153,29 +153,29 @@ export function AppLayout() {
                 <span className="font-black text-xl tracking-tight">HRMS.</span>
               </div>
               <p className="text-muted-foreground text-sm max-w-xs transition-colors hover:text-foreground">
-                Connecting thousands of talented professionals with leading companies across Turkey.
+                Türkiye'nin önde gelen şirketleri ile yetenekli profesyonelleri bir araya getiriyoruz.
               </p>
             </div>
             <div>
-              <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-primary">Discover</h4>
+              <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-primary">Keşfet</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/jobs" className="hover:text-primary transition-colors">Browse Jobs</Link></li>
-                <li><Link to="/employers" className="hover:text-primary transition-colors">Partners</Link></li>
-                <li><Link to="/register" className="hover:text-primary transition-colors">Start Hiring</Link></li>
+                <li><Link to="/jobs" className="hover:text-primary transition-colors">İş İlanları</Link></li>
+                <li><Link to="/employers" className="hover:text-primary transition-colors">Şirketler</Link></li>
+                <li><Link to="/register" className="hover:text-primary transition-colors">Kayıt Ol</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-primary">Platform</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact Support</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Kullanım Koşulları</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Gizlilik Politikası</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">İletişim</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-muted-foreground">
-              © {new Date().getFullYear()} HRMS. All rights reserved. Built with Vite, React & shadcn/ui.
+              © {new Date().getFullYear()} HRMS. Tüm hakları saklıdır.
             </p>
             <div className="flex items-center gap-6 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all">
                 <Building2 className="h-5 w-5" />
