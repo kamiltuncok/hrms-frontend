@@ -69,7 +69,10 @@ export const useJobSearch = (initialFilter: Partial<JobFilter> = {}) => {
       result = result.filter(job => filters.selectedCities.includes(job.city.id));
     }
     if (filters.selectedWorkModels.length > 0) {
-      result = result.filter(job => job.workModel?.id && filters.selectedWorkModels.includes(job.workModel.id));
+      // In this version, workModel and typeOfWork are treated as the same in the DB
+      result = result.filter(job => 
+        job.typeOfWork?.id && filters.selectedWorkModels.includes(job.typeOfWork.id)
+      );
     }
     if (filters.selectedTypeOfWorks.length > 0) {
       result = result.filter(job => job.typeOfWork?.id && filters.selectedTypeOfWorks.includes(job.typeOfWork.id));

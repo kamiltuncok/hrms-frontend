@@ -5,8 +5,14 @@ export interface JobApplicationResponse {
   id: number;
   jobAdvertisementId: number;
   jobSeekerId: number;
+  jobSeekerFirstName: string;
+  jobSeekerLastName: string;
+  jobSeekerEmail: string;
+  jobTitle: string;
+  jobDescription: string;
+  companyName: string;
   applicationDate: string;
-  isAccepted: boolean;
+  status: string;
 }
 
 export const jobApplicationService = {
@@ -36,5 +42,21 @@ export const jobApplicationService = {
   getApplicationsBySeekerId: async (seekerId: number): Promise<JobApplicationResponse[]> => {
     const response = await apiClient.get<ApiResponse<JobApplicationResponse[]>>(`/api/jobapplications/getbyjobseekerid?jobSeekerId=${seekerId}`);
     return response.data.data;
+  },
+
+  /**
+   * Fetches applications received by a specific employer.
+   */
+  getApplicationsByEmployerId: async (employerId: number): Promise<JobApplicationResponse[]> => {
+    const response = await apiClient.get<ApiResponse<JobApplicationResponse[]>>(`/api/jobapplications/getbyemployerid?employerId=${employerId}`);
+    return response.data.data;
+  },
+
+  /**
+   * Updates the status of an application.
+   */
+  updateStatus: async (id: number, status: 'ACCEPTED' | 'REJECTED' | 'PENDING'): Promise<ApiResponse<JobApplicationResponse>> => {
+    const response = await apiClient.put<ApiResponse<JobApplicationResponse>>(`/api/jobapplications/updatestatus?id=${id}&status=${status}`);
+    return response.data;
   }
 };

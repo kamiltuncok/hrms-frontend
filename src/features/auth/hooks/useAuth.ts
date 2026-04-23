@@ -12,15 +12,12 @@ export function useLogin() {
     onSuccess: (data: any) => {
       // Backend returns flattened AuthResponse: { token, id, email, role }
       const authData = data;
-      // Normalize role name (ensure it starts with ROLE_)
-      const roleName = authData.role.startsWith('ROLE_') ? authData.role : `ROLE_${authData.role.toUpperCase()}`;
-      
       const user = {
         id: authData.id,
         email: authData.email,
         role: {
-          id: roleName === 'ROLE_EMPLOYER' ? 2 : (roleName === 'ROLE_JOBSEEKER' ? 3 : 1),
-          name: roleName
+          id: 0, // Will be normalized in store
+          name: authData.role // Raw role string
         }
       };
 

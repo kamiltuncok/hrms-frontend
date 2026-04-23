@@ -5,12 +5,13 @@ import { jobSeekerService } from '../services/jobSeekerService';
 import { employerService } from '../../employers/services/employerService';
 import { ResumeResponse } from '../types';
 
-export function useProfile(profileId?: number) {
+export function useProfile(profileId?: number, forceEmployer?: boolean) {
   const queryClient = useQueryClient();
   const currentUser = useAuthStore(state => state.user);
   
   // Determine if we are fetching for an employer
-  const isEmployer = currentUser?.role?.name === 'ROLE_EMPLOYER';
+  // Use forced flag (from URL context) or fallback to current user's role
+  const isEmployer = forceEmployer ?? (currentUser?.role?.name === 'ROLE_EMPLOYER');
 
   const profileQuery = useQuery<any>({
     queryKey: ['profile', profileId, isEmployer],

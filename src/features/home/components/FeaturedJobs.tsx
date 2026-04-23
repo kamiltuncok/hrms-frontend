@@ -58,7 +58,7 @@ export function FeaturedJobs() {
                     <Building2 className="h-6 w-6" />
                   </div>
                   <Badge variant="secondary" className="bg-secondary/50">
-                    {job.openPositions} Pozisyon
+                    {job.typeOfWork?.name || 'Tam Zamanlı'}
                   </Badge>
                 </div>
                 

@@ -90,7 +90,7 @@ export const resumeService = {
       educationDegree: data.educationDegree,
       startDate: data.startDate,
       graduateDate: data.graduateDate || null,
-      resume: { id: data.resumeId } 
+      resumeId: data.resumeId 
     };
     return apiClient.post('/api/schools/add', payload);
   },
@@ -100,7 +100,7 @@ export const resumeService = {
   addSkill: async (data: any) => {
     const payload = { 
       skillName: data.skillName, 
-      resume: { id: data.resumeId } 
+      resumeId: data.resumeId 
     };
     return apiClient.post('/api/skills/add', payload);
   },
@@ -111,7 +111,7 @@ export const resumeService = {
     const payload = { 
       languageName: data.languageName,
       level: data.level,
-      resume: { id: data.resumeId } 
+      resumeId: data.resumeId 
     };
     return apiClient.post('/api/languages/add', payload);
   },

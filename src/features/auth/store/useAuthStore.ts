@@ -21,11 +21,24 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       isAuthenticated: false,
-      login: (data) => set({ 
-        user: data.user, 
-        token: data.token, 
-        isAuthenticated: true 
-      }),
+      login: (data) => {
+        const rawRole = data.user.role.name.toUpperCase();
+        const baseRole = rawRole.replace(/^(ROLE_)+/, '');
+        const canonicalRoleName = `ROLE_${baseRole}`;
+        const roleId = baseRole === 'EMPLOYER' ? 2 : (baseRole === 'JOBSEEKER' ? 3 : 1);
+
+        set({ 
+          user: {
+            ...data.user,
+            role: {
+              id: roleId,
+              name: canonicalRoleName
+            }
+          }, 
+          token: data.token, 
+          isAuthenticated: true 
+        });
+      },
       logout: () => set({ 
         user: null, 
         token: null, 

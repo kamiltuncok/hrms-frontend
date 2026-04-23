@@ -77,7 +77,7 @@ const skillSchema = z.object({
 
 const languageSchema = z.object({
   languageName: z.string().min(1, "Dil adı zorunludur"),
-  level: z.coerce.number().min(1).max(5),
+  level: z.string().min(1, "Seviye seçiniz"),
 });
 
 export function EditProfileJobseeker() {
@@ -755,21 +755,25 @@ export function EditProfileJobseeker() {
                                   </FormItem>
                                 )}
                               />
-                               <FormField
+                              <FormField
                                 control={languageForm.control}
                                 name="level"
                                 render={({ field }) => (
-                                  <FormItem className="w-24">
+                                  <FormItem className="w-32">
                                     <FormControl>
-                                      <Input 
-                                 type="number" 
-                                 min="1" 
-                                 max="5" 
-                                 placeholder="1-5" 
-                                 {...field}
-                                 value={field.value?.toString() ?? ""}
-                                 onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                               />
+                                      <select 
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                        {...field}
+                                      >
+                                        <option value="">Seviye</option>
+                                        <option value="A1">A1</option>
+                                        <option value="A2">A2</option>
+                                        <option value="B1">B1</option>
+                                        <option value="B2">B2</option>
+                                        <option value="C1">C1</option>
+                                        <option value="C2">C2</option>
+                                        <option value="Native">Anadil</option>
+                                      </select>
                                     </FormControl>
                                     <FormMessage />
                                   </FormItem>
@@ -779,7 +783,7 @@ export function EditProfileJobseeker() {
                                 <Plus className="h-4 w-4" />
                               </Button>
                             </div>
-                            <p className="text-xs text-muted-foreground">Seviye: 1 (Başlangıç) - 5 (Anadil)</p>
+                            <p className="text-xs text-muted-foreground">Dil seviyenizi seçiniz (A1-C2 / Anadil)</p>
                           </form>
                        </Form>
 
@@ -788,7 +792,7 @@ export function EditProfileJobseeker() {
                             <div key={lang.id} className="flex justify-between items-center bg-muted/30 p-3 rounded-lg border group">
                                <div>
                                  <span className="font-bold">{lang.languageName}</span>
-                                 <span className="ml-2 text-xs text-muted-foreground bg-background px-2 py-0.5 rounded-full border">Seviye {lang.level}</span>
+                                 <span className="ml-2 text-xs text-muted-foreground bg-background px-2 py-0.5 rounded-full border">{lang.level}</span>
                                </div>
                                <Button 
                                 variant="ghost" 

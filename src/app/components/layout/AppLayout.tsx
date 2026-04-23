@@ -18,7 +18,8 @@ import {
   Briefcase, 
   Users,
   LayoutDashboard,
-  PlusCircle
+  PlusCircle,
+  Inbox
 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 
@@ -102,6 +103,14 @@ export function AppLayout() {
                         <span>Profilim</span>
                       </Link>
                     </DropdownMenuItem>
+                    {user?.role?.name === 'ROLE_EMPLOYER' && (
+                      <DropdownMenuItem asChild className="cursor-pointer py-2 px-4 focus:bg-primary/5 focus:text-primary">
+                        <Link to="/jobs/applications" className="flex items-center w-full">
+                          <Inbox className="mr-3 h-4 w-4" />
+                          <span>Gelen Başvurular</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem asChild className="cursor-pointer py-2 px-4 focus:bg-primary/5 focus:text-primary">
                       <Link to="/dashboard" className="flex items-center w-full">
                         <LayoutDashboard className="mr-3 h-4 w-4" />
@@ -119,10 +128,14 @@ export function AppLayout() {
                   </DropdownMenuContent>
                 </DropdownMenu>
                 
-                <Button className="hidden sm:flex rounded-full font-bold shadow-lg shadow-primary/20">
-                   <PlusCircle className="h-4 w-4 mr-2" />
-                   İlan Ver
-                </Button>
+                {user?.role?.name === 'ROLE_EMPLOYER' && (
+                  <Link to="/jobs/post">
+                    <Button className="hidden sm:flex rounded-full font-bold shadow-lg shadow-primary/20">
+                      <PlusCircle className="h-4 w-4 mr-2" />
+                      İlan Ver
+                    </Button>
+                  </Link>
+                )}
               </div>
             ) : (
               <div className="flex items-center space-x-3">

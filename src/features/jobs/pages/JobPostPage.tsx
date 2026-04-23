@@ -26,26 +26,22 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Briefcase, MapPin, Building2, Calendar as CalendarIcon, Users, FileText } from 'lucide-react';
+import { Briefcase, MapPin, Building2, Calendar as CalendarIcon, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface JobPostValues {
   jobTitleId: string;
   cityId: string;
-  workModelId?: string;
   typeOfWorkId?: string;
   description: string;
-  openPositions: number;
   applicationDeadline?: string;
 }
 
 const jobPostSchema = z.object({
-  jobTitleId: z.string().min(1, 'Job title is required'),
-  cityId: z.string().min(1, 'City is required'),
-  workModelId: z.string().optional(),
+  jobTitleId: z.string().min(1, 'İş unvanı zorunludur'),
+  cityId: z.string().min(1, 'Şehir zorunludur'),
   typeOfWorkId: z.string().optional(),
-  description: z.string().min(20, 'Description must be at least 20 characters'),
-  openPositions: z.preprocess((val) => Number(val), z.number().min(1, 'Must have at least 1 open position')),
+  description: z.string().min(20, 'Açıklama en az 20 karakter olmalıdır'),
   applicationDeadline: z.string().optional(),
 });
 
@@ -62,33 +58,31 @@ export function JobPostPage() {
     defaultValues: {
       jobTitleId: '',
       cityId: '',
-      workModelId: '',
       typeOfWorkId: '',
       description: '',
-      openPositions: 1,
       applicationDeadline: '',
     },
   });
 
   const onSubmit: SubmitHandler<JobPostValues> = async (values) => {
     if (!user || user.role.name !== 'ROLE_EMPLOYER') {
-      toast.error('Only employers can post jobs');
+      toast.error('Yalnızca işverenler ilan verebilir');
       return;
     }
 
     try {
       await jobService.addJobAdvertisement({
-        ...values,
         employerId: user.id,
         jobTitleId: parseInt(values.jobTitleId),
         cityId: parseInt(values.cityId),
-        workModelId: values.workModelId ? parseInt(values.workModelId) : undefined,
         typeOfWorkId: values.typeOfWorkId ? parseInt(values.typeOfWorkId) : undefined,
+        description: values.description,
+        applicationDeadline: values.applicationDeadline || undefined,
       });
-      toast.success('Job advertisement posted successfully!');
+      toast.success('İş ilanı başarıyla yayınlandı!');
       navigate('/jobs');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to post job advertisement';
+      const message = err instanceof Error ? err.message : 'İş ilanı yayınlanamadı';
       toast.error(message);
     }
   };
@@ -102,8 +96,8 @@ export function JobPostPage() {
           transition={{ duration: 0.5 }}
         >
           <div className="mb-8 text-center md:text-left">
-            <h1 className="text-4xl font-extrabold tracking-tight mb-2">Post a New Opportunity</h1>
-            <p className="text-muted-foreground text-lg">Reach thousands of qualified candidates in minutes.</p>
+            <h1 className="text-4xl font-extrabold tracking-tight mb-2">Yeni İş İlanı Oluştur</h1>
+            <p className="text-muted-foreground text-lg">Binlerce nitelikli adaya dakikalar içinde ulaşın.</p>
           </div>
 
           <Form {...form}>
@@ -113,10 +107,10 @@ export function JobPostPage() {
                 <CardHeader className="pb-4">
                   <CardTitle className="flex items-center text-2xl font-bold">
                     <FileText className="mr-3 h-6 w-6 text-primary" />
-                    Job Fundamentals
+                    İlan Detayları
                   </CardTitle>
                   <CardDescription>
-                    Provide the core details about the position you're hiring for.
+                    İşe alım yaptığınız pozisyon hakkında temel bilgileri girin.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6 pt-2">
@@ -128,12 +122,12 @@ export function JobPostPage() {
                         <FormItem>
                           <FormLabel className="font-bold flex items-center">
                             <Briefcase className="h-4 w-4 mr-2 opacity-60" />
-                            Job Title
+                            İş Unvanı
                           </FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50">
-                                <SelectValue placeholder="Select a job title" />
+                                <SelectValue placeholder="İş unvanı seçin" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -156,12 +150,12 @@ export function JobPostPage() {
                         <FormItem>
                           <FormLabel className="font-bold flex items-center">
                             <MapPin className="h-4 w-4 mr-2 opacity-60" />
-                            Location
+                            Konum
                           </FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50">
-                                <SelectValue placeholder="Select a city" />
+                                <SelectValue placeholder="Şehir seçin" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -181,17 +175,17 @@ export function JobPostPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
-                      name="workModelId"
+                      name="typeOfWorkId"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="font-bold flex items-center">
                             <Building2 className="h-4 w-4 mr-2 opacity-60" />
-                            Work Model
+                            Çalışma Şekli
                           </FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-11 bg-background/50 border-border/50">
-                                <SelectValue placeholder="Optional: Remote, On-site..." />
+                                <SelectValue placeholder="Opsiyonel: Uzaktan, Ofisten..." />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -205,30 +199,6 @@ export function JobPostPage() {
                         </FormItem>
                       )}
                     />
-
-                    <FormField
-                      control={form.control}
-                      name="openPositions"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold flex items-center">
-                            <Users className="h-4 w-4 mr-2 opacity-60" />
-                            Open Positions
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              placeholder="e.g. 1"
-                              className="h-11 bg-background/50 border-border/50"
-                              {...field}
-                              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </div>
 
                   <FormField
@@ -236,16 +206,16 @@ export function JobPostPage() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-bold">Detailed Job Description</FormLabel>
+                        <FormLabel className="font-bold">Detaylı İş Tanımı</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Tell candidates about the role, requirements, and benefits..."
+                            placeholder="Adaylara pozisyon, gereksinimler ve yan haklar hakkında bilgi verin..."
                             className="min-h-[200px] bg-background/50 border-border/50 resize-none"
                             {...field}
                           />
                         </FormControl>
                         <FormDescription>
-                          Use at least 20 characters to describe the role accurately.
+                          Pozisyonu doğru tanımlamak için en az 20 karakter kullanın.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -259,7 +229,7 @@ export function JobPostPage() {
                       <FormItem className="flex flex-col">
                         <FormLabel className="font-bold mb-1 flex items-center">
                           <CalendarIcon className="h-4 w-4 mr-2 opacity-60" />
-                          Application Deadline
+                          Son Başvuru Tarihi
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -269,7 +239,7 @@ export function JobPostPage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          Leave blank for no specific deadline.
+                          Belirli bir tarih yoksa boş bırakabilirsiniz.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -285,14 +255,14 @@ export function JobPostPage() {
                   onClick={() => navigate(-1)}
                   className="font-bold"
                 >
-                  Cancel
+                  İptal
                 </Button>
                 <Button
                   type="submit"
                   className="px-10 h-12 rounded-full font-bold text-lg shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? 'Posting Opportunity...' : 'Publish Job Advertisement'}
+                  {form.formState.isSubmitting ? 'İlan Yayınlanıyor...' : 'İlanı Yayınla'}
                 </Button>
               </div>
             </form>

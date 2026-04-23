@@ -44,7 +44,7 @@ export function ProfileJobseeker() {
     isLoading, 
     uploadPhoto, 
     uploadCv 
-  } = useProfile(profileId);
+  } = useProfile(profileId, false);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -267,21 +267,37 @@ export function ProfileJobseeker() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {profile?.languages?.map((lang: any) => (
-                  <div key={lang.id} className="space-y-2">
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="font-bold">{lang.languageName}</span>
-                      <span className="text-muted-foreground">Seviye {lang.level}/5</span>
+                {profile?.languages?.map((lang: any) => {
+                  const getLevelWidth = (level: string) => {
+                    const levels: Record<string, string> = {
+                      'A1': '20%',
+                      'A2': '40%',
+                      'B1': '60%',
+                      'B2': '80%',
+                      'C1': '90%',
+                      'C2': '95%',
+                      'Native': '100%',
+                      'Anadil': '100%'
+                    };
+                    return levels[level] || '0%';
+                  };
+
+                  return (
+                    <div key={lang.id} className="space-y-2">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="font-bold">{lang.languageName}</span>
+                        <span className="text-muted-foreground">Seviye: {lang.level}</span>
+                      </div>
+                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: getLevelWidth(lang.level) }}
+                          className="h-full bg-primary"
+                        />
+                      </div>
                     </div>
-                    <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${(lang.level / 5) * 100}%` }}
-                        className="h-full bg-primary"
-                      />
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
                 {(!profile?.languages || profile.languages.length === 0) && (
                    <p className="text-sm text-muted-foreground">Henüz dil bilgisi eklenmemiş.</p>
                 )}

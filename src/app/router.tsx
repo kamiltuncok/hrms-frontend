@@ -10,6 +10,7 @@ import { ProfilePage } from '@/features/profile/pages/ProfilePage';
 import { EditProfilePage } from '@/features/profile/pages/EditProfilePage';
 import { JobPostPage } from '@/features/jobs/pages/JobPostPage';
 import { JobDetailPage } from '@/features/jobs/pages/JobDetailPage';
+import { EmployerApplicationsPage } from '@/features/jobs/pages/EmployerApplicationsPage';
 
 export const router = createBrowserRouter([
   {
@@ -40,12 +41,31 @@ export const router = createBrowserRouter([
           {
             path: ':id',
             element: <JobDetailPage />
+          },
+          {
+            path: 'applications',
+            element: <ProtectedRoute requiredRole="Employer" />,
+            children: [
+              {
+                index: true,
+                element: <EmployerApplicationsPage />
+              }
+            ]
           }
         ]
       },
       {
         path: 'employers',
-        element: <EmployerListPage />
+        children: [
+          {
+            index: true,
+            element: <EmployerListPage />
+          },
+          {
+            path: ':id',
+            element: <ProfilePage />
+          }
+        ]
       },
       {
         path: 'profile',

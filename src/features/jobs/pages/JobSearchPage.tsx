@@ -141,35 +141,6 @@ export function JobSearchPage() {
                 </div>
               </div>
 
-              {/* Cities */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Popüler Şehirler</h3>
-                <div className="space-y-2">
-                  {cities.slice(0, 10).map((city) => (
-                    <label key={city.id} className="flex items-center group cursor-pointer">
-                      <div 
-                        className={`w-5 h-5 rounded border-2 mr-3 flex items-center justify-center transition-all ${
-                          filters.selectedCities.includes(city.id) 
-                            ? 'bg-primary border-primary scale-110 shadow-sm' 
-                            : 'border-muted-foreground/30 group-hover:border-primary/50'
-                        }`}
-                        onClick={() => toggleListFilter(city.id, 'selectedCities')}
-                      >
-                        {filters.selectedCities.includes(city.id) && (
-                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                            <svg className="w-3.5 h-3.5 text-primary-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
-                              <path d="M5 13l4 4L19 7" />
-                            </svg>
-                          </motion.div>
-                        )}
-                      </div>
-                      <span className={`text-sm transition-colors ${filters.selectedCities.includes(city.id) ? 'text-foreground font-medium' : 'text-muted-foreground'}`}>
-                        {city.name}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
             </div>
           </aside>
 
@@ -250,7 +221,7 @@ export function JobSearchPage() {
                             </div>
                             <div className="flex items-center">
                               <Briefcase className="h-4 w-4 mr-1.5 text-primary opacity-60" />
-                              {job.workModel?.name || 'Ofisten'}
+                              {job.typeOfWork?.name || 'Ofisten'}
                             </div>
                             <div className="flex items-center">
                               <Clock className="h-4 w-4 mr-1.5 text-primary opacity-60" />

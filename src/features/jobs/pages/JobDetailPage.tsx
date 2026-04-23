@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
-import { useJobDetail, useApplyToJob } from '../hooks/useJobs';
+import { useJobDetail, useApplyToJob, useUserApplications } from '../hooks/useJobs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,30 +20,34 @@ import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { JobCardSkeleton } from '@/components/skeletons';
 import { ErrorState } from '@/components/common/ErrorState';
+import { cn } from '@/shared/utils';
 
 export function JobDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user, isJobSeeker: checkIsJobSeeker } = useAuthStore();
   const { data: job, isLoading, isError, error } = useJobDetail(Number(id));
+  const { data: applications } = useUserApplications(user?.id);
   const { mutate: apply, isPending: isApplying } = useApplyToJob();
+
+  const isJobSeeker = checkIsJobSeeker();
+  const hasApplied = applications?.some(app => app.jobAdvertisementId === Number(id));
 
   if (isLoading) return <div className="container mx-auto py-24"><JobCardSkeleton /></div>;
   if (isError) return <div className="container mx-auto py-24"><ErrorState message={error.message} /></div>;
   if (!job) return null;
+
 
   const handleApply = () => {
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
-    if (user?.role.name !== 'JobSeeker') {
+    if (!isJobSeeker) {
       return;
     }
-    apply({ jobId: job.id, seekerId: user.id });
+    apply({ jobId: job.id, seekerId: user!.id });
   };
-
-  const isJobSeeker = user?.role.name === 'JobSeeker';
 
   return (
     <div className="min-h-screen bg-muted/30 pt-24 pb-12">
@@ -86,7 +90,7 @@ export function JobDetailPage() {
                            {job.typeOfWork?.name || 'Tam Zamanlı'}
                          </Badge>
                          <Badge variant="outline" className="font-semibold">
-                           {job.workModel?.name || 'Ofisten'}
+                           {job.typeOfWork?.name || 'Ofisten'}
                          </Badge>
                        </div>
                        <h1 className="text-3xl font-black tracking-tight">{job.jobTitle.title}</h1>
@@ -134,11 +138,21 @@ export function JobDetailPage() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <Button 
-                      className="w-full bg-white text-primary hover:bg-white/90 rounded-full h-12 font-black text-lg transition-all shadow-lg shadow-black/10"
+                      className={cn(
+                        "w-full rounded-full h-12 font-black text-lg transition-all shadow-lg shadow-black/10",
+                        hasApplied 
+                          ? "bg-emerald-500 hover:bg-emerald-600 text-white cursor-default" 
+                          : "bg-white text-primary hover:bg-white/90"
+                      )}
                       onClick={handleApply}
-                      disabled={isApplying || (isAuthenticated && !isJobSeeker)}
+                      disabled={isApplying || (isAuthenticated && !isJobSeeker) || hasApplied}
                     >
-                      {isApplying ? 'Gönderiliyor...' : 'Hemen Başvur'}
+                      {isApplying ? 'Gönderiliyor...' : hasApplied ? (
+                        <span className="flex items-center justify-center">
+                          <CheckCircle2 className="mr-2 h-5 w-5" />
+                          Başvuruldu
+                        </span>
+                      ) : 'Hemen Başvur'}
                     </Button>
                     {!isAuthenticated && (
                       <p className="text-xs text-center text-primary-foreground/60 italic font-medium">
@@ -168,10 +182,6 @@ export function JobDetailPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-5">
-                    <div className="flex items-center justify-between text-sm py-2 border-b">
-                      <span className="text-muted-foreground font-semibold">Açık Pozisyon</span>
-                      <span className="font-black text-foreground">{job.openPositions} kişi</span>
-                    </div>
                     <div className="flex items-center justify-between text-sm py-2 border-b">
                       <span className="text-muted-foreground font-semibold">Son Başvuru</span>
                       <span className="font-black text-foreground">

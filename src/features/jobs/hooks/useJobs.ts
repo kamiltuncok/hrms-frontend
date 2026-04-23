@@ -62,6 +62,17 @@ export function useJobDetail(id: number) {
 }
 
 /**
+ * Hook to retrieve all applications for a specific job seeker.
+ */
+export function useUserApplications(seekerId?: number) {
+  return useQuery({
+    queryKey: ['applications', 'seeker', seekerId],
+    queryFn: () => jobApplicationService.getApplicationsBySeekerId(seekerId!),
+    enabled: !!seekerId,
+  });
+}
+
+/**
  * Hook to handle job applications with optimistic updates and notifications.
  */
 export function useApplyToJob() {
@@ -70,10 +81,11 @@ export function useApplyToJob() {
   return useMutation({
     mutationFn: ({ jobId, seekerId }: { jobId: number; seekerId: number }) => 
       jobApplicationService.applyToJob(jobId, seekerId),
-    onSuccess: (_, { jobId }) => {
+    onSuccess: (_, { jobId, seekerId }) => {
       toast.success('Successfully applied for the position!');
       // Invalidate related job detail or application lists
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.detail(jobId) });
+      queryClient.invalidateQueries({ queryKey: ['applications', 'seeker', seekerId] });
     },
     onError: (error: any) => {
       toast.error(error.message || 'Failed to submit job application');
