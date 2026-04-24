@@ -1,26 +1,55 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { useJobDetail, useApplyToJob, useUserApplications } from '../hooks/useJobs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  Building2, 
-  MapPin, 
-  Calendar, 
-  ArrowLeft, 
-  Share2, 
+import { Separator } from '@/components/ui/separator';
+import {
+  Building2,
+  MapPin,
+  Calendar,
+  ArrowLeft,
+  Share2,
   Bookmark,
   CheckCircle2,
   Clock,
-  Info
+  Info,
+  Briefcase,
+  Globe,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { tr } from 'date-fns/locale';
 import { JobCardSkeleton } from '@/components/skeletons';
 import { ErrorState } from '@/components/common/ErrorState';
 import { cn } from '@/shared/utils';
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function DetailItem({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
+      <span className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
+        <Icon className="h-4 w-4 text-primary/60" />
+        {label}
+      </span>
+      <span className="text-sm font-semibold text-foreground">{value}</span>
+    </div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export function JobDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -29,181 +58,382 @@ export function JobDetailPage() {
   const { data: job, isLoading, isError, error } = useJobDetail(Number(id));
   const { data: applications } = useUserApplications(user?.id);
   const { mutate: apply, isPending: isApplying } = useApplyToJob();
+  const [saved, setSaved] = useState(false);
 
   const isJobSeeker = checkIsJobSeeker();
-  const hasApplied = applications?.some(app => app.jobAdvertisementId === Number(id));
+  const hasApplied = applications?.some(
+    (app) => app.jobAdvertisementId === Number(id),
+  );
 
-  if (isLoading) return <div className="container mx-auto py-24"><JobCardSkeleton /></div>;
-  if (isError) return <div className="container mx-auto py-24"><ErrorState message={error.message} /></div>;
+  if (isLoading)
+    return (
+      <div className="container mx-auto max-w-5xl py-24 px-4">
+        <JobCardSkeleton />
+      </div>
+    );
+  if (isError)
+    return (
+      <div className="container mx-auto max-w-5xl py-24 px-4">
+        <ErrorState message={error?.message} />
+      </div>
+    );
   if (!job) return null;
-
 
   const handleApply = () => {
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
-    if (!isJobSeeker) {
-      return;
-    }
+    if (!isJobSeeker) return;
     apply({ jobId: job.id, seekerId: user!.id });
   };
 
+  const postedDate = format(new Date(job.createdDate), 'dd MMM yyyy', {
+    locale: tr,
+  });
+  const deadlineDate = job.applicationDeadline
+    ? format(new Date(job.applicationDeadline), 'dd MMM yyyy', { locale: tr })
+    : null;
+
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-12">
+    <div className="min-h-screen bg-muted/30 pt-24 pb-16">
       <div className="container mx-auto px-4 max-w-5xl">
+        {/* Back navigation */}
         <motion.div
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 1, y: 0 }}
-           className="mb-6"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-6"
         >
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={() => navigate(-1)}
-            className="group font-semibold text-muted-foreground hover:text-foreground pl-0"
+            className="group pl-0 font-medium text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             İlanlara Dön
           </Button>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+          {/* ── Left: Main Content ──────────────────────────────────────────── */}
+          <div className="lg:col-span-2 space-y-6">
+
+            {/* Job Header Card */}
             <motion.div
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
-               transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
             >
-              <Card className="border-none shadow-xl ring-1 ring-border/50">
-                <CardHeader className="pb-6">
-                  <div className="flex flex-col md:flex-row md:items-center gap-6">
-                    <Avatar className="h-20 w-20 rounded-2xl ring-4 ring-primary/5">
-                      <AvatarImage src={job.employer.photoUrl} alt={job.employer.companyName} />
-                      <AvatarFallback className="bg-primary/5 text-primary text-2xl font-black">
+              <Card className="border-border/60 shadow-sm overflow-hidden">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+                    {/* Company Avatar */}
+                    <Avatar className="h-20 w-20 rounded-2xl ring-2 ring-border shrink-0">
+                      <AvatarImage
+                        src={job.employer.photoUrl}
+                        alt={job.employer.companyName}
+                      />
+                      <AvatarFallback className="rounded-2xl bg-primary/8 text-primary text-2xl font-black">
                         {job.employer.companyName.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1 space-y-2">
-                       <div className="flex flex-wrap items-center gap-2">
-                         <Badge variant="secondary" className="bg-primary/10 text-primary font-bold hover:bg-primary/20 transition-colors">
-                           {job.typeOfWork?.name || 'Tam Zamanlı'}
-                         </Badge>
-                         <Badge variant="outline" className="font-semibold">
-                           {job.typeOfWork?.name || 'Ofisten'}
-                         </Badge>
-                       </div>
-                       <h1 className="text-3xl font-black tracking-tight">{job.jobTitle.title}</h1>
-                       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground font-medium">
-                         <Link to={`/employers`} className="flex items-center hover:text-primary transition-colors">
-                           <Building2 className="h-4 w-4 mr-2" />
-                           {job.employer.companyName}
-                         </Link>
-                         <div className="flex items-center">
-                           <MapPin className="h-4 w-4 mr-2" />
-                           {job.city.name}
-                         </div>
-                         <div className="flex items-center">
-                           <Calendar className="h-4 w-4 mr-2" />
-                           Yayınlanma: {format(new Date(job.createdDate), 'MMM d, yyyy')}
-                         </div>
-                       </div>
+
+                    {/* Header info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {job.typeOfWork && (
+                          <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 font-semibold text-xs">
+                            {job.typeOfWork.name}
+                          </Badge>
+                        )}
+                      </div>
+                      <h1 className="text-2xl md:text-3xl font-black tracking-tight text-foreground mb-2">
+                        {job.jobTitle.title}
+                      </h1>
+                      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground font-medium">
+                        <Link
+                          to="/employers"
+                          className="flex items-center gap-1.5 hover:text-primary transition-colors"
+                        >
+                          <Building2 className="h-4 w-4" />
+                          {job.employer.companyName}
+                        </Link>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="h-4 w-4" />
+                          {job.city.name}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="h-4 w-4" />
+                          {postedDate}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </CardHeader>
-                <CardContent className="pt-6 border-t font-medium leading-relaxed text-foreground/80">
-                  <h3 className="text-xl font-bold text-foreground mb-4 flex items-center">
-                    <CheckCircle2 className="h-5 w-5 mr-3 text-primary" />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.1 }}
+            >
+              <Card className="border-border/60 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-base font-bold flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
                     İş Tanımı
-                  </h3>
-                  <div className="whitespace-pre-line text-lg">
+                  </CardTitle>
+                </CardHeader>
+                <Separator />
+                <CardContent className="pt-5 pb-6 px-6">
+                  <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed whitespace-pre-line">
                     {job.description}
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* Requirements */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.15 }}
+            >
+              <Card className="border-border/60 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-base font-bold flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-primary" />
+                    Gereksinimler
+                  </CardTitle>
+                </CardHeader>
+                <Separator />
+                <CardContent className="pt-5 pb-6 px-6">
+                  <ul className="space-y-2.5">
+                    {[
+                      'İlgili alanda üniversite mezunu veya dengi eğitim',
+                      'Pozisyon gereksinimleri işveren tarafından belirlenecektir',
+                      'Detaylı bilgi için işveren ile iletişime geçiniz',
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                        <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                          {i + 1}
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Responsibilities */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.2 }}
+            >
+              <Card className="border-border/60 shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-base font-bold flex items-center gap-2">
+                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                    Sorumluluklar
+                  </CardTitle>
+                </CardHeader>
+                <Separator />
+                <CardContent className="pt-5 pb-6 px-6">
+                  <ul className="space-y-2.5">
+                    {[
+                      'Pozisyon sorumluluklarını yerine getirmek',
+                      'Takım ile etkin iletişim ve iş birliği sağlamak',
+                      'Belirlenmiş hedef ve KPI\'lara ulaşmak',
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                        <CheckCircle2 className="h-4 w-4 text-primary/60 shrink-0 mt-0.5" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-             <motion.div
-               initial={{ opacity: 0, x: 20 }}
-               animate={{ opacity: 1, x: 0 }}
-               transition={{ duration: 0.4, delay: 0.2 }}
-             >
-                <Card className="border-none shadow-xl ring-1 ring-border/50 bg-primary text-primary-foreground overflow-hidden">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-xl font-black">Başvurmaya hazır mısınız?</CardTitle>
-                    <p className="text-primary-foreground/80 text-sm">Özgeçmişinizi doğrudan işverene iletin.</p>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <Button 
-                      className={cn(
-                        "w-full rounded-full h-12 font-black text-lg transition-all shadow-lg shadow-black/10",
-                        hasApplied 
-                          ? "bg-emerald-500 hover:bg-emerald-600 text-white cursor-default" 
-                          : "bg-white text-primary hover:bg-white/90"
-                      )}
-                      onClick={handleApply}
-                      disabled={isApplying || (isAuthenticated && !isJobSeeker) || hasApplied}
-                    >
-                      {isApplying ? 'Gönderiliyor...' : hasApplied ? (
-                        <span className="flex items-center justify-center">
-                          <CheckCircle2 className="mr-2 h-5 w-5" />
-                          Başvuruldu
-                        </span>
-                      ) : 'Hemen Başvur'}
-                    </Button>
-                    {!isAuthenticated && (
-                      <p className="text-xs text-center text-primary-foreground/60 italic font-medium">
-                        Önce giriş yapmanız istenecek.
-                      </p>
-                    )}
-                    {isAuthenticated && !isJobSeeker && (
-                      <div className="flex items-start gap-2 p-3 bg-white/10 rounded-xl text-xs font-semibold">
-                         <Info className="h-4 w-4 shrink-0" />
-                         Başvurular yalnızca İş Arayanlar içindir.
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-             </motion.div>
+          {/* ── Right: Sticky Apply Panel ───────────────────────────────────── */}
+          <div className="lg:col-span-1 space-y-4 lg:sticky lg:top-24">
 
-             <motion.div
-               initial={{ opacity: 0, x: 20 }}
-               animate={{ opacity: 1, x: 0 }}
-               transition={{ duration: 0.4, delay: 0.3 }}
-             >
-                <Card className="border-none shadow-xl ring-1 ring-border/50">
-                  <CardHeader>
-                    <CardTitle className="text-lg font-black flex items-center">
-                      <Clock className="h-5 w-5 mr-3 text-primary" />
-                      Önemli Detaylar
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-5">
-                    <div className="flex items-center justify-between text-sm py-2 border-b">
-                      <span className="text-muted-foreground font-semibold">Son Başvuru</span>
-                      <span className="font-black text-foreground">
-                        {job.applicationDeadline ? format(new Date(job.applicationDeadline), 'MMM d, yyyy') : 'Belirtilmedi'}
+            {/* Apply CTA card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <Card className="border-0 shadow-xl bg-primary text-primary-foreground overflow-hidden">
+                <CardHeader className="pb-3 pt-6 px-6">
+                  <CardTitle className="text-lg font-black text-primary-foreground">
+                    Başvurmaya hazır mısınız?
+                  </CardTitle>
+                  <p className="text-sm text-primary-foreground/70 mt-1">
+                    Özgeçmişinizi doğrudan işverene iletin.
+                  </p>
+                </CardHeader>
+                <CardContent className="px-6 pb-6 space-y-3">
+                  {/* Apply button */}
+                  <Button
+                    className={cn(
+                      'w-full h-11 font-bold text-sm transition-all',
+                      hasApplied
+                        ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                        : 'bg-white text-primary hover:bg-white/90 shadow-lg shadow-black/10',
+                    )}
+                    onClick={handleApply}
+                    disabled={
+                      isApplying ||
+                      (isAuthenticated && !isJobSeeker) ||
+                      hasApplied
+                    }
+                  >
+                    {isApplying ? (
+                      'Gönderiliyor...'
+                    ) : hasApplied ? (
+                      <span className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4" />
+                        Başvuruldu
                       </span>
+                    ) : (
+                      'Hemen Başvur'
+                    )}
+                  </Button>
+
+                  {/* Save button */}
+                  <Button
+                    variant="outline"
+                    className="w-full h-11 font-semibold border-white/20 text-primary-foreground hover:bg-white/10 hover:border-white/30 bg-transparent"
+                    onClick={() => setSaved((p) => !p)}
+                  >
+                    <Bookmark
+                      className="mr-2 h-4 w-4"
+                      fill={saved ? 'currentColor' : 'none'}
+                    />
+                    {saved ? 'Kaydedildi' : 'İlanı Kaydet'}
+                  </Button>
+
+                  {/* Share */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 text-xs"
+                  >
+                    <Share2 className="mr-1.5 h-3.5 w-3.5" />
+                    İlanı Paylaş
+                  </Button>
+
+                  {/* Notices */}
+                  {!isAuthenticated && (
+                    <p className="text-xs text-center text-primary-foreground/50 italic pt-1">
+                      Önce giriş yapmanız istenecek.
+                    </p>
+                  )}
+                  {isAuthenticated && !isJobSeeker && (
+                    <div className="flex items-start gap-2 p-3 bg-white/10 rounded-xl text-xs font-medium text-primary-foreground">
+                      <Info className="h-4 w-4 shrink-0 mt-0.5" />
+                      Başvurular yalnızca İş Arayanlar içindir.
                     </div>
-                    <div className="flex items-center justify-between text-sm py-2">
-                       <span className="text-muted-foreground font-semibold">Sektör</span>
-                       <span className="font-black text-foreground">Teknoloji & Yazılım</span>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Job details card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+            >
+              <Card className="border-border/60 shadow-sm">
+                <CardHeader className="pb-3 pt-5 px-5">
+                  <CardTitle className="text-sm font-bold flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-primary" />
+                    Önemli Detaylar
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="px-5 pb-5">
+                  <DetailItem
+                    icon={Calendar}
+                    label="Yayınlanma"
+                    value={postedDate}
+                  />
+                  <DetailItem
+                    icon={Clock}
+                    label="Son Başvuru"
+                    value={deadlineDate ?? 'Belirtilmedi'}
+                  />
+                  {job.typeOfWork && (
+                    <DetailItem
+                      icon={Briefcase}
+                      label="Çalışma Şekli"
+                      value={job.typeOfWork.name}
+                    />
+                  )}
+                  <DetailItem
+                    icon={MapPin}
+                    label="Konum"
+                    value={job.city.name}
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Company mini card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+            >
+              <Card className="border-border/60 shadow-sm">
+                <CardHeader className="pb-3 pt-5 px-5">
+                  <CardTitle className="text-sm font-bold">Şirket Hakkında</CardTitle>
+                </CardHeader>
+                <CardContent className="px-5 pb-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Avatar className="h-12 w-12 rounded-xl ring-2 ring-border">
+                      <AvatarImage
+                        src={job.employer.photoUrl}
+                        alt={job.employer.companyName}
+                      />
+                      <AvatarFallback className="rounded-xl bg-primary/8 text-primary font-black">
+                        {job.employer.companyName.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-bold text-sm">{job.employer.companyName}</p>
+                      <p className="text-xs text-muted-foreground">{job.city.name}</p>
                     </div>
-                    
-                    <div className="flex gap-3 pt-4">
-                      <Button variant="outline" size="icon" className="flex-1 rounded-xl h-12">
-                        <Bookmark className="h-5 w-5" />
-                      </Button>
-                      <Button variant="outline" size="icon" className="flex-1 rounded-xl h-12">
-                        <Share2 className="h-5 w-5" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-             </motion.div>
+                  </div>
+                  {job.employer.webAddress && (
+                    <a
+                      href={job.employer.webAddress}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs text-primary hover:underline font-medium"
+                    >
+                      <Globe className="h-3.5 w-3.5" />
+                      {job.employer.webAddress}
+                    </a>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full mt-4 text-xs"
+                    asChild
+                  >
+                    <Link to="/employers">Tüm İlanlarını Gör</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </div>

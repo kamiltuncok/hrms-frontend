@@ -9,8 +9,8 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({ 
-  title = "No results found", 
-  description = "We couldn't find anything matching your criteria.",
+  title = "Sonuç bulunamadı", 
+  description = "Kriterlerinize uygun bir sonuç bulamadık.",
   actionLabel,
   onAction
 }: EmptyStateProps) {

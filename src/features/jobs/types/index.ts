@@ -16,7 +16,7 @@ export interface JobAdvertisementResponse {
     id: number;
     companyName: string;
     webAddress?: string;
-    photoUrl?: string;
+    profileImageUrl?: string;
   };
   description: string;
   applicationDeadline?: string;

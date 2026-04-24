@@ -4,5 +4,5 @@ export interface EmployerResponse {
   webAddress: string;
   phoneNumber: string;
   email: string;
-  photoUrl?: string;
+  profileImageUrl?: string;
 }

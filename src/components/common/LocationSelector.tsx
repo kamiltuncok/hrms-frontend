@@ -41,16 +41,16 @@ export function LocationSelector({ value, onChange, className }: LocationSelecto
         >
           <div className="flex items-center">
             <MapPin className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-            {selectedCity ? selectedCity.name : "Select city..."}
+            {selectedCity ? selectedCity.name : "Şehir seçin..."}
           </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
         <Command>
-          <CommandInput placeholder="Search city..." className="h-9" />
+          <CommandInput placeholder="Şehir ara..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No city found.</CommandEmpty>
+            <CommandEmpty>Şehir bulunamadı.</CommandEmpty>
             <CommandGroup>
               <CommandItem
                 onSelect={() => {
@@ -65,7 +65,7 @@ export function LocationSelector({ value, onChange, className }: LocationSelecto
                     value === undefined ? "opacity-100" : "opacity-0"
                   )}
                 />
-                All Cities
+                Tüm Şehirler
               </CommandItem>
               {cities.map((city: City) => (
                 <CommandItem

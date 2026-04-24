@@ -34,6 +34,16 @@ export const resumeService = {
   },
 
   /**
+   * Downloads the CV PDF file as a Blob.
+   */
+  downloadCv: async (jobSeekerId: number): Promise<Blob> => {
+    const response = await apiClient.get(`/api/resumes/downloadcv?jobSeekerId=${jobSeekerId}`, {
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+
+  /**
    * Uploads a profile photo.
    */
   uploadPhoto: async (jobSeekerId: number, file: File): Promise<ApiResponse<string>> => {

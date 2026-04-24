@@ -55,7 +55,8 @@ export const useJobSearch = (initialFilter: Partial<JobFilter> = {}) => {
     // 2. Query Search (Turkish aware)
     if (filters.searchQuery) {
       result = result.filter(job => 
-        job.jobTitle.title && turkishCaseInsensitiveSearch(job.jobTitle.title, filters.searchQuery)
+        (job.jobTitle.title && turkishCaseInsensitiveSearch(job.jobTitle.title, filters.searchQuery)) ||
+        (job.employer?.companyName && turkishCaseInsensitiveSearch(job.employer.companyName, filters.searchQuery))
       );
     }
     if (filters.cityQuery) {

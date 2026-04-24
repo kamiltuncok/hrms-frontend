@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { useProfile } from '../hooks/useProfile';
 import { useActiveJobs } from '@/features/jobs/hooks/useJobs';
@@ -20,9 +20,11 @@ import {
   TrendingUp,
   ExternalLink,
   Edit,
-  Inbox
+  Inbox,
+  Camera
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Link } from 'react-router-dom';
 import { useMemo } from 'react';
@@ -30,17 +32,25 @@ import { useMemo } from 'react';
 export function ProfileEmployer() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
   const currentUser = useAuthStore(state => state.user);
-  
   const profileId = id ? parseInt(id) : currentUser?.id;
   const isOwnProfile = !id || parseInt(id) === currentUser?.id;
-  const isEmployerPath = location.pathname.startsWith('/employers');
 
   const { 
     profile, 
-    isLoading 
+    isLoading,
+    uploadPhoto
   } = useProfile(profileId, true);
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      uploadPhoto.mutate({ file }, {
+        onSuccess: () => toast.success('Firma logosu başarıyla güncellendi'),
+        onError: () => toast.error('Firma logosu yüklenemedi')
+      });
+    }
+  };
 
   // Fetch all active jobs then filter by this employer
   const { data: allJobs = [], isLoading: jobsLoading } = useActiveJobs();
@@ -100,11 +110,17 @@ export function ProfileEmployer() {
             <CardContent className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
               <div className="relative group">
                 <Avatar className="h-32 w-32 rounded-2xl border-4 border-background shadow-lg overflow-hidden transition-transform group-hover:scale-105 duration-300">
-                  <AvatarImage src={profile?.photoUrl} alt={profile?.companyName} className="object-cover" />
+                  <AvatarImage src={profile?.profileImageUrl} alt={profile?.companyName} className="object-cover" />
                   <AvatarFallback className="bg-primary/5 text-primary text-3xl font-black">
                     {profile?.companyName?.charAt(0) || 'E'}
                   </AvatarFallback>
                 </Avatar>
+                {isOwnProfile && (
+                  <label className="absolute -bottom-2 -right-2 bg-primary text-primary-foreground p-2 rounded-xl cursor-pointer shadow-lg hover:bg-primary/90 transition-colors border-4 border-background group-hover:scale-110 duration-200">
+                    <Camera className="h-4 w-4" />
+                    <input type="file" className="hidden" accept="image/*" onChange={handlePhotoUpload} />
+                  </label>
+                )}
               </div>
               
               <div className="flex-1 text-center md:text-left space-y-4">

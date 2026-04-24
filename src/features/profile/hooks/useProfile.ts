@@ -3,11 +3,13 @@ import { useAuthStore } from '../../auth/store/useAuthStore';
 import { resumeService } from '../services/resumeService';
 import { jobSeekerService } from '../services/jobSeekerService';
 import { employerService } from '../../employers/services/employerService';
+import { fileService } from '../services/fileService';
 import { ResumeResponse } from '../types';
 
 export function useProfile(profileId?: number, forceEmployer?: boolean) {
   const queryClient = useQueryClient();
   const currentUser = useAuthStore(state => state.user);
+  const updateUserStore = useAuthStore(state => state.updateUser);
   
   // Determine if we are fetching for an employer
   // Use forced flag (from URL context) or fallback to current user's role
@@ -37,9 +39,30 @@ export function useProfile(profileId?: number, forceEmployer?: boolean) {
   });
 
   const uploadPhotoMutation = useMutation({
-    mutationFn: ({ file }: { file: File }) => resumeService.uploadPhoto(profileId!, file),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile', profileId] });
+    mutationFn: async ({ file }: { file: File }) => {
+      const url = await fileService.uploadProfileImage(file);
+      const currentData = profileQuery.data;
+      
+      if (isEmployer) {
+        await employerService.updateEmployer(profileId!, {
+          ...currentData,
+          profileImageUrl: url
+        });
+      } else {
+        await jobSeekerService.updateJobSeeker(profileId!, {
+          firstName: currentData.firstName,
+          lastName: currentData.lastName,
+          birthDate: currentData.birthDate,
+          email: currentData.email,
+          phoneNumber: currentData.phoneNumber,
+          profileImageUrl: url
+        });
+      }
+      return url;
+    },
+    onSuccess: (url) => {
+      updateUserStore({ profileImageUrl: url });
+      queryClient.invalidateQueries({ queryKey: ['profile', profileId, isEmployer] });
     },
   });
 
@@ -111,12 +134,30 @@ export function useProfile(profileId?: number, forceEmployer?: boolean) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['profile', profileId] }),
   });
 
+  const downloadCv = async () => {
+    try {
+      const blob = await resumeService.downloadCv(profileId!);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'cv.pdf'); // We can extract filename from headers if needed, but 'cv.pdf' works
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download CV", error);
+      throw error;
+    }
+  };
+
   return {
     profile: profileQuery.data as any,
     isLoading: profileQuery.isLoading,
     isError: profileQuery.isError,
     uploadPhoto: uploadPhotoMutation,
     uploadCv: uploadCvMutation,
+    downloadCv: downloadCv,
     updateResume: updateResumeMutation,
     addExperience: addExperienceMutation,
     deleteExperience: deleteExperienceMutation,

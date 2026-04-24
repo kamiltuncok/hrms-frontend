@@ -117,7 +117,7 @@ export function EmployerListPage() {
                   <CardContent className="p-6 h-full flex flex-col">
                     <div className="flex items-center gap-4 mb-6">
                       <Avatar className="h-16 w-16 rounded-xl border border-border shadow-sm transform group-hover:scale-105 transition-transform">
-                        <AvatarImage src={employer.photoUrl} alt={employer.companyName} />
+                        <AvatarImage src={employer.profileImageUrl} alt={employer.companyName} />
                         <AvatarFallback className="bg-primary/5 text-primary">
                           <Building2 className="h-8 w-8" />
                         </AvatarFallback>

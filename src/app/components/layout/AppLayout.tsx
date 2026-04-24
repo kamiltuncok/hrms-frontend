@@ -17,7 +17,6 @@ import {
   Search, 
   Briefcase, 
   Users,
-  LayoutDashboard,
   PlusCircle,
   Inbox
 } from 'lucide-react';
@@ -80,7 +79,7 @@ export function AppLayout() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-10 w-10 rounded-full ring-2 ring-primary/10 hover:ring-primary/20 p-0 overflow-hidden transition-all">
                       <Avatar className="h-full w-full">
-                        <AvatarImage src={user?.photoUrl} alt={user?.email} />
+                        <AvatarImage src={user?.profileImageUrl} alt={user?.email} />
                         <AvatarFallback className="bg-primary/5 text-primary font-bold">
                           {user?.email?.charAt(0).toUpperCase()}
                         </AvatarFallback>
@@ -111,12 +110,7 @@ export function AppLayout() {
                         </Link>
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem asChild className="cursor-pointer py-2 px-4 focus:bg-primary/5 focus:text-primary">
-                      <Link to="/dashboard" className="flex items-center w-full">
-                        <LayoutDashboard className="mr-3 h-4 w-4" />
-                        <span>Panel</span>
-                      </Link>
-                    </DropdownMenuItem>
+                    
                     <DropdownMenuSeparator />
                     <DropdownMenuItem 
                       className="cursor-pointer py-2 px-4 text-destructive focus:bg-destructive/5 focus:text-destructive"

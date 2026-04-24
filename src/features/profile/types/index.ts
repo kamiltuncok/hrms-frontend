@@ -5,7 +5,7 @@ export interface ResumeResponse {
   linkedinAccount?: string;
   summary?: string;
   phoneNumber?: string;
-  photoUrl?: string;
+  profileImageUrl?: string;
   cvUrl?: string;
   schools: School[];
   languages: Language[];

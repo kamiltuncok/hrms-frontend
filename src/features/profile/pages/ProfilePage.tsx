@@ -8,7 +8,7 @@ import { Award } from 'lucide-react';
 
 export function ProfilePage() {
   const { id } = useParams<{ id: string }>();
-  const { isAuthenticated, user: currentUser, isEmployer: checkIsEmployer } = useAuthStore();
+  const { user: currentUser, isEmployer: checkIsEmployer } = useAuthStore();
   
   // If no ID in URL, show current user's profile
   const location = useLocation();

@@ -10,6 +10,7 @@ interface AuthState {
   isAuthenticated: boolean;
   login: (data: { token: string; user: User }) => void;
   logout: () => void;
+  updateUser: (userUpdate: Partial<User>) => void;
   isAdmin: () => boolean;
   isEmployer: () => boolean;
   isJobSeeker: () => boolean;
@@ -44,6 +45,9 @@ export const useAuthStore = create<AuthState>()(
         token: null, 
         isAuthenticated: false 
       }),
+      updateUser: (userUpdate) => set((state) => ({
+        user: state.user ? { ...state.user, ...userUpdate } : null
+      })),
       isAdmin: () => get().user?.role?.id === 1,
       isEmployer: () => get().user?.role?.id === 2,
       isJobSeeker: () => get().user?.role?.id === 3,

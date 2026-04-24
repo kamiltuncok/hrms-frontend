@@ -33,7 +33,9 @@ import {
   Languages,
   Loader2,
   Save,
-  Undo2
+  Undo2,
+  Upload,
+  FileText
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
@@ -94,7 +96,9 @@ export function EditProfileJobseeker() {
     deleteSkill,
     addLanguage,
     deleteLanguage,
-    updateJobSeeker
+    updateJobSeeker,
+    uploadCv,
+    downloadCv
   } = useProfile(user?.id);
 
   const summaryForm = useForm({
@@ -204,9 +208,22 @@ export function EditProfileJobseeker() {
     });
   };
 
-  const onJobSeekerAccountError = (errors: any) => {
-    console.error("Account validation errors:", errors);
-    toast.error("Lütfen hesap bilgilerini kontrol edin");
+  const onCvUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Dosya boyutu 5MB\'tan küçük olmalıdır');
+        return;
+      }
+      if (file.type !== 'application/pdf') {
+        toast.error('Sadece PDF formatında dosya yükleyebilirsiniz');
+        return;
+      }
+      uploadCv.mutate({ file }, {
+        onSuccess: () => toast.success('CV başarıyla yüklendi'),
+        onError: () => toast.error('CV yüklenirken bir hata oluştu')
+      });
+    }
   };
 
   if (isLoading) {
@@ -243,6 +260,7 @@ export function EditProfileJobseeker() {
             <TabsTrigger value="experience" className="rounded-md px-6 py-2">İş Deneyimi</TabsTrigger>
             <TabsTrigger value="education" className="rounded-md px-6 py-2">Eğitim</TabsTrigger>
             <TabsTrigger value="skills" className="rounded-md px-6 py-2">Yetenekler & Diller</TabsTrigger>
+            <TabsTrigger value="cv" className="rounded-md px-6 py-2">CV / Özgeçmiş</TabsTrigger>
           </TabsList>
 
           {/* Summary Tab */}
@@ -809,6 +827,81 @@ export function EditProfileJobseeker() {
                   </Card>
                 </div>
              </div>
+          </TabsContent>
+
+          {/* CV Tab */}
+          <TabsContent value="cv">
+            <Card className="border-none shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold flex items-center">
+                  <FileText className="h-6 w-6 mr-3 text-primary" />
+                  CV / Özgeçmiş Yönetimi
+                </CardTitle>
+                <CardDescription>
+                  Özgeçmişinizi PDF formatında yükleyebilirsiniz. İşverenler başvurularınızda bu belgeyi görüntüleyebilir.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-12 bg-muted/20">
+                  <FileText className="h-12 w-12 text-muted-foreground mb-4" />
+                  {profile?.cvFileName ? (
+                    <div className="text-center space-y-4">
+                      <p className="text-sm font-medium text-primary bg-primary/10 px-4 py-2 rounded-full inline-block">
+                        Yüklü CV: {profile.cvFileName}
+                      </p>
+                      <p className="text-xs text-muted-foreground block">
+                        Yükleme Tarihi: {profile.cvUploadDate ? new Date(profile.cvUploadDate).toLocaleDateString('tr-TR') : 'Bilinmiyor'}
+                      </p>
+                      <div className="flex justify-center gap-4 mt-4">
+                        <Button onClick={() => downloadCv()} variant="outline">
+                          Görüntüle / İndir
+                        </Button>
+                        <div className="relative">
+                          <input
+                            type="file"
+                            id="cv-upload-update"
+                            className="hidden"
+                            accept=".pdf"
+                            onChange={onCvUpload}
+                            disabled={uploadCv.isPending}
+                          />
+                          <label htmlFor="cv-upload-update">
+                            <Button asChild disabled={uploadCv.isPending}>
+                              <span>
+                                {uploadCv.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Upload className="h-4 w-4 mr-2" />}
+                                Yeni CV Yükle
+                              </span>
+                            </Button>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <h3 className="text-lg font-medium mb-2">Henüz CV yüklemediniz</h3>
+                      <p className="text-sm text-muted-foreground mb-6">Maksimum dosya boyutu 5MB olmalıdır (Sadece PDF).</p>
+                      
+                      <input
+                        type="file"
+                        id="cv-upload"
+                        className="hidden"
+                        accept=".pdf"
+                        onChange={onCvUpload}
+                        disabled={uploadCv.isPending}
+                      />
+                      <label htmlFor="cv-upload">
+                        <Button asChild disabled={uploadCv.isPending}>
+                          <span>
+                            {uploadCv.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Upload className="h-4 w-4 mr-2" />}
+                            CV Yükle
+                          </span>
+                        </Button>
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

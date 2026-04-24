@@ -22,7 +22,7 @@ export function PaginationControls({ currentPage, totalPages, onPageChange }: Pa
       </Button>
       
       <div className="text-sm font-medium text-muted-foreground px-4">
-        Page {currentPage} of {totalPages}
+        Sayfa {currentPage} / {totalPages}
       </div>
       
       <Button

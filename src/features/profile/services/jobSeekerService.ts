@@ -8,6 +8,7 @@ export interface JobSeekerRequest {
   birthDate: string;
   email: string;
   phoneNumber?: string;
+  profileImageUrl?: string;
 }
 
 export const jobSeekerService = {

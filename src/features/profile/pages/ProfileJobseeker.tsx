@@ -43,7 +43,8 @@ export function ProfileJobseeker() {
     profile, 
     isLoading, 
     uploadPhoto, 
-    uploadCv 
+    uploadCv,
+    downloadCv
   } = useProfile(profileId, false);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +115,7 @@ export function ProfileJobseeker() {
             <CardContent className="p-8 flex flex-col md:flex-row items-center md:items-start gap-8">
               <div className="relative group">
                 <Avatar className="h-32 w-32 rounded-2xl border-4 border-background shadow-lg overflow-hidden transition-transform group-hover:scale-105 duration-300">
-                  <AvatarImage src={profile?.photoUrl} alt={profile?.description} className="object-cover" />
+                  <AvatarImage src={profile?.profileImageUrl} alt={profile?.description} className="object-cover" />
                   <AvatarFallback className="bg-primary/5 text-primary text-2xl font-black">
                     {profile?.firstName?.charAt(0) || 'U'}
                   </AvatarFallback>
@@ -184,12 +185,10 @@ export function ProfileJobseeker() {
                 <Badge variant="secondary" className="px-4 py-1.5 rounded-full bg-secondary/30 text-secondary-foreground font-bold text-sm">
                   Aday ID: #{profile?.id}
                 </Badge>
-                {profile?.cvUrl && (
-                   <Button variant="ghost" className="text-primary hover:text-primary hover:bg-primary/5 font-bold" asChild>
-                     <a href={profile.cvUrl} target="_blank" rel="noopener noreferrer">
-                        <FileText className="h-4 w-4 mr-2" />
-                        Tüm Özgeçmişi Görüntüle
-                     </a>
+                {profile?.cvFileName && (
+                   <Button onClick={() => downloadCv()} variant="ghost" className="text-primary hover:text-primary hover:bg-primary/5 font-bold">
+                      <FileText className="h-4 w-4 mr-2" />
+                      Tüm Özgeçmişi Görüntüle
                    </Button>
                 )}
               </div>
