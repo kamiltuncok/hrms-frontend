@@ -4,7 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { jobService } from '../services/jobService';
-import { useCities, useJobTitles, useWorkModels } from '../hooks/useReferenceData';
+import { useCities, useWorkModels } from '../hooks/useReferenceData';
+import { CategorySelect } from '@/features/categories/components/CategorySelect';
+import { JobTitleSelect } from '@/features/jobtitles/components/JobTitleSelect';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -48,13 +51,13 @@ const jobPostSchema = z.object({
 export function JobPostPage() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
-  const { data: jobTitles = [] } = useJobTitles();
   const { data: cities = [] } = useCities();
   const { data: workModelData = [] } = useWorkModels();
 
   const form = useForm<JobPostValues>({
-    resolver: zodResolver(jobPostSchema) as any,
+    resolver: zodResolver(jobPostSchema),
     defaultValues: {
       jobTitleId: '',
       cityId: '',
@@ -115,33 +118,42 @@ export function JobPostPage() {
                 </CardHeader>
                 <CardContent className="space-y-6 pt-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="jobTitleId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold flex items-center">
-                            <Briefcase className="h-4 w-4 mr-2 opacity-60" />
-                            İş Unvanı
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50">
-                                <SelectValue placeholder="İş unvanı seçin" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {jobTitles.map((title) => (
-                                <SelectItem key={title.id} value={title.id.toString()}>
-                                  {title.title}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-bold flex items-center">
+                          <Briefcase className="h-4 w-4 mr-2 opacity-60" />
+                          Kategori
+                        </label>
+                        <CategorySelect 
+                          value={selectedCategory} 
+                          onChange={(val) => {
+                            setSelectedCategory(val);
+                            form.setValue('jobTitleId', '');
+                            form.clearErrors('jobTitleId');
+                          }} 
+                          className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50"
+                        />
+                      </div>
+
+                      <FormField
+                        control={form.control}
+                        name="jobTitleId"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-bold flex items-center text-sm text-muted-foreground">
+                              İş Unvanı
+                            </FormLabel>
+                            <JobTitleSelect 
+                              categoryId={selectedCategory}
+                              value={field.value}
+                              onChange={field.onChange}
+                              className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50"
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
                     <FormField
                       control={form.control}

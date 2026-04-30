@@ -131,7 +131,7 @@ export function JobDetailPage() {
                     {/* Company Avatar */}
                     <Avatar className="h-20 w-20 rounded-2xl ring-2 ring-border shrink-0">
                       <AvatarImage
-                        src={job.employer.photoUrl}
+                        src={job.employer.profileImageUrl}
                         alt={job.employer.companyName}
                       />
                       <AvatarFallback className="rounded-2xl bg-primary/8 text-primary text-2xl font-black">
@@ -400,7 +400,7 @@ export function JobDetailPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <Avatar className="h-12 w-12 rounded-xl ring-2 ring-border">
                       <AvatarImage
-                        src={job.employer.photoUrl}
+                        src={job.employer.profileImageUrl}
                         alt={job.employer.companyName}
                       />
                       <AvatarFallback className="rounded-xl bg-primary/8 text-primary font-black">

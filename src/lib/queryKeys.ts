@@ -12,5 +12,6 @@ export const queryKeys = {
   referenceData: {
     jobTitles: ['jobTitles'] as const,
     cities: ['cities'] as const,
+    categories: ['categories'] as const,
   }
 };

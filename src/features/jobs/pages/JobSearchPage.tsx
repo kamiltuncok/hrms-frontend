@@ -19,13 +19,20 @@ import { LocationSelector } from '@/components/common/LocationSelector';
 import { JobCardList } from '@/components/common/JobCard';
 import { EmptyState } from '@/components/common/EmptyState';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CategoryFilter } from '@/features/categories/components/CategoryFilter';
+import { useEffect } from 'react';
 
 export function JobSearchPage() {
   const navigate = useNavigate();
-  const { jobs, isLoading, filters, updateFilters, toggleListFilter } =
+
+  const { jobs, isLoading, filters, updateFilters, updateCategoryFilter, toggleListFilter } =
     useJobSearch();
 
   const { data: workModels = [] } = useWorkModels();
+
+  const handleCategoryChange = (val: string) => {
+    updateCategoryFilter(val);
+  };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateFilters({ searchQuery: e.target.value });
@@ -35,6 +42,7 @@ export function JobSearchPage() {
     updateFilters({
       searchQuery: '',
       cityId: undefined,
+      selectedCategory: undefined,
       selectedCities: [],
       selectedWorkModels: [],
       selectedTypeOfWorks: [],
@@ -44,6 +52,7 @@ export function JobSearchPage() {
   const activeFiltersCount =
     (filters.searchQuery ? 1 : 0) +
     (filters.cityId ? 1 : 0) +
+    (filters.selectedCategory ? 1 : 0) +
     filters.selectedCities.length +
     filters.selectedWorkModels.length +
     filters.selectedTypeOfWorks.length;
@@ -133,6 +142,19 @@ export function JobSearchPage() {
               <Separator />
 
               <CardContent className="px-5 py-5 space-y-6">
+                {/* Categories */}
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                    <Briefcase className="h-3.5 w-3.5" />
+                    Kategori
+                  </p>
+                  <CategoryFilter 
+                    value={filters.selectedCategory || 'all'} 
+                    onChange={handleCategoryChange} 
+                    className="w-full bg-background/50 border-border/50 transition-all hover:border-primary/50"
+                  />
+                </div>
+
                 {/* Work Models */}
                 {workModels.length > 0 && (
                   <div className="space-y-3">

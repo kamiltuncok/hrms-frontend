@@ -8,3 +8,11 @@ export function useJobTitles() {
     queryFn: () => jobTitleService.getAll(),
   });
 }
+
+export function useJobTitlesByCategory(categoryId?: number) {
+  return useQuery({
+    queryKey: [...queryKeys.referenceData.jobTitles, 'category', categoryId],
+    queryFn: () => jobTitleService.getByCategory(categoryId!),
+    enabled: !!categoryId,
+  });
+}

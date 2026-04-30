@@ -3,6 +3,7 @@ export interface JobAdvertisementResponse {
   jobTitle: {
     id: number;
     title: string;
+    categoryName: string;
   };
   city: {
     id: number;
@@ -22,6 +23,12 @@ export interface JobAdvertisementResponse {
   applicationDeadline?: string;
   createdDate: string;
   isActive: boolean;
+}
+
+export interface JobTitle {
+  id: number;
+  title: string;
+  categoryName: string;
 }
 
 export interface JobAdvertisementAddDto {

@@ -110,6 +110,14 @@ export function AppLayout() {
                         </Link>
                       </DropdownMenuItem>
                     )}
+                    {user?.role?.name === 'ROLE_JOBSEEKER' && (
+                      <DropdownMenuItem asChild className="cursor-pointer py-2 px-4 focus:bg-primary/5 focus:text-primary">
+                        <Link to="/profile/applied-jobs" className="flex items-center w-full">
+                          <Briefcase className="mr-3 h-4 w-4" />
+                          <span>Başvurulan İlanlar</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     
                     <DropdownMenuSeparator />
                     <DropdownMenuItem 

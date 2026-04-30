@@ -11,6 +11,7 @@ import { EditProfilePage } from '@/features/profile/pages/EditProfilePage';
 import { JobPostPage } from '@/features/jobs/pages/JobPostPage';
 import { JobDetailPage } from '@/features/jobs/pages/JobDetailPage';
 import { EmployerApplicationsPage } from '@/features/jobs/pages/EmployerApplicationsPage';
+import { AppliedJobsPage } from '@/features/applications/pages/AppliedJobsPage';
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
           {
             path: 'edit',
             element: <EditProfilePage />
+          },
+          {
+            path: 'applied-jobs',
+            element: <AppliedJobsPage />
           },
           {
             path: ':id',
