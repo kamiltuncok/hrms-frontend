@@ -39,8 +39,20 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Handle standard HTTP error codes
-    const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
+    let message = error.message || 'Beklenmeyen bir hata oluştu';
     
+    if (error.response?.data) {
+      const respData = error.response.data;
+      
+      if (typeof respData.data === 'string') {
+        // Detailed error message (e.g., Weak Password details)
+        message = respData.data;
+      } else if (respData.message) {
+        // Fallback to the top-level message
+        message = respData.message;
+      }
+    }
+
     if (error.response?.status === 401) {
       // Unauthorized: invalid or expired token -> Log out
       useAuthStore.getState().logout();

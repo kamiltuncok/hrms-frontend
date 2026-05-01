@@ -1,34 +1,41 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email('Geçersiz e-posta adresi'),
+  password: z.string().min(8, 'Şifre en az 8 karakter olmalıdır'),
 });
 
+const passwordValidation = z
+  .string()
+  .min(8, 'Şifre en az 8 karakter olmalıdır')
+  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/, 
+    'Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir');
+
 export const registerJobSeekerSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string().min(6, 'Password must be at least 6 characters'),
-  firstName: z.string().min(2, 'First name is required'),
-  lastName: z.string().min(2, 'Last name is required'),
-  identityNumber: z.string().length(11, 'Identity number must be 11 digits'),
+  email: z.string().email('Geçersiz e-posta adresi'),
+  password: passwordValidation,
+  confirmPassword: z.string(),
+  firstName: z.string().min(2, 'Ad en az 2 karakter olmalıdır'),
+  lastName: z.string().min(2, 'Soyad en az 2 karakter olmalıdır'),
+  identityNumber: z.string().length(11, 'TCKN 11 haneli olmalıdır'),
   birthYear: z.number().int().min(1900).max(new Date().getFullYear()),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: "Şifreler eşleşmiyor",
   path: ["confirmPassword"],
 });
 
 export const registerEmployerSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string().min(6, 'Password must be at least 6 characters'),
-  companyName: z.string().min(2, 'Company name is required'),
-  webAddress: z.string().url('Invalid website URL'),
-  phoneNumber: z.string().min(10, 'Phone number is required'),
+  email: z.string().email('Geçersiz e-posta adresi'),
+  password: passwordValidation,
+  confirmPassword: z.string(),
+  companyName: z.string().min(2, 'Şirket adı zorunludur'),
+  webAddress: z.string().url('Geçersiz web sitesi adresi'),
+  phoneNumber: z.string().min(10, 'Geçerli bir telefon numarası giriniz'),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: "Şifreler eşleşmiyor",
   path: ["confirmPassword"],
 });
+
 
 export type LoginValues = z.infer<typeof loginSchema>;
 export type RegisterJobSeekerValues = z.infer<typeof registerJobSeekerSchema>;

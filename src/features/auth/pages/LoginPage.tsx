@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { branding } from '@/shared/constants/branding';
 
 export function LoginPage() {
   const { mutate: login, isPending, isError, error } = useLogin();
@@ -23,9 +24,14 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4">
+      <div className="mb-8 cursor-pointer hover:scale-105 transition-transform" onClick={() => window.location.href = '/'}>
+        <img src={branding.logoFull} alt={branding.appName} className="h-24 object-contain" />
+      </div>
+
       <Card className="w-full max-w-md shadow-lg border-2 border-primary/10">
         <CardHeader className="space-y-1 text-center">
+
           <CardTitle className="text-3xl font-bold tracking-tight text-primary">Giriş Yap</CardTitle>
           <CardDescription className="text-muted-foreground/80">
             Tekrar hoş geldiniz! HRMS hesabınıza erişin.

@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
+import { branding } from '@/shared/constants/branding';
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -69,7 +70,11 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/40 p-4 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4 py-12">
+      <div className="mb-8 cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate('/')}>
+        <img src={branding.logoFull} alt={branding.appName} className="h-24 object-contain" />
+      </div>
+
       <Card className="w-full max-w-2xl shadow-xl border-2 border-primary/10">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-3xl font-bold tracking-tight text-primary">Hesap Oluştur</CardTitle>

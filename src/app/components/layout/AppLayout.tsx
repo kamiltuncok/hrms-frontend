@@ -21,6 +21,7 @@ import {
   Inbox
 } from 'lucide-react';
 import { cn } from '@/shared/utils';
+import { branding } from '@/shared/constants/branding';
 
 export function AppLayout() {
   const { isAuthenticated, user, logout } = useAuthStore();
@@ -33,17 +34,19 @@ export function AppLayout() {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-background selection:bg-primary/10">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center mx-auto px-4 max-w-7xl justify-between">
+      <header className="sticky top-0 z-50 w-full border-b bg-background shadow-sm">
+        <div className="container flex h-20 items-center mx-auto px-4 max-w-7xl justify-between">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center space-x-2 group">
-              <div className="h-9 w-9 bg-primary flex items-center justify-center rounded-xl shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
-                <Briefcase className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <span className="font-black text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-                HRMS.
-              </span>
+              {/* Desktop Logo */}
+              <img src={branding.logoNavbar} alt={branding.appName} className="hidden md:block h-12 object-contain transition-transform group-hover:scale-105" />
+              {/* Mobile Icon */}
+              <img src={branding.logoIcon} alt={branding.appName} className="block md:hidden h-12 w-12 object-contain transition-transform group-hover:rotate-6" />
             </Link>
+
+
+
+
 
             <nav className="hidden md:flex items-center space-x-1">
               {navLinks.map((link) => {
@@ -159,40 +162,40 @@ export function AppLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t bg-muted/20 pb-12 pt-16">
+      <footer className="bg-[#0A1929] pb-12 pt-16 border-t border-white/5">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div className="col-span-1 md:col-span-2 space-y-4">
               <div className="flex items-center space-x-2">
-                <Briefcase className="h-6 w-6 text-primary" />
-                <span className="font-black text-xl tracking-tight">HRMS.</span>
+                <img src={branding.logoIcon} alt={branding.appName} className="h-12 w-12 object-contain opacity-90 hover:opacity-100 transition-all duration-300" />
               </div>
-              <p className="text-muted-foreground text-sm max-w-xs transition-colors hover:text-foreground">
+
+              <p className="text-white/55 text-sm max-w-xs transition-colors hover:text-white/80">
                 Türkiye'nin önde gelen şirketleri ile yetenekli profesyonelleri bir araya getiriyoruz.
               </p>
             </div>
             <div>
-              <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-primary">Keşfet</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/jobs" className="hover:text-primary transition-colors">İş İlanları</Link></li>
-                <li><Link to="/employers" className="hover:text-primary transition-colors">Şirketler</Link></li>
-                <li><Link to="/register" className="hover:text-primary transition-colors">Kayıt Ol</Link></li>
+              <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-[#60A5FA]">Keşfet</h4>
+              <ul className="space-y-2 text-sm text-white/55">
+                <li><Link to="/jobs" className="hover:text-white transition-colors">İş İlanları</Link></li>
+                <li><Link to="/employers" className="hover:text-white transition-colors">Şirketler</Link></li>
+                <li><Link to="/register" className="hover:text-white transition-colors">Kayıt Ol</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-primary">Platform</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">Kullanım Koşulları</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Gizlilik Politikası</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">İletişim</a></li>
+              <h4 className="font-bold mb-4 uppercase text-xs tracking-widest text-[#60A5FA]">Platform</h4>
+              <ul className="space-y-2 text-sm text-white/55">
+                <li><a href="#" className="hover:text-white transition-colors">Kullanım Koşulları</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Gizlilik Politikası</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">İletişim</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground">
-              © {new Date().getFullYear()} HRMS. Tüm hakları saklıdır.
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/35">
+              © {new Date().getFullYear()} {branding.appName}. Tüm hakları saklıdır.
             </p>
-            <div className="flex items-center gap-6 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all">
+            <div className="flex items-center gap-6 text-white/30 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all">
                 <Building2 className="h-5 w-5" />
                 <Briefcase className="h-5 w-5" />
                 <Users className="h-5 w-5" />
