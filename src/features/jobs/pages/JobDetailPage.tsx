@@ -26,6 +26,7 @@ import { tr } from 'date-fns/locale';
 import { JobCardSkeleton } from '@/components/skeletons';
 import { ErrorState } from '@/components/common/ErrorState';
 import { cn } from '@/shared/utils';
+import { getCategoryStyle } from '@/shared/utils/categoryStyles';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -147,6 +148,19 @@ export function JobDetailPage() {
                             {job.typeOfWork.name}
                           </Badge>
                         )}
+                        {job.jobTitle?.categoryName && (() => {
+                          const catStyle = getCategoryStyle(job.jobTitle.categoryName);
+                          const CatIcon = catStyle.icon;
+                          return (
+                            <Badge
+                              className="border-0 font-semibold text-xs inline-flex items-center gap-1"
+                              style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
+                            >
+                              <CatIcon className="w-3 h-3" />
+                              {catStyle.label}
+                            </Badge>
+                          );
+                        })()}
                       </div>
                       <h1 className="text-2xl md:text-3xl font-black tracking-tight text-foreground mb-2">
                         {job.jobTitle.title}
@@ -192,70 +206,6 @@ export function JobDetailPage() {
                   <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed whitespace-pre-line">
                     {job.description}
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Requirements */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.15 }}
-            >
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-base font-bold flex items-center gap-2">
-                    <Briefcase className="h-5 w-5 text-primary" />
-                    Gereksinimler
-                  </CardTitle>
-                </CardHeader>
-                <Separator />
-                <CardContent className="pt-5 pb-6 px-6">
-                  <ul className="space-y-2.5">
-                    {[
-                      'İlgili alanda üniversite mezunu veya dengi eğitim',
-                      'Pozisyon gereksinimleri işveren tarafından belirlenecektir',
-                      'Detaylı bilgi için işveren ile iletişime geçiniz',
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                        <span className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                          {i + 1}
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Responsibilities */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: 0.2 }}
-            >
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-base font-bold flex items-center gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                    Sorumluluklar
-                  </CardTitle>
-                </CardHeader>
-                <Separator />
-                <CardContent className="pt-5 pb-6 px-6">
-                  <ul className="space-y-2.5">
-                    {[
-                      'Pozisyon sorumluluklarını yerine getirmek',
-                      'Takım ile etkin iletişim ve iş birliği sağlamak',
-                      'Belirlenmiş hedef ve KPI\'lara ulaşmak',
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                        <CheckCircle2 className="h-4 w-4 text-primary/60 shrink-0 mt-0.5" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
                 </CardContent>
               </Card>
             </motion.div>
@@ -307,28 +257,6 @@ export function JobDetailPage() {
                     )}
                   </Button>
 
-                  {/* Save button */}
-                  <Button
-                    variant="outline"
-                    className="w-full h-11 font-semibold border-white/20 text-primary-foreground hover:bg-white/10 hover:border-white/30 bg-transparent"
-                    onClick={() => setSaved((p) => !p)}
-                  >
-                    <Bookmark
-                      className="mr-2 h-4 w-4"
-                      fill={saved ? 'currentColor' : 'none'}
-                    />
-                    {saved ? 'Kaydedildi' : 'İlanı Kaydet'}
-                  </Button>
-
-                  {/* Share */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-primary-foreground/60 hover:text-primary-foreground hover:bg-white/10 text-xs"
-                  >
-                    <Share2 className="mr-1.5 h-3.5 w-3.5" />
-                    İlanı Paylaş
-                  </Button>
 
                   {/* Notices */}
                   {!isAuthenticated && (

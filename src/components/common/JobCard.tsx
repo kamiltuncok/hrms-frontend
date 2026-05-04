@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/shared/utils';
 import { JobAdvertisementResponse } from '@/features/jobs/types';
 import { SmartCompanyLogo } from './SmartCompanyLogo';
+import { getCategoryStyle } from '@/shared/utils/categoryStyles';
 
 // ─── Micro-badge helper ────────────────────────────────────────────────────────
 
@@ -108,7 +109,22 @@ export function JobCardList({ job, onClick, index = 0 }: JobCardListProps) {
                   </h3>
                   {microBadge && <MicroBadge type={microBadge} />}
                 </div>
-                <p className="text-sm font-bold text-slate-400">{companyName}</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-bold text-slate-400">{companyName}</p>
+                  {job.jobTitle?.categoryName && (() => {
+                    const catStyle = getCategoryStyle(job.jobTitle.categoryName);
+                    const CatIcon = catStyle.icon;
+                    return (
+                      <span
+                        className="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full"
+                        style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
+                      >
+                        <CatIcon className="w-3 h-3" />
+                        {catStyle.label}
+                      </span>
+                    );
+                  })()}
+                </div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <Badge
@@ -222,7 +238,22 @@ export function JobCardFeatured({ job, index = 0 }: JobCardFeaturedProps) {
           </h3>
           {microBadge && <MicroBadge type={microBadge} />}
         </div>
-        <p className="text-sm font-bold text-slate-400 mb-4">{companyName}</p>
+        <div className="flex items-center gap-2 mb-4">
+          <p className="text-sm font-bold text-slate-400">{companyName}</p>
+          {job.jobTitle?.categoryName && (() => {
+            const catStyle = getCategoryStyle(job.jobTitle.categoryName);
+            const CatIcon = catStyle.icon;
+            return (
+              <span
+                className="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full"
+                style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
+              >
+                <CatIcon className="w-3 h-3" />
+                {catStyle.label}
+              </span>
+            );
+          })()}
+        </div>
 
         {/* Description */}
         {job.description && (

@@ -26,5 +26,20 @@ export const authService = {
     delete (employerData as any).confirmPassword;
     const response = await apiClient.post<ApiResponse<any>>('/api/auth/registerforemployer', employerData);
     return response.data;
+  },
+
+  forgotPassword: async (email: string): Promise<void> => {
+    await apiClient.post('/api/auth/forgot-password', { email });
+  },
+
+  resetPassword: async (token: string, newPassword: string): Promise<void> => {
+    await apiClient.post('/api/auth/reset-password', { token, newPassword });
+  },
+
+  validateResetToken: async (token: string): Promise<{ valid: boolean }> => {
+    const response = await apiClient.get<ApiResponse<{ valid: boolean }>>('/api/auth/validate-reset-token', {
+      params: { token }
+    });
+    return response.data.data;
   }
 };

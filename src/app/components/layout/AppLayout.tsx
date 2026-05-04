@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 import { branding } from '@/shared/constants/branding';
+import { ScrollToTop } from '@/components/common/ScrollToTop';
 
 export function AppLayout() {
   const { isAuthenticated, user, logout } = useAuthStore();
@@ -34,6 +35,7 @@ export function AppLayout() {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-background selection:bg-primary/10">
+      <ScrollToTop />
       <header className="sticky top-0 z-50 w-full border-b bg-background shadow-sm">
         <div className="container flex h-20 items-center mx-auto px-4 max-w-7xl justify-between">
           <div className="flex items-center gap-8">

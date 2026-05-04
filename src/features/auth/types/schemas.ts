@@ -36,7 +36,21 @@ export const registerEmployerSchema = z.object({
   path: ["confirmPassword"],
 });
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Geçersiz e-posta adresi'),
+});
+
+export const resetPasswordSchema = z.object({
+  newPassword: passwordValidation,
+  confirmPassword: z.string(),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Şifreler eşleşmiyor",
+  path: ["confirmPassword"],
+});
+
 
 export type LoginValues = z.infer<typeof loginSchema>;
 export type RegisterJobSeekerValues = z.infer<typeof registerJobSeekerSchema>;
 export type RegisterEmployerValues = z.infer<typeof registerEmployerSchema>;
+export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;

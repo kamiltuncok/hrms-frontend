@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from 'react-router-dom';
 import { useLogin } from '../hooks/useAuth';
 import { loginSchema, LoginValues } from '../types/schemas';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
@@ -42,7 +43,7 @@ export function LoginPage() {
             <CardContent className="space-y-4 pt-4">
               {isError && (
                 <div className="p-3 text-sm font-medium text-destructive bg-destructive/10 border border-destructive/20 rounded-md animate-in fade-in zoom-in duration-300">
-                  {error?.message || 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.'}
+                  {error?.message || 'Girilen Bilgiler Hatalı!'}
                 </div>
               )}
               
@@ -84,6 +85,15 @@ export function LoginPage() {
                   </FormItem>
                 )}
               />
+
+              <div className="flex justify-end">
+                <Link 
+                  to="/forgot-password" 
+                  className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors"
+                >
+                  Şifremi Unuttum?
+                </Link>
+              </div>
             </CardContent>
             <CardFooter className="pb-8">
               <Button type="submit" className="w-full text-lg h-12 font-bold shadow-md hover:shadow-xl transition-all" disabled={isPending}>
@@ -96,3 +106,4 @@ export function LoginPage() {
     </div>
   );
 }
+

@@ -3,20 +3,7 @@ import { useCategories } from '@/features/categories/hooks/useCategories';
 import { CategorySkeleton } from '@/components/skeletons';
 import { ErrorState } from '@/components/common/ErrorState';
 import { useNavigate } from 'react-router-dom';
-import {
-  Code2,
-  Monitor,
-  Database,
-  Layout,
-  Smartphone,
-  PieChart,
-  Shield,
-  Terminal,
-  Cpu,
-  Globe,
-  Layers,
-  BarChart2,
-} from 'lucide-react';
+import { getCategoryStyle, type CategoryStyle } from '@/shared/utils/categoryStyles';
 
 // ── Bento layout for 5 items ────────────
 const BENTO_CONFIG = [
@@ -27,20 +14,6 @@ const BENTO_CONFIG = [
   { span: 'col-span-1 md:col-span-2', size: 'normal' },             
 ];
 
-const ICONS = [Code2, Monitor, Database, Layout, Smartphone, PieChart, Shield, Terminal, Cpu, Globe, Layers, BarChart2];
-
-// Each category gets a distinct accent from the blue palette
-const ACCENTS = [
-  { from: '#1D6FEB', to: '#38BDF8', text: '#0A3D8F', bg: '#EFF6FF', iconBg: '#DBEAFE' },  // Blue
-  { from: '#0EA5E9', to: '#38BDF8', text: '#075985', bg: '#F0F9FF', iconBg: '#E0F2FE' },  // Sky
-  { from: '#6366F1', to: '#818CF8', text: '#3730A3', bg: '#EEF2FF', iconBg: '#E0E7FF' },  // Indigo
-  { from: '#10B981', to: '#34D399', text: '#065F46', bg: '#ECFDF5', iconBg: '#D1FAE5' },  // Emerald
-  { from: '#F59E0B', to: '#FCD34D', text: '#92400E', bg: '#FFFBEB', iconBg: '#FEF3C7' },  // Amber
-  { from: '#1D6FEB', to: '#60A5FA', text: '#1E3A8A', bg: '#EFF6FF', iconBg: '#BFDBFE' },  // Blue (Design)
-  { from: '#8B5CF6', to: '#A78BFA', text: '#4C1D95', bg: '#F5F3FF', iconBg: '#EDE9FE' },  // Violet
-  { from: '#EC4899', to: '#F472B6', text: '#831843', bg: '#FDF2F8', iconBg: '#FCE7F3' },  // Pink
-];
-
 // ─── Bento Item ───────────────────────────────────────────────────────────────
 
 interface BentoItemProps {
@@ -48,7 +21,7 @@ interface BentoItemProps {
   icon: React.ElementType;
   span: string;
   isLarge: boolean;
-  accent: typeof ACCENTS[0];
+  accent: CategoryStyle;
   index: number;
   onClick: () => void;
 }
@@ -159,16 +132,15 @@ export function CategoriesSection() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
             {categories.map((cat, index) => {
               const cfg = BENTO_CONFIG[index % BENTO_CONFIG.length];
-              const Icon = ICONS[index % ICONS.length];
-              const accent = ACCENTS[index % ACCENTS.length];
+              const style = getCategoryStyle(cat.name);
               return (
                 <BentoItem
                   key={cat.id}
                   title={cat.name}
-                  icon={Icon}
+                  icon={style.icon}
                   span={cfg.span}
                   isLarge={cfg.size === 'large'}
-                  accent={accent}
+                  accent={style}
                   index={index}
                   onClick={() => navigate(`/jobs?category=${encodeURIComponent(cat.name)}`)}
                 />
@@ -180,3 +152,4 @@ export function CategoriesSection() {
     </section>
   );
 }
+

@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { LocationSelector } from '@/components/common/LocationSelector';
 import { Briefcase, Building2, MapPin, Search, TrendingUp } from 'lucide-react';
+import { useJobTitles } from '@/features/jobtitles/hooks/useJobTitles';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -13,15 +14,6 @@ const STATS = [
   { icon: Building2, value: '5,000+', label: 'Kayıtlı Şirket' },
   { icon: MapPin, value: '81', label: 'İl Geneli' },
   { icon: TrendingUp, value: '%94', label: 'Yerleşim Oranı' },
-];
-
-const POPULAR_TAGS = [
-  'Frontend Developer',
-  'Veri Bilimci',
-  'Ürün Yöneticisi',
-  'Backend Developer',
-  'UI/UX Tasarımcı',
-  'DevOps Mühendisi',
 ];
 
 // ─── Animations ───────────────────────────────────────────────────────────────
@@ -41,6 +33,9 @@ export function HeroSection() {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState('');
   const [cityId, setCityId] = useState<number | undefined>(undefined);
+  const { data: jobTitles = [] } = useJobTitles();
+
+  const popularTags = jobTitles.slice(0, 5).map(t => t.title);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSearch();
@@ -173,7 +168,7 @@ export function HeroSection() {
               <span className="text-xs font-bold text-slate-400 self-center uppercase tracking-widest mr-1">
                 Popüler:
               </span>
-              {POPULAR_TAGS.map((tag) => (
+              {popularTags.map((tag) => (
                 <motion.button
                   key={tag}
                   whileHover={{ scale: 1.05, y: -2 }}
