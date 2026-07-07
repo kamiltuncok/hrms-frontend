@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { useMyApplications } from '../hooks/useMyApplications';
 import { AppliedJobCard } from '../components/AppliedJobCard';
@@ -9,7 +9,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Briefcase } from 'lucide-react';
 
 export function AppliedJobsPage() {
-  const { user, isAuthenticated, isJobSeeker } = useAuthStore();
+  const { isAuthenticated, isJobSeeker } = useAuthStore();
+  const navigate = useNavigate();
   const { data: applications = [], isLoading, isError, refetch } = useMyApplications();
 
   // ─── Authentication & Role Gating ─────────────────────────────────────────
@@ -65,7 +66,7 @@ export function AppliedJobsPage() {
                 title="Henüz başvurduğun bir ilan yok"
                 description="Hemen açık ilanlara göz atın ve hayalinizdeki işe ilk adımı atın!"
                 actionLabel="İlanları Gör"
-                actionLink="/jobs"
+                onAction={() => navigate('/jobs')}
               />
             </motion.div>
           ) : (
