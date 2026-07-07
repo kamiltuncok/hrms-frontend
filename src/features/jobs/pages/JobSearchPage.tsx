@@ -20,7 +20,6 @@ import { JobCardList } from '@/components/common/JobCard';
 import { EmptyState } from '@/components/common/EmptyState';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CategoryFilter } from '@/features/categories/components/CategoryFilter';
-import { useEffect } from 'react';
 
 export function JobSearchPage() {
   const navigate = useNavigate();

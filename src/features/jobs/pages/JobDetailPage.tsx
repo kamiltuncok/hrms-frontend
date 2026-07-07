@@ -1,5 +1,4 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useState } from 'react';
 import { useAuthStore } from '@/features/auth/store/useAuthStore';
 import { useJobDetail, useApplyToJob, useUserApplications } from '../hooks/useJobs';
 import { Button } from '@/components/ui/button';
@@ -12,8 +11,6 @@ import {
   MapPin,
   Calendar,
   ArrowLeft,
-  Share2,
-  Bookmark,
   CheckCircle2,
   Clock,
   Info,
@@ -59,7 +56,6 @@ export function JobDetailPage() {
   const { data: job, isLoading, isError, error } = useJobDetail(Number(id));
   const { data: applications } = useUserApplications(user?.id);
   const { mutate: apply, isPending: isApplying } = useApplyToJob();
-  const [saved, setSaved] = useState(false);
 
   const isJobSeeker = checkIsJobSeeker();
   const hasApplied = applications?.some(

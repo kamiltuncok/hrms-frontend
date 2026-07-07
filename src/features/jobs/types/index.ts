@@ -23,6 +23,10 @@ export interface JobAdvertisementResponse {
   applicationDeadline?: string;
   createdDate: string;
   isActive: boolean;
+  // TODO: the backend does not currently expose salary; these stay optional
+  // so the (already null-guarded) salary UI compiles until the API adds them.
+  minSalary?: number;
+  maxSalary?: number;
 }
 
 export interface JobTitle {

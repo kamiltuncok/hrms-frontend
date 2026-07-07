@@ -28,8 +28,8 @@ function MicroBadge({ type }: { type: 'new' | 'top' }) {
   );
 }
 
-// Determine micro-badge based on job data
-function getMicroBadge(job: JobAdvertisementResponse, index: number): 'new' | 'top' | null {
+// Determine micro-badge based on position in the list
+function getMicroBadge(index: number): 'new' | 'top' | null {
   if (index < 2) return 'new';
   if (index === 2 || index === 4) return 'top';
   return null;
@@ -65,7 +65,7 @@ export function JobCardList({ job, onClick, index = 0 }: JobCardListProps) {
   const [saved, setSaved] = useState(false);
 
   const companyName = job.employer?.companyName ?? 'Şirket';
-  const microBadge = getMicroBadge(job, index);
+  const microBadge = getMicroBadge(index);
 
   const deadline = job.applicationDeadline
     ? new Date(job.applicationDeadline).toLocaleDateString('tr-TR', {
@@ -190,7 +190,7 @@ interface JobCardFeaturedProps {
 export function JobCardFeatured({ job, index = 0 }: JobCardFeaturedProps) {
   const [saved, setSaved] = useState(false);
   const companyName = job.employer?.companyName ?? 'Şirket';
-  const microBadge = getMicroBadge(job, index);
+  const microBadge = getMicroBadge(index);
 
   const deadline = job.applicationDeadline
     ? new Date(job.applicationDeadline).toLocaleDateString('tr-TR', {

@@ -12,7 +12,6 @@ export interface JobFilter {
   selectedWorkModels: number[];
   selectedTypeOfWorks: number[];
   searchQuery?: string;
-  searchQuery?: string;
   cityQuery?: string;
   selectedCategory?: string;
 }
