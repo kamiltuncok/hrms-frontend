@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hedef Is - Kariyer Portali</title>
+  <meta name="description" content="Turkiye'nin en kapsamli kariyer portali.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #0D1117;
+      --bg-card: #161B22;
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.15);
+      --accent: #E84393;
+      --accent-light: #F472B6;
+      --accent-glow: rgba(232, 67, 147, 0.2);
+      --text-primary: #F0F6FC;
+      --text-secondary: #8B949E;
+      --text-muted: #6E7681;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg-primary); color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .logo { font-size: 18px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    a.hi-link { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    a.hi-link:hover { color: var(--text-primary); }
+    .nav-auth { display: flex; align-items: center; gap: 12px; }
+    .btn-login { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; padding: 7px 16px; border-radius: 8px; transition: color 0.2s; }
+    .btn-register { background: var(--accent); color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 7px 18px; border-radius: 8px; transition: opacity 0.2s, transform 0.15s; }
+    .btn-register:hover { opacity: 0.9; transform: translateY(-1px); }
+    .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 100px 48px 60px; position: relative; overflow: hidden; }
+    .hero-section::before { content: ''; position: absolute; top: -100px; left: -200px; width: 700px; height: 700px; background: radial-gradient(circle, rgba(56,139,253,0.12) 0%, transparent 70%); pointer-events: none; }
+    .hero-section::after { content: ''; position: absolute; top: 50px; right: -150px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,67,147,0.08) 0%, transparent 70%); pointer-events: none; }
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; position: relative; z-index: 1; }
+    .rating-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 24px; }
+    .rating-badge .stars { color: #F59E0B; }
+    .hero-title { font-size: 56px; font-weight: 900; line-height: 1.05; letter-spacing: -2px; color: var(--text-primary); margin-bottom: 20px; }
+    .hero-subtitle { font-size: 17px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 36px; max-width: 420px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; text-decoration: none; font-size: 15px; font-weight: 600; padding: 13px 28px; border-radius: 10px; transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 20px var(--accent-glow); }
+    .btn-primary:hover { opacity: 0.92; transform: translateY(-2px); }
+    .hero-search-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+    .search-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+    .search-tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; }
+    .search-tab.active { background: var(--accent); color: #fff; }
+    .search-tab:not(.active) { background: rgba(255,255,255,0.06); color: var(--text-secondary); }
+    .search-tab:not(.active):hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+    .search-inputs { display: flex; gap: 10px; margin-bottom: 14px; }
+    .search-input-wrap { flex: 1; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 14px; }
+    .search-input-wrap input { background: none; border: none; outline: none; color: var(--text-primary); font-size: 13px; font-family: inherit; width: 100%; }
+    .search-input-wrap input::placeholder { color: var(--text-muted); }
+    .search-icon { color: var(--text-muted); font-size: 14px; }
+    .search-btn { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: opacity 0.2s; white-space: nowrap; }
+    .quick-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .filter-tag { padding: 4px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; font-size: 12px; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+    .filter-tag:hover { border-color: var(--accent); color: var(--accent-light); }
+    .suggested-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+    .suggested-jobs { display: flex; flex-direction: column; gap: 8px; }
+    .suggested-job-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,0.03); transition: background 0.2s; cursor: pointer; }
+    .suggested-job-item:hover { background: rgba(255,255,255,0.06); }
+    .avatar-letter { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .suggested-job-info { flex: 1; min-width: 0; }
+    .suggested-job-title { font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .suggested-job-company { font-size: 11px; color: var(--text-muted); }
+    .badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+    .badge-new { background: rgba(34,197,94,0.15); color: #4ADE80; }
+    .badge-remote { background: rgba(56,139,253,0.15); color: #79B8FF; }
+    .badge-popular { background: rgba(232,67,147,0.15); color: var(--accent-light); }
+    .badge-full-time { background: rgba(139,92,246,0.15); color: #A78BFA; }
+    .section-container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .section-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--text-primary); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; cursor: pointer; background: none; font-family: inherit; }
+    .btn-outline:hover { border-color: var(--border-hover); color: var(--text-primary); }
+    .jobs-section { padding: 80px 0; }
+    .job-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .job-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+    .job-card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .job-card-header { display: flex; align-items: center; justify-content: space-between; }
+    .company-name-sm { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+    .job-title-text { font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+    .job-description { font-size: 12px; color: var(--text-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .job-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+    .dot-sep { opacity: 0.4; }
+    .btn-details { display: flex; align-items: center; justify-content: center; width: 100%; padding: 9px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.2s; margin-top: auto; }
+    .btn-details:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: var(--border-hover); }
+    .employers-section { padding: 0 0 80px; }
+    .employers-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .employer-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
+    .employer-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .employer-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .employer-info { min-width: 0; }
+    .employer-name { font-size: 13px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .employer-url { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cta-section { padding: 0 48px 80px; }
+    .cta-inner { max-width: 1200px; margin: 0 auto; background: linear-gradient(135deg, #161B22 0%, #1C2333 100%); border: 1px solid var(--border); border-radius: 20px; padding: 60px 56px; }
+    .cta-title { font-size: 40px; font-weight: 900; letter-spacing: -1.5px; color: var(--text-primary); margin-bottom: 12px; line-height: 1.1; }
+    .cta-title .highlight { color: var(--accent); }
+    .cta-subtitle { font-size: 16px; color: var(--text-secondary); margin-bottom: 32px; max-width: 500px; }
+    .cta-actions { display: flex; align-items: center; gap: 14px; }
+    .btn-cta-primary { background: var(--accent); color: #fff; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 10px; transition: opacity 0.2s; border: none; cursor: pointer; font-family: inherit; }
+    .btn-cta-secondary { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: 10px; border: 1px solid var(--border); transition: all 0.2s; }
+    .footer-section { background: rgba(0,0,0,0.3); border-top: 1px solid var(--border); padding: 60px 48px 32px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+    .footer-logo { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .footer-col-title { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-primary); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; font-size: 12px; color: var(--text-muted); }
+    .loading-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .skeleton-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; animation: shimmer 1.5s infinite; }
+    .skel { background: rgba(255,255,255,0.05); border-radius: 6px; margin-bottom: 10px; }
+    @keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .error-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .error-state h3 { font-size: 18px; color: var(--text-secondary); margin-bottom: 8px; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #161B22; border: 1px solid var(--border); border-radius: 20px; padding: 36px; max-width: 620px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 18px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .modal-company { font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 6px; }
+    .modal-title { font-size: 24px; font-weight: 800; color: var(--text-primary); margin-bottom: 16px; letter-spacing: -0.5px; }
+    .modal-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+    .modal-meta-tag { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; color: var(--text-secondary); }
+    .modal-description { font-size: 14px; color: var(--text-secondary); line-height: 1.7; white-space: pre-wrap; margin-bottom: 24px; }
+    .modal-apply-btn { display: block; width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: opacity 0.2s; }
+    .modal-apply-btn:hover { opacity: 0.9; }
+    @media (max-width: 1100px) { .job-cards-grid { grid-template-columns: repeat(2, 1fr); } .employers-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) { .navbar { padding: 0 20px; } .hero-inner { grid-template-columns: 1fr; gap: 40px; } .hero-title { font-size: 36px; } .hero-section { padding: 100px 20px 60px; } .section-container { padding: 0 20px; } .job-cards-grid { grid-template-columns: 1fr; } .employers-grid { grid-template-columns: repeat(2, 1fr); } .cta-section { padding: 0 20px 60px; } .footer-section { padding: 60px 20px 32px; } .footer-top { grid-template-columns: 1fr; gap: 32px; } }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="main-navbar">
+  <div class="logo">Hedef Is</div>
+  <div class="nav-links">
+    <a href="#ilanlar" class="hi-link">Is Ilanlari</a>
+    <a href="#isverenler" class="hi-link">Isverenler</a>
+  </div>
+  <div class="nav-auth">
+    <a href="#" class="btn-login">Giris Yap</a>
+    <a href="#" class="btn-register">Kayit Ol</a>
+  </div>
+</nav>
+
+<section class="hero-section" id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="rating-badge">
+        <span class="stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</span>
+        <span>500+ degerlendirme</span>
+      </div>
+      <h1 class="hero-title">Hayalinizdeki isi bugun bulun</h1>
+      <p class="hero-subtitle">En iyi isverenlerle baglanti kurun, yeteneklerinize uygun firsatlari kesfedin.</p>
+      <a href="#ilanlar" class="btn-primary">Ilanlari Kesfet &rarr;</a>
+    </div>
+
+    <div class="hero-search-card" id="hero-search-card">
+      <div class="search-tabs">
+        <button class="search-tab active" onclick="filterByCategory('IT',this)">Yazilim</button>
+        <button class="search-tab" onclick="filterByCategory('Pazarlama',this)">Pazarlama</button>
+        <button class="search-tab" onclick="filterByCategory('Finans',this)">Finans</button>
+        <button class="search-tab" onclick="filterByCategory('Operasyon',this)">Operasyon</button>
+      </div>
+      <div class="search-inputs">
+        <div class="search-input-wrap">
+          <span class="search-icon">&#x1F50D;</span>
+          <input type="text" id="search-title" placeholder="Pozisyon ara..." oninput="handleSearch()">
+        </div>
+        <div class="search-input-wrap">
+          <span class="search-icon">&#x1F4CD;</span>
+          <input type="text" id="search-city" placeholder="Sehir..." oninput="handleSearch()">
+        </div>
+        <button class="search-btn" onclick="handleSearch()">Ara</button>
+      </div>
+      <div class="quick-filters">
+        <span class="filter-tag" onclick="appendSearch('Frontend')">Frontend</span>
+        <span class="filter-tag" onclick="appendSearch('Backend')">Backend</span>
+        <span class="filter-tag" onclick="appendSearch('Senior')">Senior</span>
+        <span class="filter-tag" onclick="appendSearch('Veri')">Veri Analizi</span>
+        <span class="filter-tag" onclick="appendSearch('Bulut')">Bulut</span>
+      </div>
+      <div class="suggested-label">ONERILEN ILANLAR</div>
+      <div class="suggested-jobs" id="suggested-jobs">
+        <div class="suggested-job-item">
+          <div class="avatar-letter" style="background:linear-gradient(135deg,#4F46E5,#7C3AED)">T</div>
+          <div class="suggested-job-info">
+            <div class="suggested-job-title">Yukleniyor...</div>
+            <div class="suggested-job-company">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ilanlar" class="jobs-section">
+  <div class="section-container">
+    <div class="section-label">EN GUNCEL FIRSATLAR</div>
+    <div class="section-header">
+      <h2 class="section-title">One Cikan Ilanlar</h2>
+      <button class="btn-outline" onclick="showAllJobs()">Tum Ilanlari Gor &rarr;</button>
+    </div>
+    <div id="job-cards-container">
+      <div class="loading-grid">
+        <div class="skeleton-card"><div class="skel" style="height:12px;width:60%"></div><div class="skel" style="height:18px;width:80%"></div><div class="skel" style="height:40px"></div></div>
+        <div class="skeleton-card"><div class="skel" style="height:12px;width:60%"></div><div class="skel" style="height:18px;width:80%"></div><div class="skel" style="height:40px"></div></div>
+        <div class="skeleton-card"><div class="skel" style="height:12px;width:60%"></div><div class="skel" style="height:18px;width:80%"></div><div class="skel" style="height:40px"></div></div>
+        <div class="skeleton-card"><div class="skel" style="height:12px;width:60%"></div><div class="skel" style="height:18px;width:80%"></div><div class="skel" style="height:40px"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="isverenler" class="employers-section">
+  <div class="section-container">
+    <div class="section-label">SIRKETLER</div>
+    <div class="section-header">
+      <h2 class="section-title">One Cikan Isverenler</h2>
+      <button class="btn-outline">Tum Sirketler &rarr;</button>
+    </div>
+    <div class="employers-grid" id="employers-grid"></div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-title">Kariyerinize <span class="highlight">Hiz Kazandirin</span></h2>
+    <p class="cta-subtitle">Her gun yeni firsatlar bulan binlerce profesyonel ve en iyi yetenekleri arayan isverenlere katilin.</p>
+    <div class="cta-actions">
+      <button class="btn-cta-primary">Ucretsiz Hesap Olustur</button>
+      <a href="#ilanlar" class="btn-cta-secondary">Ilanlari Kesfet &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-section">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Hedef Is</div>
+        <p class="footer-tagline">Turkiye'nin dort bir yanindan isverenler ve profesyonelleri bir araya getiriyoruz.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">KESFET</div>
+        <ul class="footer-links">
+          <li><a href="#ilanlar">Is Ilanlari</a></li>
+          <li><a href="#isverenler">Isverenler</a></li>
+          <li><a href="#">Kayit Ol</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">PLATFORM</div>
+        <ul class="footer-links">
+          <li><a href="#">Kullanim Kosullari</a></li>
+          <li><a href="#">Gizlilik Politikasi</a></li>
+          <li><a href="#">Iletisim</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&#169; 2026 Hedef Is. Tum haklari saklidir.</p>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="job-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('job-modal').classList.remove('open')">&#x2715;</button>
+    <div class="modal-company" id="modal-company">--</div>
+    <h3 class="modal-title" id="modal-title">--</h3>
+    <div class="modal-meta" id="modal-meta"></div>
+    <div class="modal-description" id="modal-description">--</div>
+    <button class="modal-apply-btn">Basvur</button>
+  </div>
+</div>
+
+<script>
+var API_BASE = 'http://localhost:8080';
+var AVATAR_COLORS = [
+  'linear-gradient(135deg,#4F46E5,#7C3AED)',
+  'linear-gradient(135deg,#047857,#059669)',
+  'linear-gradient(135deg,#B45309,#D97706)',
+  'linear-gradient(135deg,#1D4ED8,#2563EB)',
+  'linear-gradient(135deg,#9D174D,#E84393)',
+  'linear-gradient(135deg,#065F46,#10B981)',
+  'linear-gradient(135deg,#7C3AED,#A855F7)',
+  'linear-gradient(135deg,#991B1B,#EF4444)'
+];
+function getColor(str) {
+  var h = 0;
+  for (var i = 0; i < str.length; i++) h = str.charCodeAt(i) + ((h << 5) - h);
+  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
+}
+function getInitial(name) { return (name || '?').trim().charAt(0).toUpperCase(); }
+function getBadge(typeOfWork, daysAgo) {
+  if (typeOfWork && typeOfWork.name) {
+    var t = typeOfWork.name.toLowerCase();
+    if (t.indexOf('remote') >= 0 || t.indexOf('uzaktan') >= 0) return '<span class="badge badge-remote">Uzaktan</span>';
+    if (t.indexOf('part') >= 0) return '<span class="badge badge-full-time">Yari Zamanli</span>';
+  }
+  if (daysAgo <= 3) return '<span class="badge badge-new">Yeni</span>';
+  return '<span class="badge badge-full-time">Tam Zamanli</span>';
+}
+function daysSince(dateStr) {
+  var d = new Date(dateStr);
+  return Math.floor((Date.now() - d.getTime()) / 86400000);
+}
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+var allJobs = [], filteredJobs = [], activeCategory = 'IT', showAll = false;
+
+async function fetchJobs() {
+  try {
+    var res = await fetch(API_BASE + '/api/jobadvertisements/getactive');
+    if (!res.ok) throw new Error('API error');
+    var data = await res.json();
+    allJobs = Array.isArray(data) ? data : (data.data || []);
+    filteredJobs = allJobs.slice();
+    renderAll();
+  } catch(e) {
+    document.getElementById('job-cards-container').innerHTML = '<div class="error-state"><h3>Veriler yuklenemedi</h3><p>Backend calisiyor mu kontrol edin: ' + API_BASE + '</p></div>';
+  }
+}
+
+function renderAll() { renderSuggested(); renderJobCards(); renderEmployers(); }
+
+function renderSuggested() {
+  var jobs = allJobs.filter(function(j){ return j.jobTitle && j.jobTitle.categoryName && j.jobTitle.categoryName.indexOf(activeCategory) >= 0; }).slice(0,3);
+  if (!jobs.length) jobs = allJobs.slice(0,3);
+  var c = document.getElementById('suggested-jobs');
+  if (!jobs.length) { c.innerHTML = '<p style="color:var(--text-muted);font-size:12px;text-align:center">Ilan bulunamadi</p>'; return; }
+  c.innerHTML = jobs.map(function(j){
+    var company = (j.employer && j.employer.companyName) || '--';
+    var title = (j.jobTitle && j.jobTitle.title) || '--';
+    var days = daysSince(j.createdDate || '');
+    var badge = days <= 2 ? '<span class="badge badge-new">Yeni</span>' : (j.typeOfWork && j.typeOfWork.name && j.typeOfWork.name.toLowerCase().indexOf('remote') >= 0 ? '<span class="badge badge-remote">Uzaktan</span>' : '<span class="badge badge-popular">Populer</span>');
+    return '<div class="suggested-job-item" onclick="openModal(' + j.id + ')">' +
+      '<div class="avatar-letter" style="background:' + getColor(company) + '">' + getInitial(company) + '</div>' +
+      '<div class="suggested-job-info"><div class="suggested-job-title">' + escHtml(title) + '</div><div class="suggested-job-company">' + escHtml(company) + '</div></div>' +
+      badge + '</div>';
+  }).join('');
+}
+
+function renderJobCards() {
+  var jobs = showAll ? filteredJobs : filteredJobs.slice(0, 8);
+  var c = document.getElementById('job-cards-container');
+  if (!jobs.length) { c.innerHTML = '<div class="error-state"><h3>Eslesme bulunamadi</h3><p>Arama kriterlerinizi degistirin.</p></div>'; return; }
+  c.innerHTML = '<div class="job-cards-grid">' + jobs.map(function(j){
+    var company = (j.employer && j.employer.companyName) || '--';
+    var title = (j.jobTitle && j.jobTitle.title) || '--';
+    var city = (j.city && j.city.name) || '--';
+    var type = (j.typeOfWork && j.typeOfWork.name) || 'Tam Zamanli';
+    var days = daysSince(j.createdDate || '');
+    var badge = getBadge(j.typeOfWork, days);
+    var desc = (j.description || '').replace(/\n/g,' ').slice(0,120) + '...';
+    return '<div class="job-card" onclick="openModal(' + j.id + ')">' +
+      '<div class="job-card-header"><span class="company-name-sm">' + escHtml(company) + '</span>' + badge + '</div>' +
+      '<div class="job-title-text">' + escHtml(title) + '</div>' +
+      '<div class="job-description">' + escHtml(desc) + '</div>' +
+      '<div class="job-meta"><span>&#x1F4CD; ' + escHtml(city) + '</span><span class="dot-sep">&#xB7;</span><span>&#x23F1; ' + escHtml(type) + '</span></div>' +
+      '<button class="btn-details" onclick="event.stopPropagation();openModal(' + j.id + ')">Detaylari Gor</button>' +
+      '</div>';
+  }).join('') + '</div>';
+}
+
+function renderEmployers() {
+  var seen = {};
+  var employers = allJobs.filter(function(j){
+    if (!j.employer) return false;
+    if (seen[j.employer.id]) return false;
+    seen[j.employer.id] = true; return true;
+  }).slice(0,10);
+  document.getElementById('employers-grid').innerHTML = employers.map(function(j){
+    var name = j.employer.companyName || '--';
+    var url = j.employer.webAddress || j.employer.email || '';
+    return '<div class="employer-card">' +
+      '<div class="employer-avatar" style="background:' + getColor(name) + '">' + getInitial(name) + '</div>' +
+      '<div class="employer-info"><div class="employer-name" title="' + escHtml(name) + '">' + escHtml(name) + '</div><div class="employer-url">' + escHtml(url) + '</div></div>' +
+      '</div>';
+  }).join('');
+}
+
+function openModal(id) {
+  var job = null;
+  for (var i = 0; i < allJobs.length; i++) { if (allJobs[i].id === id) { job = allJobs[i]; break; } }
+  if (!job) return;
+  document.getElementById('modal-company').textContent = (job.employer && job.employer.companyName) || '--';
+  document.getElementById('modal-title').textContent = (job.jobTitle && job.jobTitle.title) || '--';
+  document.getElementById('modal-description').textContent = job.description || 'Aciklama mevcut degil.';
+  var meta = '';
+  if (job.city && job.city.name) meta += '<div class="modal-meta-tag">&#x1F4CD; ' + escHtml(job.city.name) + '</div>';
+  if (job.typeOfWork && job.typeOfWork.name) meta += '<div class="modal-meta-tag">&#x23F1; ' + escHtml(job.typeOfWork.name) + '</div>';
+  if (job.jobTitle && job.jobTitle.categoryName) meta += '<div class="modal-meta-tag">&#x1F3F7; ' + escHtml(job.jobTitle.categoryName) + '</div>';
+  if (job.applicationDeadline) meta += '<div class="modal-meta-tag">&#x1F4C5; Son: ' + escHtml(job.applicationDeadline) + '</div>';
+  document.getElementById('modal-meta').innerHTML = meta;
+  document.getElementById('job-modal').classList.add('open');
+}
+
+function closeModal(e) { if (e.target.id === 'job-modal') document.getElementById('job-modal').classList.remove('open'); }
+
+function filterByCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll('.search-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  renderSuggested();
+}
+
+function appendSearch(term) { document.getElementById('search-title').value = term; handleSearch(); }
+
+function handleSearch() {
+  var tq = document.getElementById('search-title').value.toLowerCase().trim();
+  var cq = document.getElementById('search-city').value.toLowerCase().trim();
+  filteredJobs = allJobs.filter(function(j){
+    var t = ((j.jobTitle && j.jobTitle.title) || '').toLowerCase();
+    var co = ((j.employer && j.employer.companyName) || '').toLowerCase();
+    var ci = ((j.city && j.city.name) || '').toLowerCase();
+    return (!tq || t.indexOf(tq) >= 0 || co.indexOf(tq) >= 0) && (!cq || ci.indexOf(cq) >= 0);
+  });
+  renderJobCards();
+}
+
+function showAllJobs() {
+  showAll = !showAll;
+  renderJobCards();
+  document.querySelector('#ilanlar .btn-outline').textContent = showAll ? '<- Daha Az Gor' : 'Tum Ilanlari Gor ->';
+}
+
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') document.getElementById('job-modal').classList.remove('open'); });
+fetchJobs();
+</script>
+</body>
+</html>
