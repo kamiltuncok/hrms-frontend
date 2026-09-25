@@ -17,39 +17,62 @@ This repository is the **frontend client**. The companion Spring Boot backend AP
 ## System Architecture & Data Flow
 
 ```mermaid
-flowchart TD
-    subgraph BrowserClient ["Browser Client (React 19 SPA)"]
-        Router["React Router DOM 7<br/>(Protected & Role-Based Routes)"]
-        
-        subgraph StateManagement ["State Architecture"]
-            ZustandStore["Zustand Store<br/>(Auth, User Session, LocalStorage Sync)"]
-            TanStackQuery["TanStack Query v5<br/>(Server State Cache & Invalidation)"]
+flowchart TB
+    %% ================= GLOBAL STYLES =================
+    classDef routerStyle fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+    classDef featureStyle fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+    classDef stateClientStyle fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+    classDef stateServerStyle fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+    classDef uiStyle fill:#1c1917,stroke:#a8a29e,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+    classDef networkStyle fill:#312e81,stroke:#a5b4fc,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+    classDef backendStyle fill:#022c22,stroke:#2dd4bf,stroke-width:2px,color:#f8fafc,rx:8,ry:8;
+
+    %% ================= CLIENT BROWSER CONTAINER =================
+    subgraph BrowserRuntime [" 🖥️ CLIENT RUNTIME ENVIRONMENT (React 19 SPA :5173) "]
+
+        subgraph NavigationLayer [" 🚦 Routing & Security Perimeter "]
+            Router["React Router DOM 7<br/><i>(Declarative Route Tree)</i>"]:::routerStyle
+            RouteGuards{{"Auth & Role Guards<br/><i>(GuestOnly / SeekerOnly / EmployerOnly)</i>"}}:::routerStyle
         end
-        
-        subgraph FeatureModules ["Feature Modules (src/features/*)"]
-            AuthModule["Auth & Password Recovery<br/>(Zod + React Hook Form)"]
-            JobsModule["Job Postings & Discovery<br/>(Search, Filters, Pagination)"]
-            AppModule["Applications Pipeline<br/>(Apply, Status Tracking)"]
-            ResumeModule["Interactive CV Builder<br/>(Timeline, Skills, Uploads)"]
-            EmployerModule["Employer Dashboard<br/>(Postings Management)"]
+
+        subgraph FeatureSlices [" 🧩 Domain Feature Slices (src/features/*) "]
+            AuthSlice["Auth & Password Recovery<br/><code>features/auth</code><br/><i>(Zod Validation + Hook Form)</i>"]:::featureStyle
+            JobsSlice["Job Discovery & Search<br/><code>features/jobs</code><br/><i>(Filters, Pagination, Badges)</i>"]:::featureStyle
+            AppSlice["Application Pipeline<br/><code>features/applications</code><br/><i>(Status Tracker, Cover Notes)</i>"]:::featureStyle
+            ResumeSlice["Interactive CV Builder<br/><code>features/resume</code><br/><i>(Timelines, Skills, Media)</i>"]:::featureStyle
+            EmployerSlice["Employer Vacancy Hub<br/><code>features/employers</code><br/><i>(Postings CRUD, Review)</i>"]:::featureStyle
         end
-        
-        subgraph SharedInfrastructure ["Shared UI & Network Layer"]
-            UIPrimitives["Radix UI Primitives & Tailwind CSS<br/>(Modals, Dropdowns, Sheets, Sonner)"]
-            APIClient["Axios API Client<br/>(Bearer Token Interceptor & Response Unwrapper)"]
+
+        subgraph StateTier [" 🧠 Dual State Architecture "]
+            ZustandStore[("Zustand 5 Store<br/><b>Client State</b><br/><i>(JWT Token, Active Role, LocalStorage Sync)</i>")]:::stateClientStyle
+            TanStackQuery[("TanStack Query v5<br/><b>Server State Cache</b><br/><i>(Stale-While-Revalidate, Prefetch, Invalidation)</i>")]:::stateServerStyle
+        end
+
+        subgraph SharedLayer [" 🎨 Shared UI Primitives & Utilities "]
+            RadixUI["Radix UI Primitives & Tailwind CSS<br/><i>(Dialog, Sheet, Dropdown, Sonner Toasts)</i>"]:::uiStyle
+        end
+
+        subgraph NetworkGateway [" ⚡ Network & HTTP Interception "]
+            AxiosClient[["Axios HTTP Client<br/><code>src/lib/apiClient.ts</code><br/><i>(Bearer Injection, Error Normalization)</i>"]]:::networkStyle
         end
     end
 
-    subgraph BackendAPI ["Backend Service (HRMS :8080)"]
-        SpringAPI["Spring Boot RESTful API<br/>(/api/*)"]
+    %% ================= BACKEND SERVICE =================
+    subgraph BackendGateway [" 🛡️ BACKEND API GATEWAY "]
+        SpringAPI[("Spring Boot 3.2 REST Service<br/><code>http://localhost:8080/api/*</code><br/><i>(Role Authorization & JWT Validation)</i>")]:::backendStyle
     end
 
-    Router --> FeatureModules
-    FeatureModules --> ZustandStore
-    FeatureModules --> TanStackQuery
-    FeatureModules --> UIPrimitives
-    TanStackQuery --> APIClient
-    APIClient -->|HTTP / JSON + JWT| SpringAPI
+    %% ================= FLOW CONNECTIONS =================
+    Router ==> RouteGuards
+    RouteGuards ==> FeatureSlices
+
+    FeatureSlices -->|"Read / Mutate Session"| ZustandStore
+    FeatureSlices <==>|"Fetch & Invalidate Cache"| TanStackQuery
+    FeatureSlices -->|"Render Atomic Components"| RadixUI
+
+    ZustandStore -.->|"Inject JWT Claims"| AxiosClient
+    TanStackQuery ==>|"Execute Async Queries"| AxiosClient
+    AxiosClient ==>|"HTTPS / JSON + Bearer Authorization"| SpringAPI
 ```
 
 ---
