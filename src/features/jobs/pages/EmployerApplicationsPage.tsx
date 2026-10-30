@@ -99,17 +99,17 @@ export function EmployerApplicationsPage() {
 
   if (isError) {
     return (
-      <div className="min-h-screen flex items-center justify-center pt-24">
+      <div className="min-h-screen bg-[#101319] text-[#f5f6f8] flex items-center justify-center pt-28">
         <div className="text-center space-y-4">
-          <p className="text-destructive font-medium text-lg">Başvurular yüklenemedi.</p>
-          <Button onClick={() => window.location.reload()}>Tekrar Dene</Button>
+          <p className="text-[#eb5fa6] font-medium text-lg">Başvurular yüklenemedi.</p>
+          <Button onClick={() => window.location.reload()} className="rounded-full bg-[#eb5fa6] text-[#161016] font-bold">Tekrar Dene</Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-12">
+    <div className="min-h-screen bg-[#101319] text-[#f5f6f8] pt-28 pb-12">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <motion.div
@@ -120,7 +120,7 @@ export function EmployerApplicationsPage() {
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="group font-semibold text-muted-foreground hover:text-foreground pl-0 mb-4"
+            className="group font-semibold text-[rgba(245,246,248,0.6)] hover:text-[#f5f6f8] pl-0 mb-4"
           >
             <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Geri Dön
@@ -128,24 +128,24 @@ export function EmployerApplicationsPage() {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold tracking-tight flex items-center">
-                <FileText className="h-9 w-9 mr-3 text-primary" />
+              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight flex items-center text-[#f5f6f8]">
+                <FileText className="h-9 w-9 mr-3 text-[#eb5fa6]" />
                 Gelen Başvurular
               </h1>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-[rgba(245,246,248,0.65)] text-lg">
                 İlanlarınıza yapılan tüm başvuruları takip edin.
               </p>
             </div>
 
             {/* Stats */}
             <div className="flex gap-3">
-              <div className="bg-card rounded-xl px-5 py-3 shadow-sm border text-center">
-                <p className="text-2xl font-black text-primary">{applications.length}</p>
-                <p className="text-xs text-muted-foreground font-bold uppercase">Toplam</p>
+              <div className="bg-[#181c25] rounded-2xl px-5 py-3 border border-[rgba(245,246,248,0.08)] text-center">
+                <p className="text-2xl font-black text-[#eb5fa6]">{applications.length}</p>
+                <p className="text-xs text-[rgba(245,246,248,0.6)] font-bold uppercase">Toplam</p>
               </div>
-              <div className="bg-amber-50 rounded-xl px-5 py-3 shadow-sm border border-amber-200 text-center">
-                <p className="text-2xl font-black text-amber-600">{statusCounts.PENDING}</p>
-                <p className="text-xs text-amber-600 font-bold uppercase">Bekleyen</p>
+              <div className="bg-[#181c25] rounded-2xl px-5 py-3 border border-amber-500/20 text-center">
+                <p className="text-2xl font-black text-amber-400">{statusCounts.PENDING}</p>
+                <p className="text-xs text-amber-400 font-bold uppercase">Bekleyen</p>
               </div>
             </div>
           </div>
@@ -158,13 +158,13 @@ export function EmployerApplicationsPage() {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <Card className="border-none shadow-md ring-1 ring-border/50 bg-card/80 backdrop-blur-sm">
+          <Card className="border border-[rgba(245,246,248,0.08)] bg-[#181c25] rounded-2xl">
             <CardContent className="p-4 flex flex-col md:flex-row gap-4">
               <div className="relative flex-1 group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[rgba(245,246,248,0.4)] group-focus-within:text-[#eb5fa6] transition-colors" />
                 <Input
                   placeholder="Aday adı, e-posta veya pozisyon ara..."
-                  className="pl-10 h-11 bg-background/50 border-border/50 focus-visible:ring-primary/30"
+                  className="pl-10 h-11 bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] placeholder:text-[rgba(245,246,248,0.4)] focus-visible:ring-[#7d92ff]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -175,11 +175,15 @@ export function EmployerApplicationsPage() {
                     key={status}
                     variant={statusFilter === status ? 'default' : 'outline'}
                     size="sm"
-                    className="font-bold h-11 px-4"
+                    className={`font-bold h-11 px-4 rounded-full ${
+                      statusFilter === status 
+                        ? 'bg-[#eb5fa6] text-[#161016] hover:bg-[#d44d93]' 
+                        : 'border-[rgba(245,246,248,0.18)] text-[#f5f6f8] hover:bg-[rgba(245,246,248,0.05)]'
+                    }`}
                     onClick={() => setStatusFilter(status)}
                   >
                     {status === 'ALL' ? 'Tümü' : statusConfig[status].label}
-                    <Badge variant="secondary" className="ml-2 text-xs bg-background/20">
+                    <Badge variant="secondary" className="ml-2 text-xs bg-[rgba(245,246,248,0.1)] rounded-full text-inherit">
                       {statusCounts[status]}
                     </Badge>
                   </Button>
@@ -193,12 +197,12 @@ export function EmployerApplicationsPage() {
         {isLoading ? (
           <div className="space-y-4">
             {Array.from({ length: 3 }).map((_, i) => (
-              <Card key={i} className="border-none shadow-md">
+              <Card key={i} className="border border-[rgba(245,246,248,0.08)] bg-[#181c25] rounded-2xl">
                 <CardContent className="p-6 space-y-4">
-                  <Skeleton className="h-6 w-1/3" />
+                  <Skeleton className="h-6 w-1/3 bg-[#222838]" />
                   <div className="space-y-3">
-                    <Skeleton className="h-16 w-full" />
-                    <Skeleton className="h-16 w-full" />
+                    <Skeleton className="h-16 w-full bg-[#222838]" />
+                    <Skeleton className="h-16 w-full bg-[#222838]" />
                   </div>
                 </CardContent>
               </Card>
@@ -208,22 +212,22 @@ export function EmployerApplicationsPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-card rounded-2xl p-16 text-center border-2 border-dashed border-muted-foreground/20 shadow-sm"
+            className="bg-[#181c25] rounded-2xl p-16 text-center border border-[rgba(245,246,248,0.08)] shadow-sm"
           >
-            <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
-              <Users className="h-10 w-10 text-muted-foreground/40" />
+            <div className="w-20 h-20 bg-[#141822] rounded-full flex items-center justify-center mx-auto mb-6">
+              <Users className="h-10 w-10 text-[rgba(245,246,248,0.3)]" />
             </div>
-            <h3 className="text-2xl font-bold mb-2">
+            <h3 className="text-2xl font-bold mb-2 text-[#f5f6f8]">
               {applications.length === 0 ? 'Henüz başvuru yok' : 'Eşleşen başvuru bulunamadı'}
             </h3>
-            <p className="text-muted-foreground mb-6">
+            <p className="text-[rgba(245,246,248,0.6)] mb-6">
               {applications.length === 0
                 ? 'İlanlarınıza başvuru geldiğinde burada listelenecektir.'
                 : 'Farklı bir arama terimi veya filtre deneyin.'
               }
             </p>
             {applications.length === 0 && (
-              <Button asChild className="font-bold px-8">
+              <Button asChild className="font-bold px-8 rounded-full bg-[#eb5fa6] text-[#161016] hover:bg-[#d44d93]">
                 <Link to="/jobs/post">Yeni İlan Ver</Link>
               </Button>
             )}
@@ -239,23 +243,23 @@ export function EmployerApplicationsPage() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ delay: groupIndex * 0.05 }}
                 >
-                  <Card className="border-none shadow-lg ring-1 ring-border/50 overflow-hidden">
+                  <Card className="border border-[rgba(245,246,248,0.08)] bg-[#181c25] rounded-2xl overflow-hidden shadow-lg">
                     {/* Job Header */}
-                    <CardHeader className="bg-muted/30 border-b pb-4">
+                    <CardHeader className="bg-[#141822]/70 border-b border-[rgba(245,246,248,0.08)] pb-4">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg font-bold flex items-center">
-                          <Briefcase className="h-5 w-5 mr-2 text-primary" />
+                        <CardTitle className="text-lg font-bold flex items-center text-[#f5f6f8]">
+                          <Briefcase className="h-5 w-5 mr-2 text-[#eb5fa6]" />
                           {jobApplications[0]?.jobTitle || 'Pozisyon'}
                         </CardTitle>
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="font-bold">
+                          <Badge variant="outline" className="font-bold rounded-full border-[rgba(245,246,248,0.18)] text-[rgba(245,246,248,0.8)]">
                             <Users className="h-3.5 w-3.5 mr-1" />
                             {jobApplications.length} Başvuru
                           </Badge>
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="font-medium text-primary"
+                            className="font-medium text-[#7d92ff] hover:text-[#eb5fa6] hover:bg-transparent"
                             onClick={() => navigate(`/jobs/${jobId}`)}
                           >
                             İlanı Gör
@@ -266,7 +270,7 @@ export function EmployerApplicationsPage() {
 
                     {/* Applications List */}
                     <CardContent className="p-0">
-                      <div className="divide-y">
+                      <div className="divide-y divide-[rgba(245,246,248,0.06)]">
                         {jobApplications.map((app, index) => {
                           const config = statusConfig[app.status] || statusConfig.PENDING;
                           return (

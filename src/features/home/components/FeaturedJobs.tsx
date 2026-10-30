@@ -1,19 +1,16 @@
-import { motion } from 'framer-motion';
-import { useActiveJobs } from '@/features/jobs/hooks/useJobs';
-import { JobCardSkeleton } from '@/components/skeletons';
-import { ErrorState } from '@/components/common/ErrorState';
-import { EmptyState } from '@/components/common/EmptyState';
-import { Button } from '@/components/ui/button';
-import { JobCardFeatured } from '@/components/common/JobCard';
-import { Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useActiveJobs } from '@/features/jobs/hooks/useJobs';
+import { SectionHeader } from '@/components/common/SectionHeader';
+import { JobCardSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/common/EmptyState';
+import { ErrorState } from '@/components/common/ErrorState';
 
 export function FeaturedJobs() {
   const { data: jobs, isLoading, isError, refetch } = useActiveJobs();
 
   if (isError) {
     return (
-      <section className="py-16 container mx-auto px-6 max-w-7xl">
+      <section className="py-16 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
         <ErrorState message="Son ilanlar yüklenemedi." onRetry={refetch} />
       </section>
     );
@@ -22,67 +19,81 @@ export function FeaturedJobs() {
   const featured = jobs?.slice(0, 6) ?? [];
 
   return (
-    <section className="py-28 bg-[#F0F6FF]">
-      <div className="container mx-auto px-6 max-w-7xl">
+    <section id="ilanlar" className="py-12 sm:py-16 lg:py-20 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+      <SectionHeader
+        kicker="En güncel fırsatlar"
+        kickerColor="#7d92ff"
+        title="Öne Çıkan İlanlar"
+        actionText="Tüm İlanları Gör →"
+        actionHref="/jobs"
+      />
 
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
-        >
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-primary text-xs font-extrabold uppercase tracking-widest">
-              <Sparkles className="h-3.5 w-3.5" />
-              En Güncel Fırsatlar
-            </div>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight">
-              Öne Çıkan İlanlar
-            </h2>
-            <p className="text-slate-500 text-lg font-medium">
-              Platformumuza eklenen son fırsatları keşfedin.
-            </p>
-          </div>
-          <Button
-            className="shrink-0 hidden sm:flex font-extrabold rounded-2xl px-7 h-12 border-2 border-slate-200 bg-white text-slate-700 hover:border-primary hover:text-primary shadow-sm transition-all duration-200"
-            variant="outline"
-            asChild
-          >
-            <Link to="/jobs" className="flex items-center gap-2">
-              Tüm İlanları Gör <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
-        </motion.div>
-
-        {/* Grid */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <JobCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : featured.length === 0 ? (
-          <EmptyState
-            title="Aktif ilan bulunamadı"
-            description="Yeni fırsatlar için daha sonra tekrar kontrol edin!"
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {featured.map((job, index) => (
-              <JobCardFeatured key={job.id} job={job} index={index} />
-            ))}
-          </div>
-        )}
-
-        {/* Mobile CTA */}
-        <div className="mt-12 flex justify-center sm:hidden">
-          <Button variant="outline" className="w-full font-extrabold rounded-2xl h-12" asChild>
-            <Link to="/jobs">Tüm İlanları Gör</Link>
-          </Button>
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <JobCardSkeleton key={i} />
+          ))}
         </div>
-      </div>
+      ) : featured.length === 0 ? (
+        <EmptyState
+          title="Aktif ilan bulunamadı"
+          description="Yeni fırsatlar için daha sonra tekrar kontrol edin!"
+        />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {featured.map((job) => {
+            const companyName = job.employer?.companyName || 'Şirket';
+            const initial = companyName.charAt(0).toUpperCase();
+            const tag = job.typeOfWork?.name || (job.isActive ? 'Aktif' : null);
+
+            return (
+              <div
+                key={job.id}
+                className="group flex flex-col gap-3 p-6 rounded-2xl bg-[#181c25] border border-[rgba(245,246,248,0.08)] hover:border-[rgba(245,246,248,0.18)] hover:-translate-y-1 transition-all duration-200 shadow-sm"
+              >
+                {/* Header: Company & Tag */}
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center font-bold text-sm bg-[rgba(125,146,255,0.15)] text-[#a6b4ff]">
+                    {initial}
+                  </div>
+                  <div className="text-[13px] font-semibold text-[rgba(245,246,248,0.85)] truncate">
+                    {companyName}
+                  </div>
+                  {tag && (
+                    <span className="ml-auto text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[rgba(125,146,255,0.12)] text-[#a6b4ff] whitespace-nowrap">
+                      {tag}
+                    </span>
+                  )}
+                </div>
+
+                {/* Job Title */}
+                <h3 className="text-[16.5px] font-bold leading-snug text-[#f5f6f8] m-0 line-clamp-1 group-hover:text-[#7d92ff] transition-colors">
+                  {job.jobTitle?.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-[13.5px] leading-relaxed text-[rgba(245,246,248,0.58)] m-0 flex-1 line-clamp-2">
+                  {job.description || 'Bu pozisyon için detaylı açıklamaları ilan sayfasında inceleyebilirsiniz.'}
+                </p>
+
+                {/* Meta */}
+                <div className="flex items-center gap-3 text-[12.5px] text-[rgba(245,246,248,0.5)] pt-2 flex-wrap">
+                  <span>{job.city?.name || 'Türkiye'}</span>
+                  {job.typeOfWork?.name && <span>• {job.typeOfWork.name}</span>}
+                </div>
+
+                {/* CTA Button */}
+                <Link
+                  to={`/jobs/${job.id}`}
+                  className="text-center mt-3 text-[13.5px] font-semibold py-2.5 rounded-full border border-[rgba(245,246,248,0.16)] text-[#f5f6f8] hover:border-[rgba(245,246,248,0.35)] hover:bg-white/5 transition-all"
+                >
+                  Detayları Gör
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

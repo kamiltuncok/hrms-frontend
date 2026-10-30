@@ -24,7 +24,7 @@ export function AppliedJobsPage() {
 
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-16">
+    <div className="min-h-screen bg-[#101319] text-[#f5f6f8] pt-28 pb-16">
       <div className="container mx-auto px-4 max-w-4xl">
         
         {/* Header */}
@@ -34,14 +34,14 @@ export function AppliedJobsPage() {
           className="mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-3 bg-primary/10 rounded-2xl">
-              <Briefcase className="w-6 h-6 text-primary" />
+            <div className="p-3 bg-[#eb5fa6]/10 rounded-2xl">
+              <Briefcase className="w-6 h-6 text-[#eb5fa6]" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#f5f6f8]">
               Başvurduğum İlanlar
             </h1>
           </div>
-          <p className="text-lg text-slate-500 font-medium ml-1">
+          <p className="text-lg text-[rgba(245,246,248,0.65)] font-medium ml-1">
             Kariyer yolculuğunuzda attığınız adımları buradan takip edin.
           </p>
         </motion.div>

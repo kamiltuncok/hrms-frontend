@@ -235,16 +235,16 @@ export function EditProfileJobseeker() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-12">
+    <div className="min-h-screen bg-[#101319] text-[#f5f6f8] pt-28 pb-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-black tracking-tight text-foreground uppercase">
+            <h1 className="text-3xl font-extrabold tracking-tight text-[#f5f6f8] uppercase">
               Profili Düzenle (Aday)
             </h1>
-            <p className="text-muted-foreground mt-1">Profesyonel bilgilerinizi güncel tutarak daha kolay iş bulun.</p>
+            <p className="text-[rgba(245,246,248,0.65)] mt-1">Profesyonel bilgilerinizi güncel tutarak daha kolay iş bulun.</p>
           </div>
-          <Button variant="outline" asChild className="rounded-full">
+          <Button variant="outline" asChild className="rounded-full border-[rgba(245,246,248,0.18)] text-[#f5f6f8] hover:bg-[#181c25]">
             <Link to="/profile">
               <Undo2 className="h-4 w-4 mr-2" />
               Profile Dön
@@ -253,14 +253,14 @@ export function EditProfileJobseeker() {
         </div>
 
         <Tabs defaultValue="summary" className="space-y-6">
-          <TabsList className="bg-card border shadow-sm p-1 h-auto flex-wrap gap-1">
-            <TabsTrigger value="summary" className="rounded-md px-6 py-2">Profesyonel Özet</TabsTrigger>
-            <TabsTrigger value="social" className="rounded-md px-6 py-2">Sosyal Hesaplar</TabsTrigger>
-            <TabsTrigger value="account" className="rounded-md px-6 py-2">Hesap Bilgileri</TabsTrigger>
-            <TabsTrigger value="experience" className="rounded-md px-6 py-2">İş Deneyimi</TabsTrigger>
-            <TabsTrigger value="education" className="rounded-md px-6 py-2">Eğitim</TabsTrigger>
-            <TabsTrigger value="skills" className="rounded-md px-6 py-2">Yetenekler & Diller</TabsTrigger>
-            <TabsTrigger value="cv" className="rounded-md px-6 py-2">CV / Özgeçmiş</TabsTrigger>
+          <TabsList className="bg-[#141822] border border-[rgba(245,246,248,0.08)] rounded-xl p-1 h-auto flex-wrap gap-1">
+            <TabsTrigger value="summary" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">Profesyonel Özet</TabsTrigger>
+            <TabsTrigger value="social" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">Sosyal Hesaplar</TabsTrigger>
+            <TabsTrigger value="account" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">Hesap Bilgileri</TabsTrigger>
+            <TabsTrigger value="experience" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">İş Deneyimi</TabsTrigger>
+            <TabsTrigger value="education" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">Eğitim</TabsTrigger>
+            <TabsTrigger value="skills" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">Yetenekler & Diller</TabsTrigger>
+            <TabsTrigger value="cv" className="rounded-lg px-6 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">CV / Özgeçmiş</TabsTrigger>
           </TabsList>
 
           {/* Summary Tab */}

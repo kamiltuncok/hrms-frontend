@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
 import {
   Building2,
   MapPin,
@@ -93,22 +92,21 @@ export function JobDetailPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-16">
-      <div className="container mx-auto px-4 max-w-5xl">
+    <div className="min-h-screen bg-[#101319] pt-8 pb-16">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
         {/* Back navigation */}
         <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           className="mb-6"
         >
-          <Button
-            variant="ghost"
+          <button
             onClick={() => navigate(-1)}
-            className="group pl-0 font-medium text-muted-foreground hover:text-foreground"
+            className="group inline-flex items-center text-sm font-semibold text-[rgba(245,246,248,0.65)] hover:text-[#f5f6f8] transition-colors cursor-pointer"
           >
-            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1 text-[#7d92ff]" />
             İlanlara Dön
-          </Button>
+          </button>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -122,66 +120,64 @@ export function JobDetailPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
             >
-              <Card className="border-border/60 shadow-sm overflow-hidden">
-                <CardContent className="p-6 md:p-8">
-                  <div className="flex flex-col sm:flex-row sm:items-start gap-5">
-                    {/* Company Avatar */}
-                    <Avatar className="h-20 w-20 rounded-2xl ring-2 ring-border shrink-0">
-                      <AvatarImage
-                        src={job.employer.profileImageUrl}
-                        alt={job.employer.companyName}
-                      />
-                      <AvatarFallback className="rounded-2xl bg-primary/8 text-primary text-2xl font-black">
-                        {job.employer.companyName.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
+              <div className="p-6 md:p-8 rounded-2xl bg-[#181c25] border border-[rgba(245,246,248,0.08)] shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+                  {/* Company Avatar */}
+                  <Avatar className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl border border-[rgba(245,246,248,0.12)] shrink-0">
+                    <AvatarImage
+                      src={job.employer.profileImageUrl}
+                      alt={job.employer.companyName}
+                    />
+                    <AvatarFallback className="rounded-2xl bg-[rgba(125,146,255,0.15)] text-[#a6b4ff] text-2xl font-bold">
+                      {job.employer.companyName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
 
-                    {/* Header info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {job.typeOfWork && (
-                          <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0 font-semibold text-xs">
-                            {job.typeOfWork.name}
+                  {/* Header info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {job.typeOfWork && (
+                        <Badge className="bg-[rgba(125,146,255,0.12)] text-[#a6b4ff] border-0 font-semibold text-xs">
+                          {job.typeOfWork.name}
+                        </Badge>
+                      )}
+                      {job.jobTitle?.categoryName && (() => {
+                        const catStyle = getCategoryStyle(job.jobTitle.categoryName);
+                        const CatIcon = catStyle.icon;
+                        return (
+                          <Badge
+                            className="border-0 font-semibold text-xs inline-flex items-center gap-1"
+                            style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
+                          >
+                            <CatIcon className="w-3 h-3" />
+                            {catStyle.label}
                           </Badge>
-                        )}
-                        {job.jobTitle?.categoryName && (() => {
-                          const catStyle = getCategoryStyle(job.jobTitle.categoryName);
-                          const CatIcon = catStyle.icon;
-                          return (
-                            <Badge
-                              className="border-0 font-semibold text-xs inline-flex items-center gap-1"
-                              style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
-                            >
-                              <CatIcon className="w-3 h-3" />
-                              {catStyle.label}
-                            </Badge>
-                          );
-                        })()}
-                      </div>
-                      <h1 className="text-2xl md:text-3xl font-black tracking-tight text-foreground mb-2">
-                        {job.jobTitle.title}
-                      </h1>
-                      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground font-medium">
-                        <Link
-                          to="/employers"
-                          className="flex items-center gap-1.5 hover:text-primary transition-colors"
-                        >
-                          <Building2 className="h-4 w-4" />
-                          {job.employer.companyName}
-                        </Link>
-                        <span className="flex items-center gap-1.5">
-                          <MapPin className="h-4 w-4" />
-                          {job.city.name}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <Calendar className="h-4 w-4" />
-                          {postedDate}
-                        </span>
-                      </div>
+                        );
+                      })()}
+                    </div>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] text-[#f5f6f8] mb-3">
+                      {job.jobTitle.title}
+                    </h1>
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[rgba(245,246,248,0.65)] font-medium">
+                      <Link
+                        to="/employers"
+                        className="flex items-center gap-1.5 hover:text-[#7d92ff] transition-colors"
+                      >
+                        <Building2 className="h-4 w-4 text-[#eb5fa6]" />
+                        {job.employer.companyName}
+                      </Link>
+                      <span className="flex items-center gap-1.5">
+                        <MapPin className="h-4 w-4 text-[#7d92ff]" />
+                        {job.city.name}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="h-4 w-4 text-[#7d92ff]" />
+                        {postedDate}
+                      </span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </motion.div>
 
             {/* Description */}
@@ -190,20 +186,15 @@ export function JobDetailPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.1 }}
             >
-              <Card className="border-border/60 shadow-sm">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-base font-bold flex items-center gap-2">
-                    <CheckCircle2 className="h-5 w-5 text-primary" />
-                    İş Tanımı
-                  </CardTitle>
-                </CardHeader>
-                <Separator />
-                <CardContent className="pt-5 pb-6 px-6">
-                  <div className="prose prose-sm max-w-none text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {job.description}
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="p-6 md:p-8 rounded-2xl bg-[#181c25] border border-[rgba(245,246,248,0.08)] shadow-sm space-y-4">
+                <h2 className="text-lg font-bold flex items-center gap-2 text-[#f5f6f8]">
+                  <CheckCircle2 className="h-5 w-5 text-[#eb5fa6]" />
+                  İş Tanımı
+                </h2>
+                <div className="border-t border-[rgba(245,246,248,0.06)] pt-4 text-sm sm:text-base text-[rgba(245,246,248,0.7)] leading-relaxed whitespace-pre-line">
+                  {job.description}
+                </div>
+              </div>
             </motion.div>
           </div>
 
@@ -216,58 +207,55 @@ export function JobDetailPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
-              <Card className="border-0 shadow-xl bg-primary text-primary-foreground overflow-hidden">
-                <CardHeader className="pb-3 pt-6 px-6">
-                  <CardTitle className="text-lg font-black text-primary-foreground">
+              <div className="rounded-2xl p-6 bg-gradient-to-br from-[#1c2130] to-[#141822] border border-[rgba(245,246,248,0.12)] shadow-xl space-y-4">
+                <div>
+                  <h3 className="text-lg font-extrabold text-[#f5f6f8]">
                     Başvurmaya hazır mısınız?
-                  </CardTitle>
-                  <p className="text-sm text-primary-foreground/70 mt-1">
+                  </h3>
+                  <p className="text-xs text-[rgba(245,246,248,0.65)] mt-1">
                     Özgeçmişinizi doğrudan işverene iletin.
                   </p>
-                </CardHeader>
-                <CardContent className="px-6 pb-6 space-y-3">
-                  {/* Apply button */}
-                  <Button
-                    className={cn(
-                      'w-full h-11 font-bold text-sm transition-all',
-                      hasApplied
-                        ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
-                        : 'bg-white text-primary hover:bg-white/90 shadow-lg shadow-black/10',
-                    )}
-                    onClick={handleApply}
-                    disabled={
-                      isApplying ||
-                      (isAuthenticated && !isJobSeeker) ||
-                      hasApplied
-                    }
-                  >
-                    {isApplying ? (
-                      'Gönderiliyor...'
-                    ) : hasApplied ? (
-                      <span className="flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4" />
-                        Başvuruldu
-                      </span>
-                    ) : (
-                      'Hemen Başvur'
-                    )}
-                  </Button>
+                </div>
 
+                <Button
+                  className={cn(
+                    'w-full h-11 font-bold text-sm rounded-full transition-all cursor-pointer',
+                    hasApplied
+                      ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                      : 'bg-[#eb5fa6] text-[#161016] hover:bg-[#f074b4] shadow-md hover:shadow-[0_4px_16px_rgba(235,95,166,0.35)]',
+                  )}
+                  onClick={handleApply}
+                  disabled={
+                    isApplying ||
+                    (isAuthenticated && !isJobSeeker) ||
+                    hasApplied
+                  }
+                >
+                  {isApplying ? (
+                    'Gönderiliyor...'
+                  ) : hasApplied ? (
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4" />
+                      Başvuruldu
+                    </span>
+                  ) : (
+                    'Hemen Başvur'
+                  )}
+                </Button>
 
-                  {/* Notices */}
-                  {!isAuthenticated && (
-                    <p className="text-xs text-center text-primary-foreground/50 italic pt-1">
-                      Önce giriş yapmanız istenecek.
-                    </p>
-                  )}
-                  {isAuthenticated && !isJobSeeker && (
-                    <div className="flex items-start gap-2 p-3 bg-white/10 rounded-xl text-xs font-medium text-primary-foreground">
-                      <Info className="h-4 w-4 shrink-0 mt-0.5" />
-                      Başvurular yalnızca İş Arayanlar içindir.
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                {/* Notices */}
+                {!isAuthenticated && (
+                  <p className="text-xs text-center text-[rgba(245,246,248,0.5)] italic pt-1">
+                    Önce giriş yapmanız istenecek.
+                  </p>
+                )}
+                {isAuthenticated && !isJobSeeker && (
+                  <div className="flex items-start gap-2 p-3 bg-white/5 border border-white/10 rounded-xl text-xs font-medium text-[rgba(245,246,248,0.8)]">
+                    <Info className="h-4 w-4 shrink-0 mt-0.5 text-[#7d92ff]" />
+                    Başvurular yalnızca İş Arayanlar içindir.
+                  </div>
+                )}
+              </div>
             </motion.div>
 
             {/* Job details card */}

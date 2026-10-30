@@ -16,7 +16,21 @@ module.exports = {
   		}
   	},
   	extend: {
+  		fontFamily: {
+  			sans: ['Manrope', 'system-ui', 'sans-serif'],
+  		},
   		colors: {
+  			hedef: {
+  				bg: '#101319',
+  				card: '#181c25',
+  				border: 'rgba(245, 246, 248, 0.08)',
+  				text: '#f5f6f8',
+  				muted: 'rgba(245, 246, 248, 0.65)',
+  				pink: '#eb5fa6',
+  				pinkText: '#161016',
+  				blue: '#7d92ff',
+  				lavender: '#a6b4ff',
+  			},
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',

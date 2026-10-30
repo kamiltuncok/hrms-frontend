@@ -1,105 +1,40 @@
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Users, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function CallToActionSection() {
   return (
-    <section className="py-28 relative overflow-hidden" style={{ background: '#0A1929' }}>
-      {/* ── Mesh gradient blobs ── */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 right-0 translate-x-1/5 w-[700px] h-[700px] rounded-full"
-        style={{
-          background: 'radial-gradient(ellipse, hsl(217 83% 52% / 0.30) 0%, transparent 65%)',
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-40 left-0 -translate-x-1/5 w-[560px] h-[560px] rounded-full"
-        style={{
-          background: 'radial-gradient(ellipse, hsl(200 88% 55% / 0.18) 0%, transparent 65%)',
-        }}
-      />
+    <section className="py-8 pb-16 lg:pb-24 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="bg-gradient-to-br from-[#1c2130] to-[#141822] rounded-[24px] p-8 sm:p-12 lg:p-16 flex flex-col gap-4 items-start border border-[rgba(245,246,248,0.08)] shadow-lg relative overflow-hidden">
+        {/* Subtle glow effect */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-20 -bottom-20 w-80 h-80 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(125,146,255,0.12) 0%, transparent 70%)',
+          }}
+        />
 
-      {/* ── Fine dot grid ── */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.06) 1.5px, transparent 1.5px)',
-          backgroundSize: '38px 38px',
-        }}
-      />
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-[-0.01em] max-w-xl text-[#f5f6f8] m-0 leading-tight">
+          Kariyerinize <span className="text-[#7d92ff]">Hız Kazandırın</span>
+        </h2>
 
-      <div className="container relative z-10 mx-auto px-6 max-w-5xl text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="space-y-10"
-        >
+        <p className="text-base sm:text-lg leading-relaxed text-[rgba(245,246,248,0.65)] max-w-2xl m-0">
+          Her gün yeni fırsatlar bulan binlerce profesyonel ve en iyi yetenekleri arayan işverenlere katılın.
+        </p>
 
-          {/* Headline */}
-          <div className="space-y-5">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tight text-white leading-[1.06]">
-              Kariyerinize{' '}
-              <span
-                className="relative inline-block"
-                style={{ color: '#60A5FA' }}
-              >
-                Hız Kazandırın
-                <svg
-                  aria-hidden
-                  className="absolute -bottom-2 left-0 w-full"
-                  viewBox="0 0 400 12"
-                  fill="none"
-                >
-                  <path
-                    d="M2 8 Q100 2 200 6 Q300 10 398 4"
-                    stroke="#60A5FA"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    opacity="0.45"
-                  />
-                </svg>
-              </span>
-            </h2>
-            <p className="text-xl text-white/55 max-w-2xl mx-auto font-medium leading-relaxed">
-              Her gün yeni fırsatlar bulan binlerce profesyonele ve en iyi yetenekleri arayan işverenlere katılın.
-            </p>
-          </div>
-
-          {/* Dual CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link to="/register" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto h-14 px-12 text-base font-extrabold bg-primary hover:bg-primary/90 text-white shadow-2xl shadow-primary/40 rounded-2xl transition-all duration-200 hover:scale-[1.04] flex items-center gap-2"
-              >
-                <Users className="w-5 h-5" />
-                Ücretsiz Hesap Oluştur
-              </Button>
-            </Link>
-            <Link to="/jobs" className="w-full sm:w-auto">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto h-14 px-12 text-base font-extrabold bg-transparent border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/40 rounded-2xl transition-all duration-200 flex items-center gap-2"
-              >
-                <Building2 className="w-5 h-5" />
-                İlanları Keşfet
-                <ArrowRight className="ml-1 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
-
-          {/* Trust line */}
-          <p className="text-white/35 text-sm font-semibold pt-2">
-            10.000+ aktif ilan · 5.000+ kayıtlı şirket · Türkiye genelinde
-          </p>
-        </motion.div>
+        <div className="flex flex-wrap gap-3.5 pt-3">
+          <Link
+            to="/register"
+            className="text-[14.5px] font-bold px-7 py-3.5 rounded-full bg-[#eb5fa6] text-[#161016] hover:bg-[#f074b4] transition-all shadow-md hover:shadow-[0_4px_20px_rgba(235,95,166,0.35)]"
+          >
+            Ücretsiz Hesap Oluştur
+          </Link>
+          <Link
+            to="/jobs"
+            className="text-[14px] font-semibold px-7 py-3.5 rounded-full border border-[rgba(245,246,248,0.2)] text-[#f5f6f8] hover:border-[rgba(245,246,248,0.4)] hover:bg-white/5 transition-all"
+          >
+            İlanları Keşfet →
+          </Link>
+        </div>
       </div>
     </section>
   );

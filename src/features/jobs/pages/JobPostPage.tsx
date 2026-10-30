@@ -91,7 +91,7 @@ export function JobPostPage() {
   };
 
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-12">
+    <div className="min-h-screen bg-[#101319] text-[#f5f6f8] pt-28 pb-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,20 +99,20 @@ export function JobPostPage() {
           transition={{ duration: 0.5 }}
         >
           <div className="mb-8 text-center md:text-left">
-            <h1 className="text-4xl font-extrabold tracking-tight mb-2">Yeni İş İlanı Oluştur</h1>
-            <p className="text-muted-foreground text-lg">Binlerce nitelikli adaya dakikalar içinde ulaşın.</p>
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-[#f5f6f8]">Yeni İş İlanı Oluştur</h1>
+            <p className="text-[rgba(245,246,248,0.65)] text-lg">Binlerce nitelikli adaya dakikalar içinde ulaşın.</p>
           </div>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <Card className="border-none shadow-xl ring-1 ring-border/50 overflow-hidden">
-                <div className="h-2 bg-primary"></div>
+              <Card className="bg-[#181c25] border border-[rgba(245,246,248,0.08)] rounded-2xl shadow-xl overflow-hidden">
+                <div className="h-2 bg-gradient-to-r from-[#eb5fa6] to-[#7d92ff]"></div>
                 <CardHeader className="pb-4">
-                  <CardTitle className="flex items-center text-2xl font-bold">
-                    <FileText className="mr-3 h-6 w-6 text-primary" />
+                  <CardTitle className="flex items-center text-2xl font-bold text-[#f5f6f8]">
+                    <FileText className="mr-3 h-6 w-6 text-[#eb5fa6]" />
                     İlan Detayları
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-[rgba(245,246,248,0.6)]">
                     İşe alım yaptığınız pozisyon hakkında temel bilgileri girin.
                   </CardDescription>
                 </CardHeader>
@@ -120,8 +120,8 @@ export function JobPostPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <label className="text-sm font-bold flex items-center">
-                          <Briefcase className="h-4 w-4 mr-2 opacity-60" />
+                        <label className="text-sm font-bold flex items-center text-[rgba(245,246,248,0.8)]">
+                          <Briefcase className="h-4 w-4 mr-2 text-[#7d92ff]" />
                           Kategori
                         </label>
                         <CategorySelect 
@@ -131,7 +131,7 @@ export function JobPostPage() {
                             form.setValue('jobTitleId', '');
                             form.clearErrors('jobTitleId');
                           }} 
-                          className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50"
+                          className="h-11 bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] transition-all hover:border-[#7d92ff]/50"
                         />
                       </div>
 
@@ -140,14 +140,14 @@ export function JobPostPage() {
                         name="jobTitleId"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="font-bold flex items-center text-sm text-muted-foreground">
+                            <FormLabel className="font-bold flex items-center text-sm text-[rgba(245,246,248,0.8)]">
                               İş Unvanı
                             </FormLabel>
                             <JobTitleSelect 
                               categoryId={selectedCategory}
                               value={field.value}
                               onChange={field.onChange}
-                              className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50"
+                              className="h-11 bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] transition-all hover:border-[#7d92ff]/50"
                             />
                             <FormMessage />
                           </FormItem>
@@ -160,17 +160,17 @@ export function JobPostPage() {
                       name="cityId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-bold flex items-center">
-                            <MapPin className="h-4 w-4 mr-2 opacity-60" />
+                          <FormLabel className="font-bold flex items-center text-[rgba(245,246,248,0.8)]">
+                            <MapPin className="h-4 w-4 mr-2 text-[#7d92ff]" />
                             Konum
                           </FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
-                              <SelectTrigger className="h-11 bg-background/50 border-border/50 transition-all hover:border-primary/50">
+                              <SelectTrigger className="h-11 bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] transition-all hover:border-[#7d92ff]/50">
                                 <SelectValue placeholder="Şehir seçin" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="bg-[#181c25] border-[rgba(245,246,248,0.12)] text-[#f5f6f8]">
                               {cities.map((city) => (
                                 <SelectItem key={city.id} value={city.id.toString()}>
                                   {city.name}
@@ -190,17 +190,17 @@ export function JobPostPage() {
                       name="typeOfWorkId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-bold flex items-center">
-                            <Building2 className="h-4 w-4 mr-2 opacity-60" />
+                          <FormLabel className="font-bold flex items-center text-[rgba(245,246,248,0.8)]">
+                            <Building2 className="h-4 w-4 mr-2 text-[#7d92ff]" />
                             Çalışma Şekli
                           </FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
-                              <SelectTrigger className="h-11 bg-background/50 border-border/50">
+                              <SelectTrigger className="h-11 bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8]">
                                 <SelectValue placeholder="Opsiyonel: Uzaktan, Ofisten..." />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="bg-[#181c25] border-[rgba(245,246,248,0.12)] text-[#f5f6f8]">
                               {workModelData.map((model) => (
                                 <SelectItem key={model.id} value={model.id.toString()}>
                                   {model.name}
@@ -218,15 +218,15 @@ export function JobPostPage() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-bold">Detaylı İş Tanımı</FormLabel>
+                        <FormLabel className="font-bold text-[rgba(245,246,248,0.8)]">Detaylı İş Tanımı</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Adaylara pozisyon, gereksinimler ve yan haklar hakkında bilgi verin..."
-                            className="min-h-[200px] bg-background/50 border-border/50 resize-none"
+                            className="min-h-[200px] bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] placeholder:text-[rgba(245,246,248,0.4)] resize-none"
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription>
+                        <FormDescription className="text-[rgba(245,246,248,0.5)]">
                           Pozisyonu doğru tanımlamak için en az 20 karakter kullanın.
                         </FormDescription>
                         <FormMessage />
@@ -239,18 +239,18 @@ export function JobPostPage() {
                     name="applicationDeadline"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel className="font-bold mb-1 flex items-center">
-                          <CalendarIcon className="h-4 w-4 mr-2 opacity-60" />
+                        <FormLabel className="font-bold mb-1 flex items-center text-[rgba(245,246,248,0.8)]">
+                          <CalendarIcon className="h-4 w-4 mr-2 text-[#7d92ff]" />
                           Son Başvuru Tarihi
                         </FormLabel>
                         <FormControl>
                           <Input
                             type="date"
-                            className="h-11 bg-background/50 border-border/50 w-full md:w-64"
+                            className="h-11 bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] w-full md:w-64"
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription>
+                        <FormDescription className="text-[rgba(245,246,248,0.5)]">
                           Belirli bir tarih yoksa boş bırakabilirsiniz.
                         </FormDescription>
                         <FormMessage />
@@ -265,13 +265,13 @@ export function JobPostPage() {
                   type="button"
                   variant="ghost"
                   onClick={() => navigate(-1)}
-                  className="font-bold"
+                  className="font-bold text-[rgba(245,246,248,0.7)] hover:text-[#f5f6f8] rounded-full"
                 >
                   İptal
                 </Button>
                 <Button
                   type="submit"
-                  className="px-10 h-12 rounded-full font-bold text-lg shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+                  className="px-10 h-12 rounded-full font-bold text-lg bg-[#eb5fa6] text-[#161016] hover:bg-[#d44d93] shadow-xl hover:scale-105 active:scale-95 transition-all"
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? 'İlan Yayınlanıyor...' : 'İlanı Yayınla'}

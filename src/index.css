@@ -3,71 +3,41 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* Soft white background — breathable */
-    --background: 210 33% 98%;
-    --foreground: 216 50% 8%;
+  :root,
+  .dark {
+    /* ── Base Theme: Dark #101319 ── */
+    --background: 222 22% 8%;         /* #101319 */
+    --foreground: 225 20% 97%;        /* #f5f6f8 */
 
-    /* Cards */
-    --card: 0 0% 100%;
-    --card-foreground: 216 50% 8%;
+    /* Cards #181c25 */
+    --card: 223 21% 12%;              /* #181c25 */
+    --card-foreground: 225 20% 97%;   /* #f5f6f8 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 216 50% 8%;
+    --popover: 223 21% 12%;           /* #181c25 */
+    --popover-foreground: 225 20% 97%;/* #f5f6f8 */
 
-    /* ── Corporate Blue: #1D6FEB → hsl(217 83% 52%) ── */
-    --primary: 217 83% 52%;
-    --primary-foreground: 0 0% 100%;
+    /* Accent Pink #eb5fa6 (Primary) */
+    --primary: 329 78% 65%;           /* #eb5fa6 */
+    --primary-foreground: 300 15% 8%; /* #161016 */
 
-    --secondary: 217 83% 95%;
-    --secondary-foreground: 217 60% 25%;
+    /* Accent Lavender/Blue #7d92ff (Secondary) */
+    --secondary: 230 100% 75%;        /* #7d92ff */
+    --secondary-foreground: 225 20% 97%;
 
-    --muted: 215 25% 94%;
-    --muted-foreground: 215 16% 48%;
+    --muted: 222 18% 16%;
+    --muted-foreground: 225 12% 65%;  /* rgba(245, 246, 248, 0.65) */
 
-    --accent: 217 83% 95%;
-    --accent-foreground: 217 60% 25%;
+    --accent: 222 18% 16%;
+    --accent-foreground: 225 20% 97%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 216 24% 90%;
-    --input: 216 24% 90%;
-    --ring: 217 83% 52%;
+    --border: 225 15% 18%;            /* rgba(245, 246, 248, 0.08) */
+    --input: 225 15% 18%;
+    --ring: 230 100% 75%;             /* #7d92ff */
 
-    /* 20px radius — modern, tech-forward */
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 220 60% 4%;
-    --foreground: 210 40% 98%;
-
-    --card: 220 50% 7%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 220 50% 7%;
-    --popover-foreground: 210 40% 98%;
-
-    /* Slightly brighter blue in dark mode */
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 217 40% 14%;
-    --secondary-foreground: 217 83% 80%;
-
-    --muted: 220 40% 12%;
-    --muted-foreground: 215 20% 55%;
-
-    --accent: 217 40% 14%;
-    --accent-foreground: 217 83% 80%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 220 40% 14%;
-    --input: 220 40% 14%;
-    --ring: 217 91% 60%;
+    --radius: 1rem;
   }
 }
 
@@ -76,20 +46,90 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground tracking-tight antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: #101319;
+    color: #f5f6f8;
+    font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.015em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Accessible visible focus ring in brand lavender */
+  :focus-visible {
+    outline: 2px solid #7d92ff !important;
+    outline-offset: 2px !important;
+  }
+
+  ::selection {
+    background: rgba(125, 146, 255, 0.35);
+    color: #ffffff;
   }
 }
 
-/* ── Mesh gradient blobs ── */
+/* Custom interactive utility classes */
 @layer utilities {
-  .hero-blob-1 {
-    background: radial-gradient(ellipse at center, hsl(217 83% 52% / 0.14) 0%, transparent 68%);
+  .hedef-gradient-text {
+    background: linear-gradient(135deg, #eb5fa6 0%, #7d92ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-  .hero-blob-2 {
-    background: radial-gradient(ellipse at center, hsl(200 88% 58% / 0.10) 0%, transparent 68%);
+
+  .hedef-card {
+    background: #181c25;
+    border: 1px solid rgba(245, 246, 248, 0.08);
+    border-radius: 16px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .hero-blob-3 {
-    background: radial-gradient(ellipse at center, hsl(217 83% 52% / 0.08) 0%, transparent 55%);
+
+  .hedef-card:hover {
+    border-color: rgba(245, 246, 248, 0.16);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .hedef-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #eb5fa6;
+    color: #161016;
+    font-weight: 700;
+    font-size: 14.5px;
+    padding: 11px 24px;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+  }
+
+  .hedef-btn-primary:hover {
+    background-color: #f074b4;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 18px rgba(235, 95, 166, 0.35);
+  }
+
+  .hedef-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #f5f6f8;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 22px;
+    border-radius: 9999px;
+    border: 1px solid rgba(245, 246, 248, 0.18);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .hedef-btn-secondary:hover {
+    border-color: rgba(245, 246, 248, 0.35);
+    background-color: rgba(245, 246, 248, 0.05);
+    color: #ffffff;
   }
 }

@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
-import { branding } from '@/shared/constants/branding';
+import { HedefIsLogo } from '@/components/common/HedefIsLogo';
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -70,25 +70,33 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#101319] p-4 py-12">
       <div className="mb-8 cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate('/')}>
-        <img src={branding.logoFull} alt={branding.appName} className="h-24 object-contain" />
+        <HedefIsLogo size={36} showText={true} />
       </div>
 
-      <Card className="w-full max-w-2xl shadow-xl border-2 border-primary/10">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Hesap Oluştur</CardTitle>
-          <CardDescription className="text-muted-foreground/80 text-lg">
-            Modern İK platformuna bugün katılın.
+      <Card className="w-full max-w-2xl shadow-2xl bg-[#181c25] border border-[rgba(245,246,248,0.08)] rounded-2xl">
+        <CardHeader className="space-y-1.5 text-center pt-8 pb-4">
+          <CardTitle className="text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] text-[#f5f6f8]">
+            Hesap Oluştur
+          </CardTitle>
+          <CardDescription className="text-sm text-[rgba(245,246,248,0.65)]">
+            Hedef İş kariyer platformuna bugün katılın.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-6 sm:px-8">
           <Tabs defaultValue="jobseeker" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="jobseeker" className="text-base font-semibold py-3 transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsList className="grid w-full grid-cols-2 mb-8 bg-[#141822] p-1 rounded-full border border-[rgba(245,246,248,0.08)]">
+              <TabsTrigger
+                value="jobseeker"
+                className="text-sm font-bold py-2.5 rounded-full transition-all data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]"
+              >
                 İş Arayan
               </TabsTrigger>
-              <TabsTrigger value="employer" className="text-base font-semibold py-3 transition-all data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <TabsTrigger
+                value="employer"
+                className="text-sm font-bold py-2.5 rounded-full transition-all data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]"
+              >
                 İşveren
               </TabsTrigger>
             </TabsList>
@@ -202,7 +210,11 @@ export function RegisterPage() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full text-lg h-12 font-bold transition-all shadow-md hover:shadow-xl" disabled={registerJobSeeker.isPending}>
+                  <Button
+                    type="submit"
+                    className="w-full text-sm h-11 font-bold bg-[#eb5fa6] text-[#161016] hover:bg-[#f074b4] rounded-full shadow-md hover:shadow-[0_4px_18px_rgba(235,95,166,0.35)] transition-all cursor-pointer"
+                    disabled={registerJobSeeker.isPending}
+                  >
                     {registerJobSeeker.isPending ? 'İşleniyor...' : 'İş Arayan Olarak Kayıt Ol'}
                   </Button>
                 </form>
@@ -298,7 +310,11 @@ export function RegisterPage() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full text-lg h-12 font-bold transition-all shadow-md hover:shadow-xl" variant="secondary" disabled={registerEmployer.isPending}>
+                  <Button
+                    type="submit"
+                    className="w-full text-sm h-11 font-bold bg-[#eb5fa6] text-[#161016] hover:bg-[#f074b4] rounded-full shadow-md hover:shadow-[0_4px_18px_rgba(235,95,166,0.35)] transition-all cursor-pointer"
+                    disabled={registerEmployer.isPending}
+                  >
                     {registerEmployer.isPending ? 'İşleniyor...' : 'İşveren Olarak Kayıt Ol'}
                   </Button>
                 </form>
@@ -306,12 +322,16 @@ export function RegisterPage() {
             </TabsContent>
           </Tabs>
         </CardContent>
-        <CardFooter className="flex justify-center border-t py-6 bg-muted/20">
-          <p className="text-sm text-muted-foreground">
+        <CardFooter className="flex justify-center border-t border-[rgba(245,246,248,0.08)] py-6 bg-transparent">
+          <p className="text-xs text-[rgba(245,246,248,0.6)]">
             Zaten bir hesabınız var mı?{' '}
-            <Button variant="link" className="p-0 h-auto font-bold text-primary" onClick={() => navigate('/login')}>
+            <button
+              type="button"
+              className="font-bold text-[#eb5fa6] hover:underline cursor-pointer ml-1"
+              onClick={() => navigate('/login')}
+            >
               Giriş Yap
-            </Button>
+            </button>
           </p>
         </CardFooter>
       </Card>

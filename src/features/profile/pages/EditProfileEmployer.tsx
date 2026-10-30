@@ -71,17 +71,17 @@ export function EditProfileEmployer() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 pt-24 pb-12">
+    <div className="min-h-screen bg-[#101319] text-[#f5f6f8] pt-28 pb-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-black tracking-tight text-foreground uppercase flex items-center">
-              <Building2 className="mr-3 h-8 w-8 text-primary" />
+            <h1 className="text-3xl font-extrabold tracking-tight text-[#f5f6f8] uppercase flex items-center">
+              <Building2 className="mr-3 h-8 w-8 text-[#eb5fa6]" />
               Şirket Profilini Düzenle
             </h1>
-            <p className="text-muted-foreground mt-1">İş arayanlara şirketiniz hakkında doğru bilgiler sunun.</p>
+            <p className="text-[rgba(245,246,248,0.65)] mt-1">İş arayanlara şirketiniz hakkında doğru bilgiler sunun.</p>
           </div>
-          <Button variant="outline" asChild className="rounded-full">
+          <Button variant="outline" asChild className="rounded-full border-[rgba(245,246,248,0.18)] text-[#f5f6f8] hover:bg-[#181c25]">
             <Link to="/profile">
               <Undo2 className="h-4 w-4 mr-2" />
               Profile Dön
@@ -90,16 +90,16 @@ export function EditProfileEmployer() {
         </div>
 
         <Tabs defaultValue="account" className="space-y-6">
-          <TabsList className="bg-card border shadow-sm p-1 h-auto">
-            <TabsTrigger value="account" className="rounded-md px-8 py-2">Şirket Bilgileri</TabsTrigger>
+          <TabsList className="bg-[#141822] border border-[rgba(245,246,248,0.08)] rounded-full p-1 h-auto">
+            <TabsTrigger value="account" className="rounded-full px-8 py-2 data-[state=active]:bg-[#eb5fa6] data-[state=active]:text-[#161016] text-[rgba(245,246,248,0.7)]">Şirket Bilgileri</TabsTrigger>
           </TabsList>
 
           {/* Account Info */}
           <TabsContent value="account">
-            <Card className="border-none shadow-lg">
+            <Card className="border border-[rgba(245,246,248,0.08)] bg-[#181c25] rounded-2xl shadow-xl">
               <CardHeader>
-                <CardTitle>Genel Şirket Bilgileri</CardTitle>
-                <CardDescription>Resmi şirket bilgilerinizi buradan güncelleyebilirsiniz.</CardDescription>
+                <CardTitle className="text-[#f5f6f8]">Genel Şirket Bilgileri</CardTitle>
+                <CardDescription className="text-[rgba(245,246,248,0.6)]">Resmi şirket bilgilerinizi buradan güncelleyebilirsiniz.</CardDescription>
               </CardHeader>
               <CardContent>
                 <Form {...employerAccountForm}>
@@ -110,9 +110,9 @@ export function EditProfileEmployer() {
                         name="companyName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Şirket Adı</FormLabel>
+                            <FormLabel className="text-[rgba(245,246,248,0.8)]">Şirket Adı</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input className="bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] focus-visible:ring-[#7d92ff]" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -123,9 +123,9 @@ export function EditProfileEmployer() {
                         name="webAddress"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Web Adresi</FormLabel>
+                            <FormLabel className="text-[rgba(245,246,248,0.8)]">Web Adresi</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input className="bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] focus-visible:ring-[#7d92ff]" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -136,9 +136,9 @@ export function EditProfileEmployer() {
                         name="phoneNumber"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Telefon Numarası</FormLabel>
+                            <FormLabel className="text-[rgba(245,246,248,0.8)]">Telefon Numarası</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input className="bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] focus-visible:ring-[#7d92ff]" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -149,16 +149,16 @@ export function EditProfileEmployer() {
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Kurumsal E-posta</FormLabel>
+                            <FormLabel className="text-[rgba(245,246,248,0.8)]">Kurumsal E-posta</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input className="bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] focus-visible:ring-[#7d92ff]" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
                     </div>
-                    <Button type="submit" disabled={updateEmployer.isPending} className="font-bold px-8">
+                    <Button type="submit" disabled={updateEmployer.isPending} className="font-bold px-8 rounded-full bg-[#eb5fa6] text-[#161016] hover:bg-[#d44d93]">
                       {updateEmployer.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       <Save className="h-4 w-4 mr-2" />
                       Bilgileri Güncelle

@@ -1,19 +1,16 @@
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useEmployers } from '@/features/employers/hooks/useEmployers';
+import { SectionHeader } from '@/components/common/SectionHeader';
 import { CompanyCardSkeleton } from '@/components/skeletons';
 import { ErrorState } from '@/components/common/ErrorState';
-import { Link } from 'react-router-dom';
-import { SmartCompanyLogo } from '@/components/common/SmartCompanyLogo';
-import { ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export function TopCompaniesSection() {
   const { data: employers, isLoading, isError, refetch } = useEmployers();
 
   if (isError) {
     return (
-      <section className="py-16 container mx-auto px-6 max-w-7xl">
-        <ErrorState message="En iyi şirketler yüklenemedi." onRetry={refetch} />
+      <section className="py-12 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+        <ErrorState message="İşverenler yüklenemedi." onRetry={refetch} />
       </section>
     );
   }
@@ -21,76 +18,70 @@ export function TopCompaniesSection() {
   const topEmployers = employers?.slice(0, 8) || [];
 
   return (
-    <section className="py-28 bg-white">
-      <div className="container mx-auto px-6 max-w-7xl">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
-        >
-          <div className="space-y-3">
-            <p className="text-xs font-extrabold text-primary uppercase tracking-widest">Şirketler</p>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight">
-              Öne Çıkan İşverenler
-            </h2>
-            <p className="text-slate-500 font-medium text-lg">Geleceği inşa eden ekiplere katılın.</p>
-          </div>
-          <Button
-            variant="outline"
-            className="shrink-0 hidden sm:flex font-extrabold rounded-2xl px-7 h-12 border-2 border-slate-200 bg-white text-slate-700 hover:border-primary hover:text-primary shadow-sm transition-all duration-200"
-            asChild
-          >
-            <Link to="/employers" className="flex items-center gap-2">
-              Tüm Şirketler <ArrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
-        </motion.div>
+    <section id="isverenler" className="py-12 sm:py-16 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+      <SectionHeader
+        kicker="Şirketler"
+        kickerColor="#eb5fa6"
+        title="Öne Çıkan İşverenler"
+        actionText="Tüm Şirketler →"
+        actionHref="/employers"
+      />
 
-        {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <CompanyCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-            {topEmployers.map((company, index) => (
-              <motion.div
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <CompanyCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {topEmployers.map((company, index) => {
+            const initial = company.companyName?.charAt(0).toUpperCase() || 'Ş';
+            const isEven = index % 2 === 0;
+            const avatarBg = isEven ? 'rgba(125,146,255,0.15)' : 'rgba(235,95,166,0.15)';
+            const avatarFg = isEven ? '#a6b4ff' : '#eb5fa6';
+
+            return (
+              <Link
                 key={company.id}
-                initial={{ opacity: 0, scale: 0.92 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: '-20px' }}
-                transition={{ duration: 0.38, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ y: -7, scale: 1.02 }}
-                className="group"
+                to={`/employers/${company.id}`}
+                className="group flex items-center gap-3.5 p-4 rounded-xl bg-[#181c25] border border-[rgba(245,246,248,0.08)] hover:border-[rgba(245,246,248,0.2)] hover:-translate-y-0.5 transition-all duration-200"
               >
-                <Link
-                  to={`/employers/${company.id}`}
-                  className="flex flex-col items-center justify-center p-8 rounded-3xl bg-white shadow-md shadow-slate-900/7 hover:shadow-2xl hover:shadow-blue-900/12 transition-all duration-300"
+                {/* Logo / Initials */}
+                <div
+                  className="w-10 h-10 rounded-[11px] shrink-0 flex items-center justify-center font-bold text-[15px]"
+                  style={{ backgroundColor: avatarBg, color: avatarFg }}
                 >
-                  <SmartCompanyLogo
-                    photoUrl={(company as any).profileImageUrl}
-                    companyName={company.companyName}
-                    size="lg"
-                    className="group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <h3 className="font-extrabold text-slate-800 text-center mt-5 group-hover:text-primary transition-colors line-clamp-1 text-sm">
-                    {company.companyName}
-                  </h3>
-                  {company.webAddress && (
-                    <p className="text-xs text-slate-400 mt-1.5 line-clamp-1 truncate w-full text-center font-medium">
-                      {company.webAddress.replace(/^https?:\/\//, '')}
-                    </p>
+                  {company.profileImageUrl ? (
+                    <img
+                      src={company.profileImageUrl}
+                      alt={company.companyName}
+                      className="w-full h-full object-cover rounded-[11px]"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    initial
                   )}
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </div>
+                </div>
+
+                {/* Company text */}
+                <div className="min-w-0 flex-1">
+                  <div className="text-[14px] font-semibold text-[#f5f6f8] truncate group-hover:text-[#7d92ff] transition-colors">
+                    {company.companyName}
+                  </div>
+                  {company.webAddress && (
+                    <div className="text-[12px] text-[rgba(245,246,248,0.5)] truncate">
+                      {company.webAddress.replace(/^https?:\/\//, '')}
+                    </div>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 }

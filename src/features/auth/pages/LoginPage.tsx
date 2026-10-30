@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { branding } from '@/shared/constants/branding';
+import { HedefIsLogo } from '@/components/common/HedefIsLogo';
 
 export function LoginPage() {
   const { mutate: login, isPending, isError, error } = useLogin();
@@ -25,25 +25,26 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-muted/40 p-4">
-      <div className="mb-8 cursor-pointer hover:scale-105 transition-transform" onClick={() => window.location.href = '/'}>
-        <img src={branding.logoFull} alt={branding.appName} className="h-24 object-contain" />
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#101319] p-4">
+      <Link to="/" className="mb-8 group">
+        <HedefIsLogo size={36} showText={true} />
+      </Link>
 
-      <Card className="w-full max-w-md shadow-lg border-2 border-primary/10">
-        <CardHeader className="space-y-1 text-center">
-
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Giriş Yap</CardTitle>
-          <CardDescription className="text-muted-foreground/80">
-            Tekrar hoş geldiniz! HRMS hesabınıza erişin.
+      <Card className="w-full max-w-md shadow-2xl bg-[#181c25] border border-[rgba(245,246,248,0.08)] rounded-2xl">
+        <CardHeader className="space-y-1.5 text-center pt-8 pb-4">
+          <CardTitle className="text-2xl sm:text-3xl font-extrabold tracking-[-0.02em] text-[#f5f6f8]">
+            Giriş Yap
+          </CardTitle>
+          <CardDescription className="text-sm text-[rgba(245,246,248,0.65)]">
+            Tekrar hoş geldiniz! Hedef İş hesabınıza erişin.
           </CardDescription>
         </CardHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <CardContent className="space-y-4 pt-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <CardContent className="space-y-4 px-6 sm:px-8">
               {isError && (
-                <div className="p-3 text-sm font-medium text-destructive bg-destructive/10 border border-destructive/20 rounded-md animate-in fade-in zoom-in duration-300">
-                  {error?.message || 'Girilen Bilgiler Hatalı!'}
+                <div className="p-3 text-sm font-medium text-destructive bg-destructive/10 border border-destructive/20 rounded-xl animate-in fade-in zoom-in duration-200">
+                  {error?.message || 'Girilen bilgiler hatalı!'}
                 </div>
               )}
               
@@ -52,13 +53,15 @@ export function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">E-posta</FormLabel>
+                    <FormLabel className="text-xs font-bold uppercase tracking-wider text-[rgba(245,246,248,0.7)]">
+                      E-posta
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="ornek@email.com"
                         type="email"
                         autoComplete="email"
-                        className="bg-background/50 focus-visible:ring-primary/50"
+                        className="bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] rounded-xl h-11 focus-visible:border-[#7d92ff]"
                         {...field}
                       />
                     </FormControl>
@@ -72,12 +75,14 @@ export function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">Şifre</FormLabel>
+                    <FormLabel className="text-xs font-bold uppercase tracking-wider text-[rgba(245,246,248,0.7)]">
+                      Şifre
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         autoComplete="current-password"
-                        className="bg-background/50 focus-visible:ring-primary/50"
+                        className="bg-[#141822] border-[rgba(245,246,248,0.12)] text-[#f5f6f8] rounded-xl h-11 focus-visible:border-[#7d92ff]"
                         {...field}
                       />
                     </FormControl>
@@ -89,16 +94,27 @@ export function LoginPage() {
               <div className="flex justify-end">
                 <Link 
                   to="/forgot-password" 
-                  className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors"
+                  className="text-xs font-semibold text-[#7d92ff] hover:text-[#a6b4ff] hover:underline transition-colors"
                 >
                   Şifremi Unuttum?
                 </Link>
               </div>
             </CardContent>
-            <CardFooter className="pb-8">
-              <Button type="submit" className="w-full text-lg h-12 font-bold shadow-md hover:shadow-xl transition-all" disabled={isPending}>
+            <CardFooter className="flex flex-col gap-4 px-6 sm:px-8 pb-8">
+              <Button
+                type="submit"
+                className="w-full h-11 text-sm font-bold bg-[#eb5fa6] text-[#161016] hover:bg-[#f074b4] rounded-full shadow-md hover:shadow-[0_4px_18px_rgba(235,95,166,0.35)] transition-all cursor-pointer"
+                disabled={isPending}
+              >
                 {isPending ? 'Giriş yapılıyor...' : 'Giriş Yap'}
               </Button>
+
+              <div className="text-center text-xs text-[rgba(245,246,248,0.6)]">
+                Henüz bir hesabınız yok mu?{' '}
+                <Link to="/register" className="font-bold text-[#eb5fa6] hover:underline">
+                  Kayıt Olun
+                </Link>
+              </div>
             </CardFooter>
           </form>
         </Form>
@@ -106,4 +122,3 @@ export function LoginPage() {
     </div>
   );
 }
-

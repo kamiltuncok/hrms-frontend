@@ -14,14 +14,14 @@ import { getCategoryStyle } from '@/shared/utils/categoryStyles';
 function MicroBadge({ type }: { type: 'new' | 'top' }) {
   if (type === 'new') {
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full uppercase tracking-wide">
         <Zap className="w-2.5 h-2.5" />
         Yeni
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#eb5fa6] bg-[rgba(235,95,166,0.15)] border border-[rgba(235,95,166,0.3)] px-2.5 py-0.5 rounded-full uppercase tracking-wide">
       <Star className="w-2.5 h-2.5" />
       Öne Çıkan
     </span>
@@ -40,12 +40,12 @@ function getMicroBadge(index: number): 'new' | 'top' | null {
 function SaveButton({ saved, onToggle }: { saved: boolean; onToggle: (e: React.MouseEvent) => void }) {
   return (
     <motion.button
-      whileTap={{ scale: 0.78 }}
+      whileTap={{ scale: 0.8 }}
       onClick={onToggle}
       aria-label={saved ? 'Kaydı kaldır' : 'İlanı kaydet'}
       className={cn(
-        'p-2 rounded-xl transition-colors duration-150',
-        saved ? 'text-primary bg-primary/10 hover:bg-primary/20' : 'text-slate-300 hover:text-primary hover:bg-blue-50'
+        'p-2 rounded-full transition-colors duration-150 cursor-pointer',
+        saved ? 'text-[#eb5fa6] bg-[rgba(235,95,166,0.15)]' : 'text-[rgba(245,246,248,0.4)] hover:text-[#eb5fa6] hover:bg-white/5'
       )}
     >
       <Bookmark className="h-4 w-4" fill={saved ? 'currentColor' : 'none'} strokeWidth={2} />
@@ -81,22 +81,22 @@ export function JobCardList({ job, onClick, index = 0 }: JobCardListProps) {
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
-      whileHover={{ y: -4, scale: 1.008 }}
-      transition={{ duration: 0.22 }}
+      whileHover={{ y: -3 }}
+      transition={{ duration: 0.2 }}
       onClick={onClick}
-      className="group relative bg-white rounded-3xl shadow-md shadow-slate-900/6 hover:shadow-2xl hover:shadow-blue-900/12 border-0 transition-all duration-300 cursor-pointer overflow-hidden"
+      className="group relative bg-[#181c25] rounded-2xl border border-[rgba(245,246,248,0.08)] hover:border-[rgba(245,246,248,0.22)] shadow-sm hover:shadow-xl transition-all duration-200 cursor-pointer overflow-hidden"
     >
-      {/* Left blue accent stripe */}
-      <div className="absolute left-0 inset-y-0 w-1 bg-gradient-to-b from-primary to-blue-400 scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-350 rounded-r-full" />
+      {/* Left gradient accent stripe */}
+      <div className="absolute left-0 inset-y-0 w-1 bg-gradient-to-b from-[#eb5fa6] to-[#7d92ff] scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-300 rounded-r-full" />
 
-      <div className="p-6 md:p-7">
-        <div className="flex items-start gap-5">
-          {/* Smart logo */}
+      <div className="p-5 sm:p-6">
+        <div className="flex items-start gap-4 sm:gap-5">
+          {/* Company logo */}
           <SmartCompanyLogo
             photoUrl={job.employer?.profileImageUrl}
             companyName={companyName}
             size="lg"
-            className="shrink-0 group-hover:scale-105 transition-transform duration-300"
+            className="shrink-0 group-hover:scale-105 transition-transform duration-300 rounded-xl"
           />
 
           <div className="flex-1 min-w-0">
@@ -104,20 +104,19 @@ export function JobCardList({ job, onClick, index = 0 }: JobCardListProps) {
             <div className="flex items-start justify-between gap-3 mb-1">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <h3 className="text-lg font-extrabold text-slate-900 group-hover:text-primary transition-colors duration-200 truncate">
+                  <h3 className="text-base sm:text-lg font-bold text-[#f5f6f8] group-hover:text-[#7d92ff] transition-colors duration-200 truncate">
                     {job.jobTitle?.title}
                   </h3>
                   {microBadge && <MicroBadge type={microBadge} />}
                 </div>
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-bold text-slate-400">{companyName}</p>
+                  <p className="text-xs sm:text-sm font-semibold text-[rgba(245,246,248,0.6)]">{companyName}</p>
                   {job.jobTitle?.categoryName && (() => {
                     const catStyle = getCategoryStyle(job.jobTitle.categoryName);
                     const CatIcon = catStyle.icon;
                     return (
                       <span
-                        className="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full"
-                        style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
+                        className="inline-flex items-center gap-1 text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-[rgba(125,146,255,0.12)] text-[#a6b4ff]"
                       >
                         <CatIcon className="w-3 h-3" />
                         {catStyle.label}
@@ -129,7 +128,7 @@ export function JobCardList({ job, onClick, index = 0 }: JobCardListProps) {
               <div className="flex items-center gap-2 shrink-0">
                 <Badge
                   variant="secondary"
-                  className="hidden sm:inline-flex text-[11px] font-extrabold bg-blue-50 text-primary border-0 px-3 py-1 rounded-full"
+                  className="hidden sm:inline-flex text-[11px] font-semibold bg-[rgba(125,146,255,0.12)] text-[#a6b4ff] border-0 px-3 py-1 rounded-full"
                 >
                   {job.typeOfWork?.name ?? 'Tam Zamanlı'}
                 </Badge>
@@ -139,37 +138,31 @@ export function JobCardList({ job, onClick, index = 0 }: JobCardListProps) {
 
             {/* Description */}
             {job.description && (
-              <p className="text-sm text-slate-500 line-clamp-2 mt-2 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[rgba(245,246,248,0.58)] line-clamp-2 mt-2 leading-relaxed">
                 {job.description}
               </p>
             )}
 
             {/* Meta chips */}
-            <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-slate-100">
+            <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-3.5 border-t border-[rgba(245,246,248,0.06)]">
               {job.city?.name && (
-                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full">
-                  <MapPin className="h-3.5 w-3.5 text-primary/70" />
+                <span className="flex items-center gap-1.5 text-xs font-medium text-[rgba(245,246,248,0.65)] bg-[rgba(245,246,248,0.05)] border border-[rgba(245,246,248,0.08)] px-3 py-1 rounded-full">
+                  <MapPin className="h-3.5 w-3.5 text-[#7d92ff]" />
                   {job.city.name}
                 </span>
               )}
-              <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full">
-                <Briefcase className="h-3.5 w-3.5 text-primary/70" />
+              <span className="flex items-center gap-1.5 text-xs font-medium text-[rgba(245,246,248,0.65)] bg-[rgba(245,246,248,0.05)] border border-[rgba(245,246,248,0.08)] px-3 py-1 rounded-full">
+                <Briefcase className="h-3.5 w-3.5 text-[#7d92ff]" />
                 {job.typeOfWork?.name ?? 'Tam Zamanlı'}
               </span>
               {deadline && (
-                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full">
-                  <Clock className="h-3.5 w-3.5 text-primary/70" />
+                <span className="flex items-center gap-1.5 text-xs font-medium text-[rgba(245,246,248,0.65)] bg-[rgba(245,246,248,0.05)] border border-[rgba(245,246,248,0.08)] px-3 py-1 rounded-full">
+                  <Clock className="h-3.5 w-3.5 text-[#7d92ff]" />
                   Son: {deadline}
                 </span>
               )}
-              {job.minSalary != null && (
-                <span className="text-xs font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full">
-                  ₺{job.minSalary.toLocaleString('tr-TR')}
-                  {job.maxSalary != null ? `–${job.maxSalary.toLocaleString('tr-TR')}` : '+'}
-                </span>
-              )}
 
-              <span className="ml-auto hidden md:flex items-center gap-1 text-xs font-extrabold text-primary opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-250">
+              <span className="ml-auto hidden md:flex items-center gap-1 text-xs font-bold text-[#7d92ff] opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-200">
                 Detayları Gör <ArrowRight className="h-3.5 w-3.5" />
               </span>
             </div>
@@ -201,29 +194,26 @@ export function JobCardFeatured({ job, index = 0 }: JobCardFeaturedProps) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.44, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -8, scale: 1.015 }}
-      className="group flex flex-col bg-white rounded-3xl shadow-lg shadow-slate-900/6 hover:shadow-2xl hover:shadow-blue-900/14 border-0 transition-all duration-350 overflow-hidden relative"
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.35, delay: index * 0.06 }}
+      whileHover={{ y: -4 }}
+      className="group flex flex-col bg-[#181c25] rounded-2xl border border-[rgba(245,246,248,0.08)] hover:border-[rgba(245,246,248,0.2)] shadow-sm hover:shadow-xl transition-all duration-200 overflow-hidden relative"
     >
-      {/* Top blue accent strip — slides in on hover */}
-      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-primary via-blue-400 to-blue-300 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400" />
-
-      <div className="p-7 flex flex-col flex-1">
+      <div className="p-6 flex flex-col flex-1">
         {/* Header */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex items-start justify-between mb-5">
           <SmartCompanyLogo
             photoUrl={job.employer?.profileImageUrl}
             companyName={companyName}
             size="md"
-            className="group-hover:scale-110 transition-transform duration-300"
+            className="group-hover:scale-105 transition-transform duration-200 rounded-xl"
           />
           <div className="flex items-center gap-2">
             <Badge
               variant="secondary"
-              className="text-[11px] font-extrabold bg-blue-50 text-primary border-0 px-3 py-1 rounded-full"
+              className="text-[11px] font-semibold bg-[rgba(125,146,255,0.12)] text-[#a6b4ff] border-0 px-3 py-1 rounded-full"
             >
               {job.typeOfWork?.name ?? 'Tam Zamanlı'}
             </Badge>
@@ -233,53 +223,34 @@ export function JobCardFeatured({ job, index = 0 }: JobCardFeaturedProps) {
 
         {/* Title & company */}
         <div className="flex items-start gap-2 flex-wrap mb-1">
-          <h3 className="text-base font-extrabold text-slate-900 line-clamp-1 group-hover:text-primary transition-colors duration-200">
+          <h3 className="text-base font-bold text-[#f5f6f8] line-clamp-1 group-hover:text-[#7d92ff] transition-colors duration-200">
             {job.jobTitle?.title}
           </h3>
           {microBadge && <MicroBadge type={microBadge} />}
         </div>
-        <div className="flex items-center gap-2 mb-4">
-          <p className="text-sm font-bold text-slate-400">{companyName}</p>
-          {job.jobTitle?.categoryName && (() => {
-            const catStyle = getCategoryStyle(job.jobTitle.categoryName);
-            const CatIcon = catStyle.icon;
-            return (
-              <span
-                className="inline-flex items-center gap-1 text-[10px] font-extrabold px-2 py-0.5 rounded-full"
-                style={{ color: catStyle.text, backgroundColor: catStyle.iconBg }}
-              >
-                <CatIcon className="w-3 h-3" />
-                {catStyle.label}
-              </span>
-            );
-          })()}
+        <div className="flex items-center gap-2 mb-3">
+          <p className="text-xs font-semibold text-[rgba(245,246,248,0.55)]">{companyName}</p>
         </div>
 
         {/* Description */}
         {job.description && (
-          <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed mb-6 flex-1">
+          <p className="text-xs sm:text-sm text-[rgba(245,246,248,0.58)] line-clamp-2 leading-relaxed mb-5 flex-1">
             {job.description}
           </p>
         )}
 
         {/* Meta chips */}
-        <div className="flex flex-wrap gap-2 mt-auto mb-6">
+        <div className="flex flex-wrap gap-2 mt-auto mb-5">
           {job.city?.name && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full">
-              <MapPin className="w-3 h-3 text-primary/70" />
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[rgba(245,246,248,0.6)] bg-[rgba(245,246,248,0.05)] border border-[rgba(245,246,248,0.08)] px-2.5 py-1 rounded-full">
+              <MapPin className="w-3 h-3 text-[#7d92ff]" />
               {job.city.name}
             </span>
           )}
           {deadline && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-50 px-3 py-1.5 rounded-full">
-              <Clock className="w-3 h-3 text-primary/70" />
+            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[rgba(245,246,248,0.6)] bg-[rgba(245,246,248,0.05)] border border-[rgba(245,246,248,0.08)] px-2.5 py-1 rounded-full">
+              <Clock className="w-3 h-3 text-[#7d92ff]" />
               Son: {deadline}
-            </span>
-          )}
-          {job.minSalary != null && (
-            <span className="inline-flex items-center gap-1 text-xs font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full">
-              ₺{job.minSalary.toLocaleString('tr-TR')}
-              {job.maxSalary != null ? `–${job.maxSalary.toLocaleString('tr-TR')}` : '+'}
             </span>
           )}
         </div>
@@ -288,12 +259,12 @@ export function JobCardFeatured({ job, index = 0 }: JobCardFeaturedProps) {
         <Button
           variant="outline"
           size="sm"
-          className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-250 font-extrabold rounded-2xl border-slate-200 text-slate-700 h-11"
+          className="w-full text-xs font-semibold rounded-full border-[rgba(245,246,248,0.18)] text-[#f5f6f8] hover:border-[rgba(245,246,248,0.35)] hover:bg-white/5 h-10"
           asChild
         >
-          <Link to={`/jobs/${job.id}`} className="flex items-center justify-center gap-2">
+          <Link to={`/jobs/${job.id}`} className="flex items-center justify-center gap-1.5">
             Detayları Gör
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-200" />
           </Link>
         </Button>
       </div>

@@ -39,29 +39,29 @@ export function AppliedJobCard({ application, index = 0 }: AppliedJobCardProps) 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       whileHover={{ y: -4 }}
-      className="group bg-white rounded-3xl p-6 md:p-7 shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-blue-900/5 hover:border-blue-100 transition-all duration-300"
+      className="group bg-[#181c25] rounded-2xl p-6 md:p-7 border border-[rgba(245,246,248,0.08)] hover:border-[rgba(245,246,248,0.2)] transition-all duration-300"
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
         
         {/* Left Info */}
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-primary transition-colors">
+            <h3 className="text-xl font-extrabold text-[#f5f6f8] group-hover:text-[#eb5fa6] transition-colors">
               {application.jobTitle}
             </h3>
-            <Badge variant="outline" className={cn("text-white border-0 py-0.5 px-2.5 font-bold gap-1", statusConfig.color)}>
+            <Badge variant="outline" className={cn("text-white border-0 py-0.5 px-2.5 font-bold gap-1 rounded-full", statusConfig.color)}>
               <StatusIcon className="w-3.5 h-3.5" />
               {statusConfig.label}
             </Badge>
           </div>
           
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-3">
-            <span className="flex items-center gap-1.5 text-sm font-bold text-slate-500">
-              <Building2 className="w-4 h-4 text-primary/60" />
+            <span className="flex items-center gap-1.5 text-sm font-medium text-[rgba(245,246,248,0.65)]">
+              <Building2 className="w-4 h-4 text-[#7d92ff]" />
               {application.companyName}
             </span>
-            <span className="flex items-center gap-1.5 text-sm font-bold text-slate-500">
-              <Calendar className="w-4 h-4 text-primary/60" />
+            <span className="flex items-center gap-1.5 text-sm font-medium text-[rgba(245,246,248,0.65)]">
+              <Calendar className="w-4 h-4 text-[#7d92ff]" />
               Başvuru: {appliedDate}
             </span>
           </div>
@@ -71,7 +71,7 @@ export function AppliedJobCard({ application, index = 0 }: AppliedJobCardProps) 
         <div className="shrink-0">
           <Button
             variant="outline"
-            className="w-full md:w-auto font-extrabold rounded-2xl border-slate-200 text-slate-700 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300"
+            className="w-full md:w-auto font-bold rounded-full border-[rgba(245,246,248,0.18)] text-[#f5f6f8] hover:bg-[#eb5fa6] hover:text-[#161016] hover:border-[#eb5fa6] transition-all duration-300"
             asChild
           >
             <Link to={`/jobs/${application.jobAdvertisementId}`} className="flex items-center gap-2">
